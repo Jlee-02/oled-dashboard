@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>硅基OLED行业监控面板 | 芯视佳专用</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --card: #111827;
+    --card2: #1a2235;
+    --border: #1e3a5f;
+    --accent: #00d4ff;
+    --accent2: #7c3aed;
+    --green: #10b981;
+    --red: #ef4444;
+    --yellow: #f59e0b;
+    --text: #e2e8f0;
+    --text2: #94a3b8;
+    --text3: #64748b;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif; font-size: 14px; }
+  
+  /* 顶部标题栏 */
+  .header {
+    background: linear-gradient(135deg, #0a0e1a 0%, #0d1b35 50%, #0a0e1a 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 100;
+    backdrop-filter: blur(10px);
+  }
+  .header-left { display: flex; align-items: center; gap: 16px; }
+  .logo { font-size: 20px; font-weight: 700; color: var(--accent); letter-spacing: 1px; }
+  .logo span { color: var(--text2); font-weight: 400; font-size: 13px; margin-left: 8px; }
+  .header-right { display: flex; align-items: center; gap: 16px; }
+  .update-time { color: var(--text2); font-size: 12px; }
+  .update-time strong { color: var(--accent); }
+  .refresh-btn {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border: none; color: white; padding: 6px 16px; border-radius: 6px;
+    cursor: pointer; font-size: 12px; font-weight: 600;
+    transition: opacity 0.2s;
+  }
+  .refresh-btn:hover { opacity: 0.85; }
+
+  /* 导航标签 */
+  .nav { background: var(--card); border-bottom: 1px solid var(--border); padding: 0 24px; display: flex; gap: 0; overflow-x: auto; }
+  .nav-item {
+    padding: 12px 20px; color: var(--text2); cursor: pointer; border-bottom: 2px solid transparent;
+    white-space: nowrap; font-size: 13px; transition: all 0.2s;
+  }
+  .nav-item:hover { color: var(--text); }
+  .nav-item.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
+
+  /* 主内容区 */
+  .main { padding: 20px 24px; max-width: 1600px; margin: 0 auto; }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* 通用卡片 */
+  .card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 20px; margin-bottom: 16px;
+  }
+  .card-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .card-title::before { content: ''; width: 3px; height: 16px; background: var(--accent); border-radius: 2px; }
+
+  /* 网格布局 */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; }
+
+  /* KPI 指标卡 */
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
+  .kpi-card {
+    background: var(--card2); border: 1px solid var(--border); border-radius: 10px;
+    padding: 16px; text-align: center;
+  }
+  .kpi-card .label { color: var(--text2); font-size: 11px; margin-bottom: 8px; }
+  .kpi-card .value { font-size: 22px; font-weight: 700; color: var(--accent); }
+  .kpi-card .sub { color: var(--text3); font-size: 11px; margin-top: 4px; }
+  .kpi-card .change-up { color: var(--red); font-size: 12px; font-weight: 600; }
+  .kpi-card .change-down { color: var(--green); font-size: 12px; font-weight: 600; }
+
+  /* 图表容器 */
+  .chart-wrap { position: relative; height: 260px; }
+
+  /* 竞争对手卡片 */
+  .competitor-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .comp-card {
+    background: var(--card2); border: 1px solid var(--border); border-radius: 10px;
+    padding: 16px; transition: border-color 0.2s;
+  }
+  .comp-card:hover { border-color: var(--accent); }
+  .comp-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
+  .comp-name { font-size: 15px; font-weight: 700; }
+  .comp-label { font-size: 11px; padding: 3px 8px; border-radius: 4px; white-space: nowrap; }
+  .label-core { background: rgba(239,68,68,0.15); color: var(--red); }
+  .label-indirect { background: rgba(245,158,11,0.15); color: var(--yellow); }
+  .label-potential { background: rgba(100,116,139,0.15); color: var(--text2); }
+  .comp-desc { color: var(--text2); font-size: 12px; line-height: 1.6; margin-bottom: 12px; }
+  .comp-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+  .metric { background: var(--card); border-radius: 6px; padding: 8px; text-align: center; }
+  .metric .m-label { color: var(--text3); font-size: 10px; margin-bottom: 3px; }
+  .metric .m-value { color: var(--text); font-size: 12px; font-weight: 600; }
+  .comp-stock { display: flex; align-items: center; gap: 12px; padding: 8px 12px; background: var(--card); border-radius: 6px; margin-bottom: 10px; }
+  .stock-price { font-size: 18px; font-weight: 700; }
+  .stock-up { color: var(--red); }
+  .stock-down { color: var(--green); }
+  .stock-info { color: var(--text2); font-size: 11px; }
+  .tag-list { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { font-size: 11px; padding: 2px 8px; border-radius: 12px; background: rgba(0,212,255,0.1); color: var(--accent); }
+  .tag-red { background: rgba(239,68,68,0.1); color: var(--red); }
+  .adv-list, .dis-list { margin-top: 8px; }
+  .adv-list li, .dis-list li { font-size: 11px; color: var(--text2); padding: 2px 0; padding-left: 12px; position: relative; line-height: 1.5; }
+  .adv-list li::before { content: '✓'; color: var(--green); position: absolute; left: 0; }
+  .dis-list li::before { content: '✗'; color: var(--red); position: absolute; left: 0; }
+  .section-subtitle { font-size: 12px; color: var(--text2); font-weight: normal; margin-left: 4px; }
+
+  /* 芯视佳信息 */
+  .xinshijia-header {
+    background: linear-gradient(135deg, rgba(0,212,255,0.1), rgba(124,58,237,0.1));
+    border: 1px solid rgba(0,212,255,0.3); border-radius: 12px; padding: 20px; margin-bottom: 16px;
+  }
+  .xsj-title { font-size: 20px; font-weight: 700; color: var(--accent); margin-bottom: 8px; }
+  .xsj-subtitle { color: var(--text2); font-size: 13px; line-height: 1.8; }
+  .financing-timeline { position: relative; padding-left: 24px; }
+  .financing-timeline::before { content: ''; position: absolute; left: 7px; top: 0; bottom: 0; width: 2px; background: var(--border); }
+  .f-item { position: relative; margin-bottom: 20px; }
+  .f-item::before { content: ''; position: absolute; left: -20px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); border: 2px solid var(--bg); }
+  .f-round { font-size: 15px; font-weight: 700; color: var(--accent); }
+  .f-date { color: var(--text2); font-size: 12px; margin: 2px 0; }
+  .f-amount { font-size: 22px; font-weight: 700; color: var(--yellow); }
+  .f-investor { color: var(--text2); font-size: 12px; margin: 4px 0; }
+  .f-purpose { color: var(--text); font-size: 12px; margin-top: 4px; padding: 6px 10px; background: var(--card2); border-radius: 6px; }
+  .production-line { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .pl-card { background: var(--card2); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .pl-name { font-size: 14px; font-weight: 700; color: var(--accent); margin-bottom: 8px; }
+  .pl-status { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 4px; margin-bottom: 8px; }
+  .status-active { background: rgba(16,185,129,0.15); color: var(--green); }
+  .status-building { background: rgba(245,158,11,0.15); color: var(--yellow); }
+  .status-planned { background: rgba(100,116,139,0.15); color: var(--text2); }
+  .pl-info { font-size: 11px; color: var(--text2); line-height: 1.8; }
+
+  /* SWOT */
+  .swot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .swot-item { border-radius: 10px; padding: 16px; }
+  .swot-s { background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.3); }
+  .swot-w { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.3); }
+  .swot-o { background: rgba(0,212,255,0.08); border: 1px solid rgba(0,212,255,0.3); }
+  .swot-t { background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.3); }
+  .swot-title { font-size: 14px; font-weight: 700; margin-bottom: 10px; }
+  .swot-s .swot-title { color: var(--green); }
+  .swot-w .swot-title { color: var(--red); }
+  .swot-o .swot-title { color: var(--accent); }
+  .swot-t .swot-title { color: var(--yellow); }
+  .swot-list li { font-size: 12px; color: var(--text2); padding: 3px 0; padding-left: 14px; position: relative; line-height: 1.5; list-style: none; }
+  .swot-list li::before { content: '•'; position: absolute; left: 0; }
+  .swot-s .swot-list li::before { color: var(--green); }
+  .swot-w .swot-list li::before { color: var(--red); }
+  .swot-o .swot-list li::before { color: var(--accent); }
+  .swot-t .swot-list li::before { color: var(--yellow); }
+
+  /* 投资动态 */
+  .investment-table { width: 100%; border-collapse: collapse; }
+  .investment-table th { background: var(--card2); color: var(--text2); padding: 10px 12px; text-align: left; font-size: 12px; font-weight: 600; border-bottom: 1px solid var(--border); }
+  .investment-table td { padding: 10px 12px; border-bottom: 1px solid rgba(30,58,95,0.5); font-size: 12px; color: var(--text2); }
+  .investment-table tr:hover td { background: rgba(0,212,255,0.03); }
+  .investment-table td:nth-child(4) { color: var(--yellow); font-weight: 600; }
+  .our-company td { color: var(--accent) !important; font-weight: 600; }
+  .our-company td:nth-child(4) { color: var(--accent) !important; }
+
+  /* 新闻 */
+  .news-list { display: flex; flex-direction: column; gap: 10px; }
+  .news-item { background: var(--card2); border: 1px solid var(--border); border-radius: 8px; padding: 14px; display: flex; gap: 12px; align-items: flex-start; }
+  .news-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+  .news-dot.high { background: var(--red); }
+  .news-dot.medium { background: var(--yellow); }
+  .news-dot.low { background: var(--text3); }
+  .news-content { flex: 1; }
+  .news-title { font-size: 13px; color: var(--text); font-weight: 500; line-height: 1.5; margin-bottom: 4px; }
+  .news-meta { font-size: 11px; color: var(--text3); display: flex; gap: 12px; }
+  .news-badge { padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 600; }
+  .badge-high { background: rgba(239,68,68,0.15); color: var(--red); }
+  .badge-medium { background: rgba(245,158,11,0.15); color: var(--yellow); }
+  .badge-low { background: rgba(100,116,139,0.15); color: var(--text3); }
+
+  /* 政策趋势 */
+  .policy-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
+  .policy-card { background: var(--card2); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .policy-issuer { font-size: 11px; color: var(--accent); margin-bottom: 8px; }
+  .policy-name { font-size: 12px; font-weight: 600; color: var(--text); line-height: 1.5; margin-bottom: 8px; }
+  .policy-impact { font-size: 11px; color: var(--text2); line-height: 1.5; }
+  .trend-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .trend-card { background: var(--card2); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .trend-icon { font-size: 20px; margin-bottom: 8px; }
+  .trend-name { font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 6px; }
+  .trend-desc { font-size: 12px; color: var(--text2); line-height: 1.6; }
+
+  /* 分隔条 */
+  .divider { height: 1px; background: var(--border); margin: 20px 0; }
+
+  /* 梯队卡片 */
+  .tier-card { background: var(--card2); border-radius: 10px; padding: 14px; border-left: 3px solid; margin-bottom: 10px; }
+  .tier-1 { border-color: var(--red); }
+  .tier-2 { border-color: var(--yellow); }
+  .tier-3 { border-color: var(--text3); }
+  .tier-title { font-size: 13px; font-weight: 700; margin-bottom: 6px; }
+  .tier-1 .tier-title { color: var(--red); }
+  .tier-2 .tier-title { color: var(--yellow); }
+  .tier-3 .tier-title { color: var(--text2); }
+  .tier-companies { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 6px; }
+  .tier-company { font-size: 11px; padding: 2px 8px; border-radius: 4px; background: var(--card); color: var(--text); }
+  .tier-desc { font-size: 12px; color: var(--text2); }
+
+  /* 响应式 */
+  @media (max-width: 1024px) {
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .competitor-grid { grid-template-columns: 1fr; }
+    .production-line { grid-template-columns: 1fr; }
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    .trend-grid, .policy-grid { grid-template-columns: 1fr; }
+    .swot-grid { grid-template-columns: 1fr; }
+    .product-detail-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 768px) {
+    .header { flex-direction: column; gap: 10px; align-items: flex-start; }
+    .main { padding: 12px; }
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .product-grid { grid-template-columns: 1fr !important; }
+    .product-table-wrap { font-size: 11px; }
+  }
+
+  /* 产品追踪 */
+  .product-summary-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
+  .product-summary-card {
+    background: linear-gradient(135deg, var(--card2), var(--card));
+    border: 1px solid var(--border); border-radius: 10px; padding: 16px;
+    text-align: center; transition: border-color 0.2s;
+  }
+  .product-summary-card:hover { border-color: var(--accent); }
+  .ps-icon { font-size: 24px; margin-bottom: 8px; }
+  .ps-count { font-size: 26px; font-weight: 700; color: var(--accent); }
+  .ps-label { color: var(--text2); font-size: 11px; margin-top: 4px; }
+  .ps-sub { color: var(--text3); font-size: 10px; margin-top: 2px; }
+
+  .product-category { font-size: 14px; font-weight: 700; color: var(--accent); margin: 16px 0 10px 0; padding-left: 10px; border-left: 3px solid var(--accent); }
+  .product-category:first-child { margin-top: 0; }
+
+  .product-table-wrap { overflow-x: auto; }
+  .product-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .product-table th {
+    background: var(--card2); color: var(--text2); padding: 10px 8px; text-align: left;
+    font-size: 11px; font-weight: 600; border-bottom: 1px solid var(--border);
+    white-space: nowrap; position: sticky; top: 0; z-index: 1;
+  }
+  .product-table td { padding: 10px 8px; border-bottom: 1px solid rgba(30,58,95,0.5); color: var(--text2); vertical-align: top; }
+  .product-table tr:hover td { background: rgba(0,212,255,0.03); }
+  .product-table .pname { color: var(--text); font-weight: 600; white-space: nowrap; }
+  .product-table .brand { color: var(--accent); font-weight: 600; white-space: nowrap; }
+  .product-table .screen-info { color: var(--text); font-size: 11px; line-height: 1.6; }
+  .product-table .screen-info strong { color: var(--accent); }
+  .product-table .sales-num { color: var(--yellow); font-weight: 700; font-size: 13px; white-space: nowrap; }
+  .product-table .tag-sm { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 3px; margin: 1px 2px; }
+  .tag-vr { background: rgba(0,212,255,0.12); color: var(--accent); }
+  .tag-ar { background: rgba(16,185,129,0.12); color: var(--green); }
+  .tag-evf { background: rgba(245,158,11,0.12); color: var(--yellow); }
+  .tag-drone { background: rgba(139,92,246,0.12); color: #a78bfa; }
+  .tag-special { background: rgba(239,68,68,0.12); color: var(--red); }
+
+  .product-detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
+  .product-detail-card {
+    background: var(--card2); border: 1px solid var(--border); border-radius: 10px;
+    padding: 16px; transition: border-color 0.2s; cursor: pointer;
+  }
+  .product-detail-card:hover { border-color: var(--accent); }
+  .pd-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .pd-emoji { font-size: 28px; }
+  .pd-name { font-size: 15px; font-weight: 700; color: var(--text); }
+  .pd-brand { font-size: 11px; color: var(--text2); }
+  .pd-tags { margin-bottom: 10px; }
+  .pd-specs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .pd-spec { background: var(--card); border-radius: 6px; padding: 6px 8px; }
+  .pd-spec-label { color: var(--text3); font-size: 10px; }
+  .pd-spec-value { color: var(--text); font-size: 11px; font-weight: 600; margin-top: 2px; }
+  .pd-sales { margin-top: 10px; padding: 8px 10px; background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.2); border-radius: 6px; }
+  .pd-sales-label { font-size: 10px; color: var(--yellow); }
+  .pd-sales-value { font-size: 18px; font-weight: 700; color: var(--yellow); }
+  .pd-sales-note { font-size: 10px; color: var(--text3); margin-top: 2px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <div class="logo">🔭 硅基OLED行业监控面板<span>深圳市芯视佳半导体科技有限公司 专用</span></div>
+  </div>
+  <div class="header-right">
+    <div class="update-time">数据更新：<strong id="updateTime">加载中...</strong></div>
+    <button class="refresh-btn" onclick="location.reload()">🔄 刷新</button>
+  </div>
+</div>
+
+<div class="nav" id="navBar">
+  <div class="nav-item" onclick="showSection('market', this)">📊 市场总览</div>
+  <div class="nav-item" onclick="showSection('competition', this)">⚔️ 竞争格局</div>
+  <div class="nav-item" onclick="showSection('products', this)">📱 产品追踪</div>
+  <div class="nav-item" onclick="showSection('xinshijia', this)">🏢 芯视佳</div>
+  <div class="nav-item" onclick="showSection('investment', this)">💰 投资动态</div>
+  <div class="nav-item" onclick="showSection('news', this)">📰 行业新闻</div>
+  <div class="nav-item" onclick="showSection('policy', this)">📋 趋势政策</div>
+</div>
+
+<div class="main">
+
+  <!-- 市场总览 -->
+  <div class="section active" id="market">
+    <div class="kpi-grid" id="kpiGrid"></div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">全球市场规模趋势（亿元）</div>
+        <div class="chart-wrap"><canvas id="marketChart"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">全球出货量趋势（万块）</div>
+        <div class="chart-wrap"><canvas id="shipmentChart"></canvas></div>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">下游应用分布（2024年）</div>
+        <div class="chart-wrap"><canvas id="appChart"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">全球市场份额（2024年出货量）</div>
+        <div class="chart-wrap"><canvas id="shareChart"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 竞争格局 -->
+  <div class="section" id="competition">
+    <div class="grid-2" style="margin-bottom:16px">
+      <div class="card">
+        <div class="card-title">竞争梯队划分</div>
+        <div id="tierList"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">全球市场份额（2024）</div>
+        <div class="chart-wrap"><canvas id="shareChart2"></canvas></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">核心竞争对手详情</div>
+      <div class="competitor-grid" id="competitorGrid"></div>
+    </div>
+  </div>
+
+  <!-- 产品追踪 -->
+  <div class="section" id="products">
+    <div class="product-summary-grid" id="productSummary"></div>
+    <div class="card">
+      <div class="card-title">采用硅基OLED屏幕的终端产品一览 <span class="section-subtitle">（按产品类别分类，含详细参数与累计销量）</span></div>
+      <div id="productCategoryContent"></div>
+    </div>
+  </div>
+
+  <!-- 芯视佳 -->
+  <div class="section" id="xinshijia">
+    <div id="xinshijiaContent"></div>
+  </div>
+
+  <!-- 投资动态 -->
+  <div class="section" id="investment">
+    <div class="card">
+      <div class="card-title">行业投资动态汇总 <span class="section-subtitle">（2025-2026年，累计超125亿元）</span></div>
+      <div style="overflow-x:auto">
+        <table class="investment-table" id="investTable"></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 行业新闻 -->
+  <div class="section" id="news">
+    <div class="card">
+      <div class="card-title">行业新闻速递</div>
+      <div class="news-list" id="newsList"></div>
+    </div>
+  </div>
+
+  <!-- 趋势政策 -->
+  <div class="section" id="policy">
+    <div class="card">
+      <div class="card-title">技术发展趋势</div>
+      <div class="trend-grid" id="trendGrid"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">核心政策支撑</div>
+      <div class="policy-grid" id="policyGrid"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ============================================================
+// 内嵌数据 - 深圳市芯视佳半导体科技有限公司 专用
+// 最后更新：2026-04-28
+// ============================================================
+const DATA = {
+  lastUpdate: "2026-04-28 09:00",
+  market: {
+    globalMarketSize: {"2019":3.3,"2020":4.5,"2021":6.2,"2022":8.1,"2023":10.0,"2024":12.7,"2025E":17.5,"2026E":25.0,"2027E":35.0,"2028E":50.0},
+    globalShipment: {"2019":122.8,"2020":180.5,"2021":265.0,"2022":370.2,"2023":480.0,"2024":636.5,"2025E":1031.3},
+    marketCAGR: "30.94%",
+    shipmentCAGR: "38.97%",
+    applicationDistribution: [
+      {name:"XR领域(AR+VR)",share:50.39},
+      {name:"电子取景器",share:18.52},
+      {name:"红外热像仪/夜视仪",share:15.30},
+      {name:"微型投影仪",share:8.45},
+      {name:"其他特种应用",share:7.34}
+    ],
+    vrArSplit: {
+      vr:{shipment2024:183.8,share:10.0,forecast2030:29590.3,cagr:"133.2%"},
+      ar:{shipment2024:99.9,share:79.22,description:"AR产业主流显示技术"}
+    }
+  },
+  competition: {
+    globalShare2024: [
+      {name:"索尼",share:50.8,color:"#ef4444"},
+      {name:"视涯科技",share:35.2,color:"#3b82f6"},
+      {name:"京东方",share:6.0,color:"#10b981"},
+      {name:"其他",share:8.0,color:"#64748b"}
+    ],
+    tiers: [
+      {tier:"第一梯队（国际巨头）",companies:["索尼","三星","LG Display"],desc:"占据全球市场60%以上份额，技术壁垒极高"},
+      {tier:"第二梯队（国内领先厂商）",companies:["视涯科技","京东方","华星光电"],desc:"凭借本土化优势份额快速增长"},
+      {tier:"第三梯队（利基玩家）",companies:["JDI","维信诺","清越科技","奥雷德"],desc:"专注特定应用场景，份额较小"}
+    ]
+  },
+  competitors: [
+    {id:"sony",name:"索尼 (Sony)",typeLabel:"🇯🇵 国际巨头",status:"direct_competitor",statusLabel:"核心竞争对手",
+     description:"全球Micro OLED技术「鼻祖」，核心专利超2000件，与Meta签有5年供货协议",
+     stock:{code:"SONY.NYSE",price:"-",change:"-",marketCap:"-",pe:"-"},
+     business:{product:"1.3英寸4K Micro OLED",resolution:"4K PPI=3200",power:"55mW",yieldRate:">85%",lifetime:">50000小时"},
+     capacity:{current:"200万片/年（日本熊本）",plan:"300万片/年（2026）"},
+     customers:["Meta","Microsoft"],vrShare:"55%（全球VR市场）",
+     advantages:["核心专利超2000件，技术绝对垄断","Meta 5年长期协议，客户粘性极强","产能全球第一","刷新率120Hz、响应时间<1ms全球领先"],
+     disadvantages:["制造成本高","非中国本土，本土化响应慢"]},
+    {id:"seeya",name:"视涯科技",typeLabel:"🇨🇳 直接竞品",status:"direct_competitor",statusLabel:"核心竞争对手",
+     description:"出货量全球第二、境内第一，已多次送样苹果；科创板IPO冲刺中，募资20.15亿元；2026Q1营收1.76亿元同比大增247%",
+     stock:{code:"科创板IPO中",price:"-",change:"-",marketCap:"估值约100亿元",pe:"-"},
+     business:{product:"1.3英寸4K Micro OLED",resolution:"4K PPI=3000",power:"60mW",yieldRate:"约75%",lifetime:"约40000小时"},
+     capacity:{current:"100万片/年（合肥基地）",plan:"150万片/年（2026）"},
+     customers:["Pico","字节跳动","华为","（送样中）Apple"],vrShare:"35%（国内）/15%（全球）",
+     advantages:["国内市占率第一","已多次送样苹果","本土化响应快，定制周期比索尼短2-3周","同分辨率产品价格比索尼低15%-20%"],
+     disadvantages:["技术成熟度落后于索尼","缺乏上游OLED材料自主产能"]},
+    {id:"boe",name:"京东方A (BOE)",typeLabel:"🇨🇳 行业巨头",status:"indirect_competitor",statusLabel:"间接竞争",
+     description:"全球最大OLED面板厂商，成都基地试量产中；4月27日称已具备高分辨率Micro OLED显示器件生产能力",
+     stock:{code:"000725.SZ",price:"4.21",change:"+1.94%",marketCap:"约1600亿元",pe:"约20倍",priceDate:"2026-04-28"},
+     business:{product:"1.5英寸4K Micro OLED",resolution:"4K PPI=2800",power:"65mW",yieldRate:"未公开",lifetime:"-"},
+     capacity:{current:"80万片/年（成都试量产）",plan:"150万片/年（2026）"},
+     customers:["华为","Pico","TCL"],vrShare:"10%（全球）",
+     advantages:["全球最大OLED面板厂商背景","研发投入超100亿/年","VR屏幕报价比视涯低约10%"],
+     disadvantages:["Micro OLED仍处试量产阶段","技术成熟度待验证"]},
+    {id:"samsung",name:"三星 (Samsung Display)",typeLabel:"🇰🇷 国际巨头",status:"indirect_competitor",statusLabel:"间接竞争",
+     description:"覆盖OLED材料到面板制造全产业链，2025年推出折叠式Micro OLED屏幕，客户包括谷歌、微软",
+     stock:{code:"集团子公司未单独上市",price:"-",change:"-",marketCap:"-",pe:"-"},
+     business:{product:"折叠式Micro OLED（AR眼镜用）",resolution:"-",power:"-",yieldRate:"-",lifetime:"-"},
+     capacity:{current:"未明确披露",plan:"未明确"},
+     customers:["谷歌","微软"],vrShare:"-",
+     advantages:["全产业链覆盖，成本控制能力强","折叠式柔性显示差异化优势"],
+     disadvantages:["Micro OLED产能未明确","XR市场投入相对保守"]},
+    {id:"csot",name:"华星光电 (CSOT)",typeLabel:"🇨🇳 国内厂商",status:"indirect_competitor",statusLabel:"间接竞争",
+     description:"依托TCL集团显示+终端一体化模式，低功耗表现行业领先（<50mW）",
+     stock:{code:"TCL科技000100.SZ",price:"-",change:"-",marketCap:"-",pe:"-"},
+     business:{product:"1.0英寸3K Micro OLED",resolution:"3K",power:"<50mW（行业领先）",yieldRate:"-",lifetime:"-"},
+     capacity:{current:"未明确",plan:"120万片/年（深圳基地）"},
+     customers:["TCL集团内部消化"],vrShare:"-",
+     advantages:["<50mW功耗行业最低","TCL显示+终端协同优势"],
+     disadvantages:["主要依托集团内部消化","外部市场拓展有限"]},
+    {id:"qingyue",name:"清越科技",typeLabel:"🇨🇳 国内厂商",status:"potential_competitor",statusLabel:"潜在竞争",
+     description:"⚠️ 2025年涉嫌财务数据虚假记载被证监会立案调查，经营风险极高",
+     stock:{code:"688496.SH",price:"5.29",change:"-0.56%",marketCap:"约22亿元",pe:"亏损",priceDate:"2026-04-28"},
+     business:{product:"0.23英寸硅基OLED",resolution:"-",power:"-",yieldRate:"-",lifetime:"-"},
+     capacity:{current:"研发/小规模试产阶段",plan:"-"},
+     customers:["-"],vrShare:"-",
+     advantages:["已有硅基OLED研发基础"],
+     disadvantages:["⚠️ 证监会立案调查中","经营风险极高","规模小，量产能力有限","当前处于亏损状态"]},
+    {id:"xintek",name:"宏禧科技",typeLabel:"🇨🇳 新进入者",status:"potential_competitor",statusLabel:"潜在竞争",
+     description:"2025年A轮近5亿元融资；安徽滁州20亿元12英寸硅基OLED项目2025年12月已封顶",
+     stock:{code:"未上市",price:"-",change:"-",marketCap:"-",pe:"-"},
+     business:{product:"12英寸硅基OLED微显示模组",resolution:"-",power:"-",yieldRate:"-",lifetime:"-"},
+     capacity:{current:"建设中（一期已封顶）",plan:"年产12英寸晶圆7.2万片，年产值30亿元"},
+     customers:["-"],vrShare:"-",
+     advantages:["A轮近5亿融资，资金实力强","12英寸产线已封顶，进度快","达产后年产值30亿元"],
+     disadvantages:["量产能力尚未验证"]},
+    {id:"xitai",name:"熙泰科技",typeLabel:"🇨🇳 新进入者",status:"potential_competitor",statusLabel:"潜在竞争",
+     description:"南充12英寸产业园已封顶，绵阳40亿+眉山16亿多线推进，B轮融资1.5亿元",
+     stock:{code:"未上市",price:"-",change:"-",marketCap:"-",pe:"-"},
+     business:{product:"12英寸Micro OLED (>4000PPI, 10000nit)",resolution:">4000PPI",power:"-",yieldRate:"-",lifetime:"-"},
+     capacity:{current:"8英寸+12英寸双线（南充月产6K片）",plan:"2026年底南充点亮，2027年Q2量产"},
+     customers:["-"],vrShare:"-",
+     advantages:["超4000PPI像素密度","10000nit超高亮度","南充产业园已封顶","绵阳+眉山多线并进"],
+     disadvantages:["量产能力尚未验证","产线仍在建设中"]}
+  ],
+  // 采用硅基OLED屏幕的终端产品数据库
+  trackedProducts: [
+    // ========== VR/MR 头显 ==========
+    {id:"vision_pro",name:"Apple Vision Pro",brand:"苹果 Apple",category:"vr",catLabel:"VR/MR 头显",
+     emoji:"🥽",released:"2024年2月",status:"在售",statusNote:"2025年停产后转向Vision Pro 2开发",
+     screenProvider:"索尼 Sony",screenModel:"ECX344A",
+     screenSize:"1.42英寸",resolution:"3648×3144（单眼）",ppi:"3391 PPI",brightness:"最高约5000nit",
+     refreshRate:"90Hz/96Hz/100Hz",contrast:"100,000:1",responseTime:"<0.01ms",colorGamut:"sRGB 100% + DCI-P3",
+     fov:"约120°",chip:"M2 + R1",weight:"约453g",price:"$3,499起",
+     sales:"约60万台",salesNote:"截至2025年底全球累计（IDC数据）",
+     desc:"苹果首款MR头显，搭载两块索尼定制Micro OLED，定义行业画质标杆"},
+    {id:"ps_vr2",name:"PlayStation VR2",brand:"索尼 Sony",category:"vr",catLabel:"VR/MR 头显",
+     emoji:"🎮",released:"2023年2月",status:"已停产",statusNote:"2024年3月确认停产，累计销量不及预期",
+     screenProvider:"索尼 Sony",screenModel:"ECX343FN",
+     screenSize:"0.98英寸",resolution:"2000×2040（单眼）",ppi:"约1100 PPI",brightness:"-",
+     refreshRate:"90Hz/120Hz",contrast:"100,000:1",responseTime:"<0.01ms",colorGamut:"sRGB",
+     fov:"约110°",chip:"PS5主芯片",weight:"约560g",price:"$549",
+     sales:"约150万台",salesNote:"截至停产累计（含首发6周近60万台）",
+     desc:"PS5专用VR头显，搭载索尼自产Micro OLED，支持眼动追踪+触觉反馈"},
+    {id:"meta_quest3",name:"Meta Quest 3",brand:"Meta",category:"vr",catLabel:"VR/MR 头显",
+     emoji:"🥽",released:"2023年10月",status:"在售",statusNote:"2024年推出平价版Quest 3S",
+     screenProvider:"LCD（非硅基OLED）",screenModel:"-",
+     screenSize:"单眼2.48英寸",resolution:"2064×2208（单眼）",ppi:"约460 PPI",brightness:"100nit典型",
+     refreshRate:"120Hz",contrast:"- LCD",responseTime:"-",colorGamut:"-",
+     fov:"约110°（水平）",chip:"Snapdragon XR2 Gen2",weight:"约515g",price:"$499起",
+     sales:"约2000万台",salesNote:"截至2025年底全球累计（Wellsenn XR估算）",
+     desc:"⚠️ 采用LCD非硅基OLED，全球VR市占率第一，主要竞品参考；下一代Quest 4预计采用Micro OLED"},
+    {id:"pico4ultra",name:"PICO 4 Ultra",brand:"字节跳动 PICO",category:"vr",catLabel:"VR/MR 头显",
+     emoji:"🥽",released:"2024年9月",status:"在售",statusNote:"-",
+     screenProvider:"视涯科技/混合",screenModel:"-",
+     screenSize:"单眼2.56英寸",resolution:"2160×2160（单眼）",ppi:"约1200 PPI",brightness:"-",
+     refreshRate:"90Hz",contrast:"- Fast-LCD",responseTime:"-",colorGamut:"-",
+     fov:"约105°",chip:"Snapdragon XR2 Gen2",weight:"约580g",price:"¥4,299起",
+     sales:"约80万台",salesNote:"截至2025年底全球累计（行业估算）",
+     desc:"⚠️ 主屏为Fast-LCD，PICO 4 Ultra部分型号选配视涯Micro OLED方案（测试中）"},
+    {id:"goovis_g3max",name:"GOOVIS G3 Max",brand:"纳德光学 GOOVIS",category:"vr",catLabel:"VR/MR 头显",
+     emoji:"🥽",released:"2023年",status:"在售",statusNote:"专业观影级头显",
+     screenProvider:"索尼 Sony",screenModel:"ECX348E",
+     screenSize:"0.49英寸",resolution:"1920×1080（单眼）",ppi:"约3147 PPI",brightness:"-",
+     refreshRate:"60Hz/72Hz/90Hz",contrast:"100,000:1",responseTime:"<0.01ms",colorGamut:"sRGB 107%",
+     fov:"53°（等效约800寸@20m）",chip:"-",weight:"约200g",price:"¥6,999",
+     sales:"约5万台",salesNote:"行业估算累计",
+     desc:"采用两块索尼0.49英寸Micro OLED，主打便携超高清观影体验"},
+    {id:"bigscreen_beyond",name:"Bigscreen Beyond",brand:"Bigscreen",category:"vr",catLabel:"VR/MR 头显",
+     emoji:"🥽",released:"2023年",status:"在售",statusNote:"定制化PCVR头显",
+     screenProvider:"索尼 Sony",screenModel:"ECX343FN定制",
+     screenSize:"0.68英寸",resolution:"2560×2560（单眼）",ppi:"约3500 PPI",brightness:"-",
+     refreshRate:"90Hz/120Hz",contrast:"100,000:1",responseTime:"<0.01ms",colorGamut:"-",
+     fov:"约90°",chip:"需PC驱动",weight:"约127g",price:"$999起",
+     sales:"约1.5万台",salesNote:"行业估算累计（小众定制市场）",
+     desc:"超轻量定制PCVR头显，采用两块索尼定制Micro OLED，支持IPD个性化定制"},
+    // ========== AR 眼镜 ==========
+    {id:"sony_xr",name:"Sony XR Head-Mounted Display",brand:"索尼 Sony",category:"ar",catLabel:"AR 眼镜",
+     emoji:"👓",released:"2024年（开发中）",status:"研发中",statusNote:"CES 2024公布",
+     screenProvider:"索尼 Sony",screenModel:"4K Micro OLED",
+     screenSize:"1.3英寸",resolution:"4K",ppi:"约3200 PPI",brightness:"-",
+     refreshRate:"120Hz",contrast:"100,000:1",responseTime:"<0.01ms",colorGamut:"-",
+     fov:"- 覆盖视场",chip:"骁龙AR2",weight:"TBD",price:"TBD",
+     sales:"-",salesNote:"尚未上市",
+     desc:"索尼沉浸式空间内容创作系统，配备4K Micro OLED + 视频透视功能"},
+    {id:"xreal_light2",name:"XREAL Light 2",brand:"XREAL（原Nreal）",category:"ar",catLabel:"AR 眼镜",
+     emoji:"👓",released:"2025年",status:"在售",statusNote:"最新一代AR眼镜",
+     screenProvider:"索尼 Sony（部分型号）",screenModel:"ECX350F/其他",
+     screenSize:"0.44英寸",resolution:"1920×1080（单眼）",ppi:"约3147 PPI",brightness:"最高10000nit",
+     refreshRate:"-",contrast:"100,000:1",responseTime:"<0.01ms",colorGamut:"-",
+     fov:"52°",chip:"外接计算单元",weight:"约79g",price:"$599起",
+     sales:"约50万台",salesNote:"XREAL全系累计（行业估算）",
+     desc:"采用索尼ECX350F Micro OLED的AR眼镜型号，10000nit超高亮度"},
+    {id:"rokid_max",name:"Rokid Max",brand:"Rokid 若琪",category:"ar",catLabel:"AR 眼镜",
+     emoji:"👓",released:"2023年",status:"在售",statusNote:"消费级AR眼镜",
+     screenProvider:"视涯科技/索尼",screenModel:"-",
+     screenSize:"0.44英寸",resolution:"1920×1080（单眼）",ppi:"约3147 PPI",brightness:"-",
+     refreshRate:"120Hz",contrast:"- Micro OLED",responseTime:"<0.01ms",colorGamut:"-",
+     fov:"50°",chip:"外接计算单元",weight:"约75g",price:"¥3,099起",
+     sales:"约20万台",salesNote:"行业估算累计",
+     desc:"消费级AR眼镜，搭载索尼/视涯Micro OLED，主打沉浸观影和办公场景"},
+    // ========== 电子取景器 EVF ==========
+    {id:"sony_a1_evf",name:"Sony A1/A9/A7R V 系列 EVF",brand:"索尼 Sony",category:"evf",catLabel:"电子取景器 EVF",
+     emoji:"📸",released:"2021年起",status:"在售",statusNote:"高端旗舰相机标配",
+     screenProvider:"索尼 Sony",screenModel:"ECX339A/XGA-Ultra",
+     screenSize:"0.64英寸",resolution:"约943.7万点（OLED）",ppi:"约2400 PPI",brightness:"-",
+     refreshRate:"120fps/240fps",contrast:"100,000:1",responseTime:"<0.01ms",colorGamut:"-",
+     fov:"-",chip:"相机主芯片",weight:"机身内",price:"整机$6,498起",
+     sales:"约300万台",salesNote:"含A1/A9III/A7RV/A7CII等系列累计估算",
+     desc:"索尼高端微单标配OLED EVF，0.64英寸Quad VGA约944万点"},
+    {id:"canon_r5_evf",name:"Canon EOS R5/R3/R1 系列 EVF",brand:"佳能 Canon",category:"evf",catLabel:"电子取景器 EVF",
+     emoji:"📸",released:"2020年起",status:"在售",statusNote:"佳能全画幅旗舰标配",
+     screenProvider:"索尼 Sony",screenModel:"ECX334E系列",
+     screenSize:"0.5英寸",resolution:"约576万点（OLED）",ppi:"约1900 PPI",brightness:"3500nit",
+     refreshRate:"120fps",contrast:"100,000:1",responseTime:"<0.01ms",colorGamut:"-",
+     fov:"-",chip:"相机主芯片",weight:"机身内",price:"整机$3,899起",
+     sales:"约400万台",salesNote:"含R5/R3/R1/R5II/R6II等系列累计估算",
+     desc:"佳能旗舰微单搭载索尼ECX334E系列Micro OLED取景器，3500nit高亮度"},
+    {id:"nikon_z9_evf",name:"Nikon Z9/Z8/Z6III 系列 EVF",brand:"尼康 Nikon",category:"evf",catLabel:"电子取景器 EVF",
+     emoji:"📸",released:"2020年起",status:"在售",statusNote:"尼康Z系列旗舰标配",
+     screenProvider:"索尼 Sony（推测）",screenModel:"-",
+     screenSize:"0.5英寸",resolution:"约369万点（OLED）",ppi:"约1600 PPI",brightness:"-",
+     refreshRate:"120fps",contrast:"100,000:1",responseTime:"<0.01ms",colorGamut:"-",
+     fov:"-",chip:"相机主芯片",weight:"机身内",price:"整机$3,299起",
+     sales:"约300万台",salesNote:"含Z9/Z8/Z6III/Z7II等系列累计估算",
+     desc:"尼康Z系列旗舰搭载OLED EVF取景器"},
+    {id:"leica_sl3_evf",name:"Leica SL3/Q3 系列 EVF",brand:"徕卡 Leica",category:"evf",catLabel:"电子取景器 EVF",
+     emoji:"📸",released:"2023年起",status:"在售",statusNote:"徕卡高端机型标配",
+     screenProvider:"索尼 Sony",screenModel:"-",
+     screenSize:"0.64英寸",resolution:"约576万点（OLED）",ppi:"约2100 PPI",brightness:"-",
+     refreshRate:"120fps",contrast:"100,000:1",responseTime:"<0.01ms",colorGamut:"-",
+     fov:"-",chip:"相机主芯片",weight:"机身内",price:"整机$6,995起",
+     sales:"约10万台",salesNote:"行业估算累计（高端市场）",
+     desc:"徕卡旗舰相机搭载高分辨率OLED EVF"},
+    // ========== 无人机/FPV ==========
+    {id:"djigoggles2",name:"DJI Goggles 2 / Integra",brand:"大疆 DJI",category:"drone",catLabel:"无人机/FPV",
+     emoji:"🚁",released:"2022年",status:"在售",statusNote:"FPV飞行眼镜",
+     screenProvider:"索尼 Sony",screenModel:"ECX334A定制",
+     screenSize:"0.49英寸",resolution:"1920×1080（单眼）",ppi:"约3147 PPI",brightness:"-",
+     refreshRate:"100Hz/120Hz",contrast:"100,000:1",responseTime:"<0.01ms",colorGamut:"-",
+     fov:"-",chip:"大疆芯片",weight:"约290g",price:"¥3,199起",
+     sales:"约40万台",salesNote:"大疆FPV眼镜全系累计估算",
+     desc:"大疆FPV飞行眼镜，搭载两块索尼0.49英寸Micro OLED，超低延迟"},
+    // ========== 特种应用 ==========
+    {id:"thermal_scope",name:"红外热像仪/夜视仪显示模组",brand:"多厂商",category:"special",catLabel:"特种应用",
+     emoji:"🔭",released:"持续供货",status:"持续供货",statusNote:"军/工/消防/安防",
+     screenProvider:"索尼/视涯/国兆",screenModel:"多种型号",
+     screenSize:"0.23-0.5英寸",resolution:"XGA~UXGA",ppi:"2000-3000 PPI",brightness:"3500nit+",
+     refreshRate:"60Hz",contrast:"100,000:1",responseTime:"<0.01ms",colorGamut:"-",
+     fov:"-",chip:"专用SoC",weight:"机身内",price:"¥5,000-50,000不等",
+     sales:"约100万台",salesNote:"全球热成像+夜视仪显示模组累计估算（行业报告）",
+     desc:"军/工/消防/安防领域红外热像仪和夜视仪的核心显示组件"},
+    {id:"med_hmd",name:"医疗手术辅助头戴显示器",brand:"多厂商",category:"special",catLabel:"特种应用",
+     emoji:"🏥",released:"持续供货",status:"持续供货",statusNote:"医疗手术导航",
+     screenProvider:"索尼/视涯",screenModel:"ECX343F/其他",
+     screenSize:"0.68英寸",resolution:"1920×1200（单眼）",ppi:"约3100 PPI",brightness:"6500nit",
+     refreshRate:"60Hz",contrast:"100,000:1",responseTime:"<0.01ms",colorGamut:"-",
+     fov:"-",chip:"专用芯片",weight:"约350g",price:"¥20,000-100,000",
+     sales:"约3万台",salesNote:"行业估算累计（医疗市场）",
+     desc:"医疗手术辅助头戴显示器，提供高精度术中图像导航"},
+    {id:"industrial_hmd",name:"工业显微镜/检测设备显示模组",brand:"多厂商",category:"special",catLabel:"特种应用",
+     emoji:"🔧",released:"持续供货",status:"持续供货",statusNote:"工业精密检测",
+     screenProvider:"索尼/视涯/京东方",screenModel:"多种型号",
+     screenSize:"0.39-0.64英寸",resolution:"XGA~Quad XGA",ppi:"2000-3000 PPI",brightness:"1000-3500nit",
+     refreshRate:"60Hz",contrast:"100,000:1",responseTime:"<0.01ms",colorGamut:"-",
+     fov:"-",chip:"专用芯片",weight:"设备内",price:"¥10,000-50,000",
+     sales:"约20万台",salesNote:"行业估算累计（工业检测市场）",
+     desc:"工业显微镜、精密检测设备的微型显示模组"}
+  ],
+  xinshijia: {
+    name:"深圳市芯视佳半导体科技有限公司",shortName:"芯视佳",founded:"2020年9月25日",
+    location:"深圳市南山区西丽街道茶光路1044号波顿科技园",
+    tags:["瞪羚企业(2025)","科技型中小企业(2024)"],
+    description:"专注于硅基OLED IC设计及硅基OLED微显示屏研发制造，产品覆盖VR/AR、电子取景器、军用、车载等多场景",
+    financing:[
+      {round:"Pre-A轮",date:"2025年6月17日",amount:"约6亿元",leadInvestor:"创东方、桉树资本",followers:"镇江国控、乾成资本",bankCredit:"浦发银行、杭州银行等多家银行数亿元综合授信",purpose:"K2工厂产线建设、技术研发"},
+      {round:"A1轮",date:"2026年4月24日",amount:"数亿元（未披露具体金额）",leadInvestor:"四川产业振兴基金",followers:"-",bankCredit:"-",purpose:"K5基地产线建设、技术研发迭代及市场拓展"}
+    ],
+    productionLines:[
+      {name:"K1工厂",location:"安徽淮南",investment:"1亿元",status:"已投产",statusType:"active",capacity:"年产值可达2亿元",products:"硅基OLED微显示屏、柔性OLED手机屏、车载显示屏模组"},
+      {name:"K2工厂（一期）",location:"安徽淮南",investment:"15亿元",status:"2025年建成投产",statusType:"active",capacity:"月产能4000片12英寸晶圆",products:"AR/VR/MR领域Micro OLED微显示器"},
+      {name:"K5基地",location:"四川遂宁",investment:"A1轮融资支持",status:"2026年1月封顶，建设中",statusType:"building",capacity:"待量产（总建筑面积6.1万m²）",products:"Micro OLED微显示技术及器件"}
+    ],
+    swot:{
+      strengths:["专注硅基OLED IC设计+微显示屏，技术积累深厚","Pre-A轮6亿元+A1轮数亿元，融资节奏强劲","K1/K2工厂已投产，产能持续爬坡","12英寸晶圆产线与国际主流技术路线一致","产品多场景覆盖（VR/AR/军用/车载），客户多元化","浦发银行等多家银行数亿元综合授信","瞪羚企业认证，政府认可度高"],
+      weaknesses:["成立时间短（2020年），品牌影响力有限","量产经验和良率数据尚未公开","相比视涯、京东方，产能规模尚小","尚未上市，融资渠道相对受限","上游OLED材料依赖外部供应商"],
+      opportunities:["全球XR市场爆发式增长，2030年VR设备出货预计2.96亿片","苹果纳入视涯/京东方，国产化替代窗口打开","AR设备中硅基OLED占显示技术79.22%份额","多地政府提供厂房土地配套支持产线建设","行业仍处高速成长期，后发企业有超车机会"],
+      threats:["索尼全球垄断50.8%份额，技术壁垒极高","视涯科技国内第一且已送样苹果，竞争压力极大","行业2025年投资超125亿元，大量新玩家涌入","Micro-LED技术路线可能构成长期替代威胁","下游XR终端市场渗透速度存在不确定性"]
+    }
+  },
+  investmentTrends: [
+    {date:"2025-01",company:"国兆光电",project:"超高分辨率硅基OLED器件扩建",amount:"2.2亿元",location:"南京江宁",detail:"年产200万片"},
+    {date:"2025-03",company:"睿显科技",project:"12英寸硅基OLED微显示屏产线",amount:"30亿元",location:"长沙金霞",detail:"8+12英寸双线布局"},
+    {date:"2025-03",company:"熙泰科技",project:"12英寸Micro OLED产业化项目",amount:"40亿元",location:"四川绵阳",detail:"超4000PPI，达产年产值60亿"},
+    {date:"2025-04",company:"宏禧科技",project:"12英寸硅基OLED微显示模组",amount:"20亿元",location:"安徽滁州",detail:"2025年12月封顶，年产晶圆7.2万片"},
+    {date:"2025-05",company:"奕瑞科技",project:"硅基OLED微显示背板项目",amount:"18亿元",location:"合肥新站",detail:"新增产能5000张/月"},
+    {date:"2025-06",company:"芯视佳（我司）",project:"Pre-A轮融资+K2产线建设",amount:"约6亿元",location:"安徽淮南",detail:"K2工厂月产4000片12英寸晶圆",isOurs:true},
+    {date:"2025-08",company:"熙泰科技",project:"B轮融资",amount:"1.5亿元",location:"四川",detail:"重点建设12英寸硅基OLED产线"},
+    {date:"2026-01",company:"熙泰科技",project:"南充12英寸硅基OLED产业园",amount:"16亿元",location:"四川南充",detail:"产业园项目正式封顶"},
+    {date:"2026-03",company:"视涯科技",project:"科创板IPO申报",amount:"20.15亿元（拟募资）",location:"科创板",detail:"扩产超高分辨率硅基OLED微型显示器件"},
+    {date:"2026-04",company:"熙泰科技",project:"IC研发中心及显示模组项目",amount:"16.13亿元",location:"四川眉山",detail:"4月10日正式开工"},
+    {date:"2026-04",company:"芯视佳（我司）",project:"A1轮融资+K5基地建设",amount:"数亿元",location:"四川遂宁",detail:"K5基地2026年1月已封顶，四川产业振兴基金领投",isOurs:true},
+    {date:"2026-04",company:"LG Display",project:"第6代OLED产线扩建",amount:"约53亿元",location:"韩国坡州",detail:"月产能7500片，目标2028年运营"},
+    {date:"2026-04",company:"三星显示",project:"QD-OLED面板扩产",amount:"未披露",location:"韩国",detail:"2026年出货目标400万块（+43%）"}
+  ],
+  policies: [
+    {name:"《元宇宙产业创新发展三年行动计划(2023-2025年)》",issuer:"工信部",impact:"构建先进元宇宙技术和产业体系，加速AR/VR硬件国产化"},
+    {name:"《虚拟现实与行业应用融合发展行动计划(2022-2026年)》",issuer:"工信部",impact:"推动XR设备普及和应用场景拓展，带动Micro OLED需求增长"},
+    {name:"各地产业集群规划与招商引资政策",issuer:"合肥/绵阳/长沙/南京/嘉兴等高新区",impact:"提供厂房土地配套、产业基金支持，降低企业建设成本"}
+  ],
+  techTrends: [
+    {icon:"⬆️",trend:"12英寸产线升级",desc:"企业纷纷从8英寸向12英寸产线升级，追求更高良率和更低单位成本"},
+    {icon:"🔬",trend:"超高分辨率突破",desc:"像素密度从3000PPI向4000+PPI突破，熙泰科技、创王光电已达4000PPI"},
+    {icon:"☀️",trend:"超高亮度进化",desc:"从3000nit迈向10000+nit，解决AR设备户外显示清晰度痛点"},
+    {icon:"⚡",trend:"超低功耗优化",desc:"华星光电已实现<50mW，VR/AR设备续航需求持续推动功耗压降"},
+    {icon:"🎨",trend:"全彩化方案演进",desc:"从单色/双色向全彩化加速演进，提升AR/VR产品显示体验"},
+    {icon:"🏆",trend:"硅基OLED vs Micro-LED",desc:"两条技术路线并行发展，中短期内硅基OLED仍是主流，Micro-LED为长期技术方向"}
+  ],
+  newsFlash: [
+    {date:"2026-04-28",title:"芯视佳完成A1轮数亿元融资，四川产业振兴基金领投，K5基地已封顶",source:"LEDinside/投资界",importance:"high"},
+    {date:"2026-04-27",title:"京东方A：已具备高分辨率Micro OLED显示器件规模化生产能力",source:"证券日报/互动平台",importance:"high"},
+    {date:"2026-04-27",title:"视涯科技2026Q1营收1.76亿元同比大增247%，亏损从7409万收窄至4552万",source:"雪球/EET-China",importance:"high"},
+    {date:"2026-04-22",title:"LG Display宣布投资1.1万亿韩元（约53亿人民币）扩建第6代OLED产线",source:"LEDinside",importance:"high"},
+    {date:"2026-04-21",title:"我国新型显示产业聚链成势，总产值首次突破8000亿元",source:"央视新闻",importance:"high"},
+    {date:"2026-04-17",title:"京东方A启动81.77亿元回购计划，2026年OLED出货目标1.6亿片",source:"经济观察网",importance:"high"},
+    {date:"2026-04-10",title:"熙泰科技16.13亿IC研发中心及显示模组项目在四川眉山正式开工",source:"今日头条",importance:"medium"},
+    {date:"2026-04-09",title:"熙泰科技16亿Micro OLED产业化项目在四川正式动工",source:"LEDinside",importance:"medium"},
+    {date:"2026-04-03",title:"ICDT 2026在重庆举办，京东方、TCL华星、天马等展出Micro OLED最新成果",source:"LEDinside",importance:"medium"},
+    {date:"2026-03-06",title:"视涯科技申报科创板IPO，拟募资20.15亿元扩产微显示器件",source:"证券日报",importance:"high"},
+    {date:"2026-01-09",title:"CES 2026：24款AR眼镜亮相，Micro OLED成为AR显示标配方案",source:"LEDinside",importance:"high"},
+    {date:"2026-01-04",title:"创王光电发布10万尼特Micro OLED微显示器，再刷亮度纪录",source:"LEDinside",importance:"high"},
+    {date:"2026-01-04",title:"熙泰科技南充12英寸硅基OLED产业园项目正式封顶",source:"LEDinside",importance:"medium"},
+    {date:"2025-12-05",title:"宏禧科技12英寸硅基OLED项目一期主体结构在安徽滁州封顶",source:"LEDinside",importance:"medium"}
+  ]
+};
+
+// ============================================================
+// 工具函数
+// ============================================================
+function showSection(id, el) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  el.classList.add('active');
+}
+
+const CHART_DEFAULTS = {
+  responsive: true, maintainAspectRatio: false,
+  plugins: { legend: { labels: { color: '#94a3b8', font: { size: 11 } } } }
+};
+
+// ============================================================
+// 渲染函数
+// ============================================================
+function renderKPI() {
+  const d = DATA.market;
+  const kpis = [
+    {label:"2024全球市场规模",value:"12.7亿元",sub:"同比+27%"},
+    {label:"2025E全球市场规模",value:"17.5亿元",sub:"预测值，CAGR 30.94%",changeUp:true},
+    {label:"2024全球出货量",value:"636.5万块",sub:"同比+32.6%"},
+    {label:"2025E出货量",value:"1031.3万块",sub:"预测值，CAGR 38.97%",changeUp:true},
+    {label:"XR领域市场占比",value:"50.39%",sub:"2024年，第一大下游"},
+    {label:"AR显示份额",value:"79.22%",sub:"硅基OLED在AR产业占比"},
+    {label:"全球VR出货预测(2030)",value:"2.96亿片",sub:"VR CAGR 133.2%",changeUp:true},
+    {label:"国内市场投资(2025起)",value:">125亿元",sub:"多家企业集中扩产",changeUp:true}
+  ];
+  document.getElementById('kpiGrid').innerHTML = kpis.map(k => `
+    <div class="kpi-card">
+      <div class="label">${k.label}</div>
+      <div class="value">${k.value}</div>
+      <div class="sub">${k.sub}</div>
+    </div>`).join('');
+}
+
+function renderMarketCharts() {
+  const mSize = DATA.market.globalMarketSize;
+  const labels = Object.keys(mSize);
+  const values = Object.values(mSize);
+  
+  new Chart(document.getElementById('marketChart'), {
+    type: 'bar',
+    data: {
+      labels, datasets: [{
+        label: '市场规模（亿元）',
+        data: values,
+        backgroundColor: labels.map(l => l.includes('E') ? 'rgba(124,58,237,0.6)' : 'rgba(0,212,255,0.6)'),
+        borderColor: labels.map(l => l.includes('E') ? '#7c3aed' : '#00d4ff'),
+        borderWidth: 1, borderRadius: 4
+      }]
+    },
+    options: { ...CHART_DEFAULTS, scales: {
+      x: { ticks: { color: '#64748b', font: { size: 10 } }, grid: { color: 'rgba(30,58,95,0.5)' } },
+      y: { ticks: { color: '#64748b', font: { size: 10 } }, grid: { color: 'rgba(30,58,95,0.5)' } }
+    }}
+  });
+
+  const sData = DATA.market.globalShipment;
+  const sLabels = Object.keys(sData), sValues = Object.values(sData);
+  new Chart(document.getElementById('shipmentChart'), {
+    type: 'line',
+    data: {
+      labels: sLabels, datasets: [{
+        label: '出货量（万块）',
+        data: sValues,
+        borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,0.1)',
+        fill: true, tension: 0.4, pointBackgroundColor: '#10b981', pointRadius: 4
+      }]
+    },
+    options: { ...CHART_DEFAULTS, scales: {
+      x: { ticks: { color: '#64748b', font: { size: 10 } }, grid: { color: 'rgba(30,58,95,0.5)' } },
+      y: { ticks: { color: '#64748b', font: { size: 10 } }, grid: { color: 'rgba(30,58,95,0.5)' } }
+    }}
+  });
+
+  const app = DATA.market.applicationDistribution;
+  new Chart(document.getElementById('appChart'), {
+    type: 'doughnut',
+    data: {
+      labels: app.map(a=>a.name),
+      datasets: [{ data: app.map(a=>a.share),
+        backgroundColor: ['#ef4444','#3b82f6','#10b981','#f59e0b','#8b5cf6'],
+        borderColor: '#0a0e1a', borderWidth: 2 }]
+    },
+    options: { ...CHART_DEFAULTS }
+  });
+
+  const share = DATA.competition.globalShare2024;
+  new Chart(document.getElementById('shareChart'), {
+    type: 'pie',
+    data: {
+      labels: share.map(s=>s.name),
+      datasets: [{ data: share.map(s=>s.share),
+        backgroundColor: share.map(s=>s.color),
+        borderColor: '#0a0e1a', borderWidth: 2 }]
+    },
+    options: { ...CHART_DEFAULTS }
+  });
+}
+
+function renderCompetition() {
+  // 梯队
+  const tiers = DATA.competition.tiers;
+  document.getElementById('tierList').innerHTML = tiers.map((t, i) => `
+    <div class="tier-card tier-${i+1}">
+      <div class="tier-title">${t.tier}</div>
+      <div class="tier-companies">${t.companies.map(c=>`<span class="tier-company">${c}</span>`).join('')}</div>
+      <div class="tier-desc">${t.desc}</div>
+    </div>`).join('');
+
+  // 份额图
+  const share = DATA.competition.globalShare2024;
+  new Chart(document.getElementById('shareChart2'), {
+    type: 'pie',
+    data: {
+      labels: share.map(s=>s.name),
+      datasets: [{ data: share.map(s=>s.share),
+        backgroundColor: share.map(s=>s.color),
+        borderColor: '#0a0e1a', borderWidth: 2 }]
+    },
+    options: { ...CHART_DEFAULTS }
+  });
+
+  // 竞争对手卡片
+  const statusClass = {direct_competitor:'label-core',indirect_competitor:'label-indirect',potential_competitor:'label-potential'};
+  document.getElementById('competitorGrid').innerHTML = DATA.competitors.map(c => {
+    const hasStock = c.stock.price !== '-';
+    const isUp = hasStock && c.stock.change.startsWith('+');
+    return `
+    <div class="comp-card">
+      <div class="comp-header">
+        <div>
+          <div class="comp-name">${c.name}</div>
+          <div style="color:var(--text2);font-size:11px;margin-top:3px">${c.typeLabel}</div>
+        </div>
+        <div class="comp-label ${statusClass[c.status]}">${c.statusLabel}</div>
+      </div>
+      <div class="comp-desc">${c.description}</div>
+      ${hasStock ? `
+      <div class="comp-stock">
+        <div class="stock-price ${isUp ? 'stock-up' : 'stock-down'}">${c.stock.price}元</div>
+        <div class="stock-info">
+          <div class="${isUp ? 'stock-up' : 'stock-down'}" style="font-size:13px;font-weight:700">${c.stock.change}</div>
+          <div>${c.stock.code} | 市值：${c.stock.marketCap}</div>
+          ${c.stock.priceDate ? `<div>日期：${c.stock.priceDate}</div>` : ''}
+        </div>
+      </div>` : `
+      <div class="comp-stock">
+        <div style="color:var(--text2);font-size:12px">${c.stock.code} | 市值：${c.stock.marketCap || '未上市'}</div>
+      </div>`}
+      <div class="comp-metrics">
+        <div class="metric"><div class="m-label">产品</div><div class="m-value" style="font-size:11px">${c.business.product}</div></div>
+        <div class="metric"><div class="m-label">当前产能</div><div class="m-value" style="font-size:10px">${c.capacity.current}</div></div>
+        <div class="metric"><div class="m-label">VR市场份额</div><div class="m-value">${c.vrShare || '-'}</div></div>
+      </div>
+      <div class="tag-list" style="margin-bottom:8px">
+        ${c.customers.map(cu=>`<span class="tag">${cu}</span>`).join('')}
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div>
+          <div style="font-size:11px;color:var(--green);margin-bottom:4px;font-weight:600">优势</div>
+          <ul class="adv-list">${c.advantages.map(a=>`<li>${a}</li>`).join('')}</ul>
+        </div>
+        <div>
+          <div style="font-size:11px;color:var(--red);margin-bottom:4px;font-weight:600">劣势/风险</div>
+          <ul class="dis-list">${c.disadvantages.map(d=>`<li>${d}</li>`).join('')}</ul>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderXinshijia() {
+  const xsj = DATA.xinshijia;
+  document.getElementById('xinshijiaContent').innerHTML = `
+    <div class="xinshijia-header">
+      <div class="xsj-title">🏢 ${xsj.name}</div>
+      <div class="xsj-subtitle">
+        <span style="margin-right:16px">📅 成立：${xsj.founded}</span>
+        <span style="margin-right:16px">📍 ${xsj.location}</span>
+        <span>${xsj.tags.map(t=>`<span class="tag">${t}</span>`).join(' ')}</span>
+      </div>
+      <div style="margin-top:10px;color:var(--text2);font-size:13px">${xsj.description}</div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">融资历程</div>
+        <div class="financing-timeline">
+          ${xsj.financing.map(f => `
+          <div class="f-item">
+            <div class="f-round">${f.round}</div>
+            <div class="f-date">${f.date}</div>
+            <div class="f-amount">${f.amount}</div>
+            <div class="f-investor">🏦 领投：${f.leadInvestor}${f.followers !== '-' ? ' | 跟投：'+f.followers : ''}</div>
+            ${f.bankCredit !== '-' ? `<div class="f-investor">🏧 银行授信：${f.bankCredit}</div>` : ''}
+            <div class="f-purpose">💡 用途：${f.purpose}</div>
+          </div>`).join('')}
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">SWOT 战略分析</div>
+        <div class="swot-grid">
+          <div class="swot-item swot-s">
+            <div class="swot-title">💪 优势 Strengths</div>
+            <ul class="swot-list">${xsj.swot.strengths.map(s=>`<li>${s}</li>`).join('')}</ul>
+          </div>
+          <div class="swot-item swot-w">
+            <div class="swot-title">⚠️ 劣势 Weaknesses</div>
+            <ul class="swot-list">${xsj.swot.weaknesses.map(s=>`<li>${s}</li>`).join('')}</ul>
+          </div>
+          <div class="swot-item swot-o">
+            <div class="swot-title">🚀 机会 Opportunities</div>
+            <ul class="swot-list">${xsj.swot.opportunities.map(s=>`<li>${s}</li>`).join('')}</ul>
+          </div>
+          <div class="swot-item swot-t">
+            <div class="swot-title">🛡️ 威胁 Threats</div>
+            <ul class="swot-list">${xsj.swot.threats.map(s=>`<li>${s}</li>`).join('')}</ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">产线布局</div>
+      <div class="production-line">
+        ${xsj.productionLines.map(pl => `
+        <div class="pl-card">
+          <div class="pl-name">${pl.name}</div>
+          <span class="pl-status status-${pl.statusType}">${pl.status}</span>
+          <div class="pl-info">
+            <div>📍 ${pl.location}</div>
+            <div>💰 投资：${pl.investment}</div>
+            <div>⚡ 产能：${pl.capacity}</div>
+            <div>🏭 产品：${pl.products}</div>
+          </div>
+        </div>`).join('')}
+      </div>
+    </div>`;
+}
+
+function renderInvestment() {
+  const rows = DATA.investmentTrends.map(i => `
+    <tr ${i.isOurs ? 'class="our-company"' : ''}>
+      <td>${i.date}</td>
+      <td>${i.isOurs ? '⭐ '+i.company : i.company}</td>
+      <td>${i.project}</td>
+      <td>${i.amount}</td>
+      <td>${i.location}</td>
+      <td style="max-width:200px">${i.detail}</td>
+    </tr>`).join('');
+  document.getElementById('investTable').innerHTML = `
+    <thead><tr>
+      <th>时间</th><th>公司</th><th>项目</th><th>金额</th><th>地点</th><th>详情</th>
+    </tr></thead>
+    <tbody>${rows}</tbody>`;
+}
+
+function renderNews() {
+  document.getElementById('newsList').innerHTML = DATA.newsFlash.map(n => `
+    <div class="news-item">
+      <div class="news-dot ${n.importance}"></div>
+      <div class="news-content">
+        <div class="news-title">${n.title}</div>
+        <div class="news-meta">
+          <span>📅 ${n.date}</span>
+          <span>📰 ${n.source}</span>
+          <span class="news-badge badge-${n.importance}">${n.importance==='high'?'重要':'一般'}</span>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function renderPolicy() {
+  document.getElementById('trendGrid').innerHTML = DATA.techTrends.map(t => `
+    <div class="trend-card">
+      <div class="trend-icon">${t.icon}</div>
+      <div class="trend-name">${t.trend}</div>
+      <div class="trend-desc">${t.desc}</div>
+    </div>`).join('');
+  document.getElementById('policyGrid').innerHTML = DATA.policies.map(p => `
+    <div class="policy-card">
+      <div class="policy-issuer">📋 ${p.issuer}</div>
+      <div class="policy-name">${p.name}</div>
+      <div class="policy-impact">${p.impact}</div>
+    </div>`).join('');
+}
+
+// ============================================================
+// 产品追踪渲染
+// ============================================================
+function renderProducts() {
+  const products = DATA.trackedProducts;
+
+  // 判断是否为硅基OLED产品
+  const isOled = (p) => {
+    const nonOled = ['Quest 3','PICO 4 Ultra'];
+    return !nonOled.some(n => p.name.includes(n));
+  };
+
+  // 统计汇总
+  const catMap = {vr:"VR/MR",ar:"AR",evf:"EVF",drone:"FPV",special:"特种"};
+  const categories = [...new Set(products.map(p=>p.category))];
+  const oledProducts = products.filter(p => isOled(p));
+  const totalSales = products.reduce((sum, p) => {
+    const num = p.sales.replace(/[^0-9.]/g, '');
+    if (num && p.sales.includes('万台')) return sum + parseFloat(num);
+    return sum;
+  }, 0);
+
+  const summaryData = [
+    {icon:"📱",count:products.length,label:"追踪产品总数",sub:"覆盖6大类别"},
+    {icon:"💎",count:oledProducts.length,label:"硅基OLED产品",sub:"含Micro OLED方案"},
+    {icon:"📊",count:totalSales.toFixed(0),label:"累计终端销量",sub:"万台（行业估算）"},
+    {icon:"🏭",count:categories.length,label:"产品类别",sub:categories.map(c=>catMap[c]).join('/')}
+  ];
+
+  document.getElementById('productSummary').innerHTML = summaryData.map(s => `
+    <div class="product-summary-card">
+      <div class="ps-icon">${s.icon}</div>
+      <div class="ps-count">${s.count}</div>
+      <div class="ps-label">${s.label}</div>
+      <div class="ps-sub">${s.sub}</div>
+    </div>`).join('');
+
+  // 按类别分组渲染表格
+  const catNames = {
+    vr: "🥽 VR/MR 头显",
+    ar: "👓 AR 智能眼镜",
+    evf: "📸 电子取景器 EVF",
+    drone: "🚁 无人机/FPV",
+    special: "🔭 特种应用"
+  };
+  const catOrder = ['vr','ar','evf','drone','special'];
+  const tagClass = {vr:'tag-vr',ar:'tag-ar',evf:'tag-evf',drone:'tag-drone',special:'tag-special'};
+
+  let html = '';
+  catOrder.forEach(cat => {
+    const items = products.filter(p => p.category === cat);
+    if (!items.length) return;
+    html += `<div class="product-category">${catNames[cat]}</div>`;
+    html += `<div class="product-table-wrap"><table class="product-table">
+      <thead><tr>
+        <th>产品</th>
+        <th>品牌</th>
+        <th>屏幕参数</th>
+        <th>面板供应商</th>
+        <th>分辨率</th>
+        <th>PPI</th>
+        <th>亮度</th>
+        <th>刷新率</th>
+        <th>售价</th>
+        <th>状态</th>
+        <th>累计销量</th>
+      </tr></thead><tbody>`;
+
+    items.forEach(p => {
+      const oledTag = isOled(p) ? '<span class="tag-sm tag-ar">硅基OLED</span>' : '<span class="tag-sm" style="background:rgba(100,116,139,0.12);color:var(--text3)">非硅基OLED</span>';
+      const catTag = `<span class="tag-sm ${tagClass[p.category]}">${p.catLabel}</span>`;
+      const statusColor = p.status === '在售' ? 'var(--green)' : (p.status === '已停产' ? 'var(--red)' : (p.status === '研发中' ? 'var(--yellow)' : 'var(--text2)'));
+
+      html += `<tr>
+        <td><span class="pname">${p.emoji} ${p.name}</span><br>${oledTag} ${catTag}</td>
+        <td><span class="brand">${p.brand}</span></td>
+        <td class="screen-info">
+          <strong>${p.screenSize}</strong><br>
+          对比度 ${p.contrast}<br>
+          响应 ${p.responseTime}
+        </td>
+        <td>${p.screenProvider}<br><span style="font-size:10px;color:var(--text3)">${p.screenModel}</span></td>
+        <td>${p.resolution}</td>
+        <td>${p.ppi}</td>
+        <td>${p.brightness}</td>
+        <td>${p.refreshRate}</td>
+        <td>${p.price}</td>
+        <td><span style="color:${statusColor};font-weight:600;font-size:11px">${p.status}</span>${p.statusNote ? '<br><span style="font-size:10px;color:var(--text3)">'+p.statusNote+'</span>' : ''}</td>
+        <td><span class="sales-num">${p.sales || '-'}</span>${p.salesNote ? '<br><span style="font-size:10px;color:var(--text3)">'+p.salesNote+'</span>' : ''}</td>
+      </tr>`;
+    });
+    html += '</tbody></table></div>';
+  });
+
+  // 产品详情卡片（仅硅基OLED产品）
+  const oledOnly = products.filter(p => isOled(p));
+  html += `<div style="margin-top:20px">
+    <div class="card-title" style="margin-bottom:16px">硅基OLED产品详情卡片</div>
+    <div class="product-detail-grid">
+    ${oledOnly.map(p => `
+      <div class="product-detail-card">
+        <div class="pd-header">
+          <div class="pd-emoji">${p.emoji}</div>
+          <div>
+            <div class="pd-name">${p.name}</div>
+            <div class="pd-brand">${p.brand} · ${p.catLabel}</div>
+          </div>
+        </div>
+        <div class="pd-tags">
+          <span class="tag-sm tag-ar">硅基OLED</span>
+          <span class="tag-sm ${tagClass[p.category]}">${p.catLabel}</span>
+          <span class="tag-sm" style="background:rgba(0,212,255,0.12);color:var(--accent)">${p.status}</span>
+        </div>
+        <div class="pd-specs">
+          <div class="pd-spec"><div class="pd-spec-label">屏幕尺寸</div><div class="pd-spec-value">${p.screenSize}</div></div>
+          <div class="pd-spec"><div class="pd-spec-label">分辨率</div><div class="pd-spec-value">${p.resolution}</div></div>
+          <div class="pd-spec"><div class="pd-spec-label">像素密度</div><div class="pd-spec-value">${p.ppi}</div></div>
+          <div class="pd-spec"><div class="pd-spec-label">最大亮度</div><div class="pd-spec-value">${p.brightness}</div></div>
+          <div class="pd-spec"><div class="pd-spec-label">刷新率</div><div class="pd-spec-value">${p.refreshRate}</div></div>
+          <div class="pd-spec"><div class="pd-spec-label">面板供应商</div><div class="pd-spec-value">${p.screenProvider}</div></div>
+          <div class="pd-spec"><div class="pd-spec-label">面板型号</div><div class="pd-spec-value" style="font-size:10px">${p.screenModel}</div></div>
+          <div class="pd-spec"><div class="pd-spec-label">发布时间</div><div class="pd-spec-value">${p.released}</div></div>
+        </div>
+        <div class="pd-sales">
+          <div class="pd-sales-label">📈 累计销量</div>
+          <div class="pd-sales-value">${p.sales || '未上市'}</div>
+          ${p.salesNote ? '<div class="pd-sales-note">'+p.salesNote+'</div>' : ''}
+        </div>
+        <div style="margin-top:8px;font-size:11px;color:var(--text3);line-height:1.5">${p.desc}</div>
+      </div>`).join('')}
+    </div>
+  </div>`;
+
+  document.getElementById('productCategoryContent').innerHTML = html;
+}
+
+// ============================================================
+// 初始化
+// ============================================================
+document.getElementById('updateTime').textContent = DATA.lastUpdate;
+renderKPI();
+renderMarketCharts();
+renderCompetition();
+renderProducts();
+renderXinshijia();
+renderInvestment();
+renderNews();
+renderPolicy();
+</script>
+</body>
+</html>
