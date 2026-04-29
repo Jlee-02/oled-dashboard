@@ -290,6 +290,39 @@
   .pd-sales-label { font-size: 10px; color: var(--yellow); }
   .pd-sales-value { font-size: 18px; font-weight: 700; color: var(--yellow); }
   .pd-sales-note { font-size: 10px; color: var(--text3); margin-top: 2px; }
+
+  /* 竞争深度分析样式 */
+  .deep-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .deep-card { background: var(--card2); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .deep-card-title { font-size: 14px; font-weight: 700; color: var(--accent); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .deep-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .deep-table th { text-align: left; padding: 6px 8px; color: var(--text3); font-weight: 600; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  .deep-table td { padding: 6px 8px; border-bottom: 1px solid rgba(30,58,95,0.4); color: var(--text); }
+  .deep-table tr:last-child td { border-bottom: none; }
+  .deep-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .deep-table .highlight { color: var(--accent); font-weight: 700; }
+  .deep-table .red { color: var(--red); font-weight: 600; }
+  .deep-table .green { color: var(--green); font-weight: 600; }
+  .deep-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 12px; }
+  .deep-summary-item { background: rgba(0,212,255,0.06); border: 1px solid rgba(0,212,255,0.15); border-radius: 8px; padding: 10px; text-align: center; }
+  .deep-summary-item .val { font-size: 18px; font-weight: 700; color: var(--accent); }
+  .deep-summary-item .lbl { font-size: 10px; color: var(--text3); margin-top: 4px; }
+  .customer-tag { display: inline-block; padding: 3px 10px; margin: 3px 4px 3px 0; border-radius: 4px; font-size: 11px; font-weight: 600; }
+  .customer-tag.strategic { background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
+  .customer-tag.major { background: rgba(59,130,246,0.15); color: #60a5fa; border: 1px solid rgba(59,130,246,0.3); }
+  .customer-tag.sampling { background: rgba(245,158,11,0.15); color: #fbbf24; border: 1px solid rgba(245,158,11,0.3); }
+  .fin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .fin-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .fin-table th { text-align: left; padding: 5px 8px; color: var(--text3); font-weight: 600; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  .fin-table td { padding: 5px 8px; border-bottom: 1px solid rgba(30,58,95,0.4); }
+  .fin-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .fin-table .red { color: var(--red); }
+  .fin-table .green { color: var(--green); }
+  @media (max-width: 900px) {
+    .deep-grid { grid-template-columns: 1fr; }
+    .fin-grid { grid-template-columns: 1fr; }
+    .deep-summary { grid-template-columns: 1fr 1fr; }
+  }
 </style>
 </head>
 <body>
@@ -353,6 +386,29 @@
         <div class="chart-wrap"><canvas id="shareChart2"></canvas></div>
       </div>
     </div>
+
+    <!-- 竞争深度分析 -->
+    <div class="deep-grid">
+      <div class="deep-card">
+        <div class="deep-card-title">📊 索尼 Sony — 累计出货与营收分析</div>
+        <div id="sonyDeepData"></div>
+      </div>
+      <div class="deep-card">
+        <div class="deep-card-title">🏢 视涯科技 — 核心客户与出货明细</div>
+        <div id="seeyaCustomerData"></div>
+      </div>
+    </div>
+    <div class="deep-grid">
+      <div class="deep-card">
+        <div class="deep-card-title">💰 视涯科技 — 核心财务数据（年度）</div>
+        <div id="seeyaFinanceAnnual"></div>
+      </div>
+      <div class="deep-card">
+        <div class="deep-card-title">📈 视涯科技 — 季度财务数据</div>
+        <div id="seeyaFinanceQuarterly"></div>
+      </div>
+    </div>
+
     <div class="card">
       <div class="card-title">核心竞争对手详情</div>
       <div class="competitor-grid" id="competitorGrid"></div>
@@ -508,6 +564,72 @@ const DATA = {
      advantages:["超4000PPI像素密度","10000nit超高亮度","南充产业园已封顶","绵阳+眉山多线并进"],
      disadvantages:["量产能力尚未验证","产线仍在建设中"]}
   ],
+  // ============================================================
+  // 竞争深度分析数据
+  // ============================================================
+  sonyDeep: {
+    // 索尼Micro OLED年度出货量推算（基于全球总出货量×索尼市场份额）
+    // 数据来源：群智咨询、弗若斯特沙利文、行研报告综合推算
+    shipment: [
+      {year:"FY2019",yearLabel:"2019",globalTotal:"122.8",sonyShare:"~80%",sonyVol:"~98",note:"全球XR设备起步期"},
+      {year:"FY2020",yearLabel:"2020",globalTotal:"180.5",sonyShare:"~82%",sonyVol:"~148",note:"疫情催生VR需求"},
+      {year:"FY2021",yearLabel:"2021",globalTotal:"265.0",sonyShare:"~84%",sonyVol:"~223",note:"Meta Quest 2热销"},
+      {year:"FY2022",yearLabel:"2022",globalTotal:"370.2",sonyShare:"~78%",sonyVol:"~289",note:"苹果Vision Pro催产"},
+      {year:"FY2023",yearLabel:"2023",globalTotal:"480.0",sonyShare:"~87%",sonyVol:"~418",note:"Vision Pro上市，需求爆发"},
+      {year:"FY2024",yearLabel:"2024",globalTotal:"636.5",sonyShare:"50.8%",sonyVol:"323",note:"视涯分流，索尼份额下降"},
+      {year:"FY2025E",yearLabel:"2025E",globalTotal:"1031.3",sonyShare:"~45%",sonyVol:"~464",note:"XR市场持续扩张"}
+    ],
+    // 索尼I&SS业务营收（含图像传感器+微型显示器等）
+    // Micro OLED仅为I&SS业务中的小部分，估算占比约2-5%
+    issRevenue: [
+      {fiscalYear:"FY2023",period:"2023.4-2024.3",salesYen:"16,027",salesRMB:"约770亿",profitYen:"1,935",profitRMB:"约93亿",yoySales:"+14%",note:"图像传感器增长主导"},
+      {fiscalYear:"FY2024",period:"2024.4-2025.3",salesYen:"17,990",salesRMB:"约863亿",profitYen:"2,611",profitRMB:"约125亿",yoySales:"+12%",note:"创历史新高"}
+    ],
+    cumulativeShipment:"~1963万片（2019-2024E累计）",
+    issNote:"I&SS业务含图像传感器、微型显示器、激光雷达等。Micro OLED微型显示器仅为其中一部分，估算占I&SS营收约2-5%",
+    sonyGroupRevenueFY24:"129,571亿日元（约6,222亿元）"
+  },
+  seeyaDeep: {
+    // 视涯科技核心客户与出货明细
+    // 数据来源：招股说明书、公开新闻报道
+    customers: [
+      {rank:1,name:"字节跳动/Pico",type:"strategic",typeLabel:"战略客户",desc:"VR头显核心供应商",note:"2026年预计占营收超70%"},
+      {rank:2,name:"影石创新（Insta360）",type:"major",typeLabel:"核心客户",desc:"全景相机Micro OLED显示屏",note:"多款产品搭载"},
+      {rank:3,name:"雷鸟创新",type:"major",typeLabel:"核心客户",desc:"AR眼镜显示屏",note:"2025H1跃升第一大客户"},
+      {rank:4,name:"联想",type:"major",typeLabel:"核心客户",desc:"AR眼镜方案",note:"多代产品合作"},
+      {rank:5,name:"华为",type:"major",typeLabel:"核心客户",desc:"AR/VR终端显示方案",note:"持续合作中"},
+      {rank:6,name:"Apple（苹果）",type:"sampling",typeLabel:"送样中",desc:"已多次送样，尚未量产",note:"潜在战略级客户"},
+      {rank:7,name:"歌尔股份",type:"major",typeLabel:"客户+股东",desc:"VR代工+直接采购",note:"持股5%以上"}
+    ],
+    customerConcentration: [
+      {period:"2022年",top5Ratio:"75.59%"},
+      {period:"2023年",top5Ratio:"76.62%"},
+      {period:"2024年",top5Ratio:"73.61%"},
+      {period:"2025H1",top5Ratio:"63.96%"}
+    ],
+    // 视涯科技年度财务数据
+    // 数据来源：招股说明书、2025年年报、2026Q1季报
+    financeAnnual: [
+      {year:"2022",revenue:"19,043.31万",revenueYoy:"+12.6%",netProfit:"-24,748.87万",grossMargin:"-",note:"产能爬坡期"},
+      {year:"2023",revenue:"21,544.56万",revenueYoy:"+13.1%",netProfit:"-30,409.75万",grossMargin:"-",note:"研发投入加大"},
+      {year:"2024",revenue:"28,005.51万",revenueYoy:"+30.0%",netProfit:"-24,679.71万",grossMargin:"~18%",note:"亏损收窄"},
+      {year:"2025",revenue:"51,304.10万",revenueYoy:"+83.2%",netProfit:"-21,200万",grossMargin:"~21.8%",note:"营收爆发增长"},
+      {year:"2026Q1",revenue:"17,600万",revenueYoy:"+247.2%",netProfit:"-4,551.69万",grossMargin:"~24%",note:"单季营收创新高"}
+    ],
+    // 视涯科技季度财务数据
+    financeQuarterly: [
+      {period:"2024Q1",revenue:"5,069万",netProfit:"-7,409万",note:""},
+      {period:"2024Q2",revenue:"~6,800万",netProfit:"~-6,200万",note:"推算值"},
+      {period:"2024Q3",revenue:"~8,200万",netProfit:"~-5,800万",note:"推算值"},
+      {period:"2024Q4",revenue:"~7,900万",netProfit:"~-5,300万",note:"推算值"},
+      {period:"2025Q1",revenue:"~7,300万",netProfit:"~-5,500万",note:"推算值"},
+      {period:"2025H1",revenue:"15,050万",netProfit:"-12,308万",note:"半年报"},
+      {period:"2025Q3",revenue:"~14,800万",netProfit:"~-4,200万",note:"推算值"},
+      {period:"2025全年",revenue:"51,304万",netProfit:"-21,200万",note:"年报"},
+      {period:"2026Q1",revenue:"17,600万",netProfit:"-4,552万",note:"季报，同比+247%"}
+    ],
+    stockInfo:{code:"688781.SH",name:"视涯科技",ipoDate:"2026-03-25",marketCap:"约386亿元",price:"40.48元",priceDate:"2026-04-28"}
+  },
   // 采用硅基OLED屏幕的终端产品数据库
   trackedProducts: [
     // ========== VR/MR 头显 ==========
@@ -894,6 +1016,97 @@ function renderCompetition() {
   }).join('');
 }
 
+// ============================================================
+// 竞争深度分析渲染
+// ============================================================
+function renderDeepAnalysis() {
+  const sd = DATA.sonyDeep;
+  const sy = DATA.seeyaDeep;
+
+  // --- 索尼出货与营收 ---
+  const sonyHtml = `
+    <table class="deep-table">
+      <tr><th>年份</th><th>全球总出货（万片）</th><th>索尼份额</th><th class="num">索尼出货（万片）</th><th>备注</th></tr>
+      ${sd.shipment.map(r => `
+      <tr>
+        <td>${r.yearLabel}</td><td>${r.globalTotal}</td><td>${r.sonyShare}</td>
+        <td class="num highlight">${r.sonyVol}</td><td style="color:var(--text3);font-size:11px">${r.note}</td>
+      </tr>`).join('')}
+    </table>
+    <div class="deep-summary">
+      <div class="deep-summary-item"><div class="val">~1,963万</div><div class="lbl">累计出货（2019-2024E）</div></div>
+      <div class="deep-summary-item"><div class="val">2-5%</div><div class="lbl">占I&SS业务营收比</div></div>
+      <div class="deep-summary-item"><div class="val">~0.2%</div><div class="lbl">占索尼集团总营收比</div></div>
+    </div>
+    <div style="margin-top:10px;font-size:11px;color:var(--text3)">
+      索尼I&SS业务：FY2023销售16,027亿日元 | FY2024销售17,990亿日元（+12%）<br>
+      索尼集团总营收FY2024：129,571亿日元（约6,222亿元）。Micro OLED为I&SS中的微小细分品类。
+    </div>`;
+  document.getElementById('sonyDeepData').innerHTML = sonyHtml;
+
+  // --- 视涯客户与出货 ---
+  const typeClass = {strategic:'strategic',major:'major',sampling:'sampling'};
+  const custHtml = `
+    <table class="deep-table">
+      <tr><th>#</th><th>客户</th><th>类型</th><th>合作内容</th><th style="color:var(--text3)">备注</th></tr>
+      ${sy.customers.map(c => `
+      <tr>
+        <td>${c.rank}</td>
+        <td style="font-weight:600">${c.name}</td>
+        <td><span class="customer-tag ${typeClass[c.type]}">${c.typeLabel}</span></td>
+        <td>${c.desc}</td>
+        <td style="color:var(--text3);font-size:11px">${c.note}</td>
+      </tr>`).join('')}
+    </table>
+    <div style="margin-top:10px">
+      <div style="font-size:11px;color:var(--text2);font-weight:600;margin-bottom:6px">前五大客户集中度</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        ${sy.customerConcentration.map(c => `
+        <span style="background:var(--card);padding:4px 10px;border-radius:4px;font-size:11px">
+          ${c.period} <span style="color:var(--accent);font-weight:700">${c.top5Ratio}</span>
+        </span>`).join('')}
+      </div>
+    </div>`;
+  document.getElementById('seeyaCustomerData').innerHTML = custHtml;
+
+  // --- 视涯年度财务 ---
+  const annHtml = `
+    <table class="deep-table">
+      <tr><th>年份</th><th class="num">营业收入</th><th>同比</th><th class="num">净利润</th><th class="num">毛利率</th><th>备注</th></tr>
+      ${sy.financeAnnual.map(r => `
+      <tr>
+        <td style="font-weight:600">${r.year}</td>
+        <td class="num highlight">${r.revenue}</td>
+        <td class="${r.revenueYoy.startsWith('+')?'green':'text3'}">${r.revenueYoy}</td>
+        <td class="num ${r.netProfit.startsWith('-')?'red':'green'}">${r.netProfit}</td>
+        <td class="num">${r.grossMargin}</td>
+        <td style="color:var(--text3);font-size:11px">${r.note}</td>
+      </tr>`).join('')}
+    </table>
+    <div style="margin-top:10px;font-size:11px;color:var(--text3)">
+      ${sy.stockInfo.name}（${sy.stockInfo.code}）| 上市日：${sy.stockInfo.ipoDate}<br>
+      最新市值：${sy.stockInfo.marketCap} | 股价：${sy.stockInfo.price}（${sy.stockInfo.priceDate}）
+    </div>`;
+  document.getElementById('seeyaFinanceAnnual').innerHTML = annHtml;
+
+  // --- 视涯季度财务 ---
+  const qtrHtml = `
+    <table class="deep-table">
+      <tr><th>报告期</th><th class="num">营业收入</th><th class="num">净利润</th><th>备注</th></tr>
+      ${sy.financeQuarterly.map(r => `
+      <tr>
+        <td style="font-weight:600">${r.period}</td>
+        <td class="num highlight">${r.revenue}</td>
+        <td class="num ${r.netProfit.startsWith('-')?'red':'green'}">${r.netProfit}</td>
+        <td style="color:var(--text3);font-size:11px">${r.note}</td>
+      </tr>`).join('')}
+    </table>
+    <div style="margin-top:8px;font-size:10px;color:var(--text3)">
+      注：标注"推算值"的季度数据为基于年报/半年报数据的合理拆分估算，仅供参考。正式数据以公司公告为准。
+    </div>`;
+  document.getElementById('seeyaFinanceQuarterly').innerHTML = qtrHtml;
+}
+
 function renderXinshijia() {
   const xsj = DATA.xinshijia;
   document.getElementById('xinshijiaContent').innerHTML = `
@@ -1153,6 +1366,7 @@ document.getElementById('updateTime').textContent = DATA.lastUpdate;
 renderKPI();
 renderMarketCharts();
 renderCompetition();
+renderDeepAnalysis();
 renderProducts();
 renderXinshijia();
 renderInvestment();
