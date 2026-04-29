@@ -526,10 +526,10 @@
 <script>
 // ============================================================
 // 内嵌数据 - 深圳市芯视佳半导体科技有限公司 专用
-// 最后更新：2026-04-28
+// 最后更新：2026-04-29
 // ============================================================
 const DATA = {
-  lastUpdate: "2026-04-28 09:00",
+  lastUpdate: "2026-04-29 09:24",
   market: {
     // 全球市场规模（人民币口径，华经产业研究院）
     globalMarketSizeCNY: {"2019":3.3,"2020":4.5,"2021":6.2,"2022":8.1,"2023":10.0,"2024":12.7,"2025E":17.5,"2026E":25.0,"2027E":35.0,"2028E":50.0},
@@ -663,16 +663,16 @@ const DATA = {
      advantages:["核心专利超2000件，技术绝对垄断","Meta 5年长期协议，客户粘性极强","产能全球第一","刷新率120Hz、响应时间<1ms全球领先"],
      disadvantages:["制造成本高","非中国本土，本土化响应慢"]},
     {id:"seeya",name:"视涯科技",typeLabel:"🇨🇳 直接竞品",status:"direct_competitor",statusLabel:"核心竞争对手",
-     description:"出货量全球第二、境内第一，已多次送样苹果；科创板IPO冲刺中，募资20.15亿元；2026Q1营收1.76亿元同比大增247%",
-     stock:{code:"科创板IPO中",price:"-",change:"-",marketCap:"估值约100亿元",pe:"-"},
+     description:"出货量全球第二、境内第一，已多次送样苹果；科创板已上市（2026-03-25），IPO募资20.15亿元；2026Q1营收1.76亿元同比大增247%；4月IPO募资到位，16.09亿元启动产线扩建",
+     stock:{code:"688781.SH",price:"40.22",change:"-0.64%",marketCap:"约402亿元",pe:"-218.88（亏损）",priceDate:"2026-04-29"},
      business:{product:"1.3英寸4K Micro OLED",resolution:"4K PPI=3000",power:"60mW",yieldRate:"约75%",lifetime:"约40000小时"},
-     capacity:{current:"100万片/年（合肥基地）",plan:"150万片/年（2026）"},
+     capacity:{current:"180万片/年（15k片/月）",plan:"360万片/年（30k片/月，扩建中）"},
      customers:["Pico","字节跳动","华为","（送样中）Apple"],vrShare:"35%（国内）/15%（全球）",
      advantages:["国内市占率第一","已多次送样苹果","本土化响应快，定制周期比索尼短2-3周","同分辨率产品价格比索尼低15%-20%"],
      disadvantages:["技术成熟度落后于索尼","缺乏上游OLED材料自主产能"]},
     {id:"boe",name:"京东方A (BOE)",typeLabel:"🇨🇳 行业巨头",status:"indirect_competitor",statusLabel:"间接竞争",
      description:"全球最大OLED面板厂商，成都基地试量产中；4月27日称已具备高分辨率Micro OLED显示器件生产能力",
-     stock:{code:"000725.SZ",price:"4.21",change:"+1.94%",marketCap:"约1600亿元",pe:"约20倍",priceDate:"2026-04-28"},
+     stock:{code:"000725.SZ",price:"4.14",change:"-0.24%",marketCap:"约1534亿元",pe:"26.18倍",priceDate:"2026-04-29"},
      business:{product:"1.5英寸4K Micro OLED",resolution:"4K PPI=2800",power:"65mW",yieldRate:"未公开",lifetime:"-"},
      capacity:{current:"80万片/年（成都试量产）",plan:"150万片/年（2026）"},
      customers:["华为","Pico","TCL"],vrShare:"10%（全球）",
@@ -696,7 +696,7 @@ const DATA = {
      disadvantages:["主要依托集团内部消化","外部市场拓展有限"]},
     {id:"qingyue",name:"清越科技",typeLabel:"🇨🇳 国内厂商",status:"potential_competitor",statusLabel:"潜在竞争",
      description:"⚠️ 2025年涉嫌财务数据虚假记载被证监会立案调查，经营风险极高",
-     stock:{code:"688496.SH",price:"5.29",change:"-0.56%",marketCap:"约22亿元",pe:"亏损",priceDate:"2026-04-28"},
+     stock:{code:"688496.SH",price:"5.57",change:"0.00%",marketCap:"约25亿元",pe:"亏损",priceDate:"2026-04-29"},
      business:{product:"0.23英寸硅基OLED",resolution:"-",power:"-",yieldRate:"-",lifetime:"-"},
      capacity:{current:"研发/小规模试产阶段",plan:"-"},
      customers:["-"],vrShare:"-",
@@ -783,7 +783,7 @@ const DATA = {
       {period:"2025全年",revenue:"51,304万",netProfit:"-21,200万",note:"年报"},
       {period:"2026Q1",revenue:"17,600万",netProfit:"-4,552万",note:"季报，同比+247%"}
     ],
-    stockInfo:{code:"688781.SH",name:"视涯科技",ipoDate:"2026-03-25",marketCap:"约386亿元",price:"40.48元",priceDate:"2026-04-28"}
+    stockInfo:{code:"688781.SH",name:"视涯科技",ipoDate:"2026-03-25",marketCap:"约402亿元",price:"40.22元",priceDate:"2026-04-29"}
   },
   // 采用硅基OLED屏幕的终端产品数据库
   trackedProducts: [
@@ -979,6 +979,9 @@ const DATA = {
     {icon:"🏆",trend:"硅基OLED vs Micro-LED",desc:"两条技术路线并行发展，中短期内硅基OLED仍是主流，Micro-LED为长期技术方向"}
   ],
   newsFlash: [
+    {date:"2026-04-29",title:"视涯科技IPO募资到位，16.09亿元启动MicroOLED产线扩建，产能目标翻倍至30k片/月",source:"群智咨询/sohu",importance:"high"},
+    {date:"2026-04-28",title:"三星Galaxy Glasses渲染图曝光，AR眼镜形态，有望搭载硅基OLED显示",source:"腾讯新闻",importance:"medium"},
+    {date:"2026-04-28",title:"Meta Quest 3系列4月20日全线提价，全球VR产品受美元汇率影响涨价潮持续",source:"VR52网",importance:"medium"},
     {date:"2026-04-28",title:"芯视佳完成A1轮数亿元融资，四川产业振兴基金领投，K5基地已封顶",source:"LEDinside/投资界",importance:"high"},
     {date:"2026-04-27",title:"京东方A：已具备高分辨率Micro OLED显示器件规模化生产能力",source:"证券日报/互动平台",importance:"high"},
     {date:"2026-04-27",title:"视涯科技2026Q1营收1.76亿元同比大增247%，亏损从7409万收窄至4552万",source:"雪球/EET-China",importance:"high"},
@@ -1185,7 +1188,7 @@ function renderBrandShipmentCharts(d) {
       labels: g.labels,
       datasets: gKeys.map((k,i) => ({
         label: gNames[i], data: g[k],
-        backgroundColor: g[i].includes('E') ? gColors[i]+'66' : gColors[i]+'cc',
+        backgroundColor: gColors[i]+'cc',
         borderColor: gColors[i], borderWidth: 1, borderRadius: 2
       }))
     },
