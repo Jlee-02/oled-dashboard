@@ -352,25 +352,47 @@
   <!-- 市场总览 -->
   <div class="section active" id="market">
     <div class="kpi-grid" id="kpiGrid"></div>
+
+    <!-- 规模趋势：全球vs国内 -->
     <div class="grid-2">
       <div class="card">
-        <div class="card-title">全球市场规模趋势（亿元）</div>
-        <div class="chart-wrap"><canvas id="marketChart"></canvas></div>
+        <div class="card-title">全球市场规模趋势（双口径）</div>
+        <div class="chart-wrap"><canvas id="marketChartGlobal"></canvas></div>
       </div>
       <div class="card">
-        <div class="card-title">全球出货量趋势（万块）</div>
-        <div class="chart-wrap"><canvas id="shipmentChart"></canvas></div>
+        <div class="card-title">中国国内市场规模趋势（亿元）</div>
+        <div class="chart-wrap"><canvas id="marketChartChina"></canvas></div>
       </div>
     </div>
+
+    <!-- 出货量趋势：全球vs国内 -->
     <div class="grid-2">
       <div class="card">
-        <div class="card-title">下游应用分布（2024年）</div>
-        <div class="chart-wrap"><canvas id="appChart"></canvas></div>
+        <div class="card-title">全球出货量趋势（万块）</div>
+        <div class="chart-wrap"><canvas id="shipmentChartGlobal"></canvas></div>
       </div>
+      <div class="card">
+        <div class="card-title">中国国内出货量趋势（万块）</div>
+        <div class="chart-wrap"><canvas id="shipmentChartChina"></canvas></div>
+      </div>
+    </div>
+
+    <!-- 全球vs国内占比 -->
+    <div class="grid-2">
       <div class="card">
         <div class="card-title">全球市场份额（2024年出货量）</div>
         <div class="chart-wrap"><canvas id="shareChart"></canvas></div>
       </div>
+      <div class="card">
+        <div class="card-title">国内市场占全球比重（2024年）</div>
+        <div class="chart-wrap"><canvas id="chinaGlobalRatioChart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- 下游应用分布 -->
+    <div class="card">
+      <div class="card-title">下游应用分布（2024年）</div>
+      <div style="max-width:500px;margin:0 auto"><div class="chart-wrap"><canvas id="appChart"></canvas></div></div>
     </div>
   </div>
 
@@ -469,10 +491,27 @@
 const DATA = {
   lastUpdate: "2026-04-28 09:00",
   market: {
-    globalMarketSize: {"2019":3.3,"2020":4.5,"2021":6.2,"2022":8.1,"2023":10.0,"2024":12.7,"2025E":17.5,"2026E":25.0,"2027E":35.0,"2028E":50.0},
+    // 全球市场规模（人民币口径，华经产业研究院）
+    globalMarketSizeCNY: {"2019":3.3,"2020":4.5,"2021":6.2,"2022":8.1,"2023":10.0,"2024":12.7,"2025E":17.5,"2026E":25.0,"2027E":35.0,"2028E":50.0},
+    // 全球市场规模（美元口径，QYResearch 2024:11.53亿美元，CAGR ~20%）
+    // 2019-2023年为基于CAGR回推估算值，2025E后为QYResearch预测
+    globalMarketSizeUSD: {"2019":3.6,"2020":4.3,"2021":5.2,"2022":6.5,"2023":8.7,"2024":11.5,"2025E":14.0,"2026E":17.5,"2027E":22.0,"2028E":28.0},
+    // 全球出货量（万块，各报告一致）
     globalShipment: {"2019":122.8,"2020":180.5,"2021":265.0,"2022":370.2,"2023":480.0,"2024":636.5,"2025E":1031.3},
+    // 中国国内市场规模（亿元，Reportify 2024:23.8亿元）
+    // 2019-2023年为基于CAGR回推估算值
+    chinaMarketSizeCNY: {"2019":2.8,"2020":3.8,"2021":5.3,"2022":8.2,"2023":14.2,"2024":23.8,"2025E":35.0,"2026E":50.0,"2027E":70.0,"2028E":95.0},
+    // 中国国内出货量（万块）
+    // 基于：视涯35.2%全球份额≈224万片 + 京东方/其他国内厂商≈40-60万片
+    // 2019-2023为估算值，2024起视涯实际出货量推算
+    chinaShipment: {"2019":18.0,"2020":25.0,"2021":37.0,"2022":65.0,"2023":120.0,"2024":265.0,"2025E":450.0},
     marketCAGR: "30.94%",
+    marketCAGR_USD: "~20.3%",
     shipmentCAGR: "38.97%",
+    chinaMarketCAGR: "53.4%",
+    chinaShipmentCAGR: "70.5%",
+    // 数据来源说明
+    dataSources: "全球规模CNY:华经产业研究院 | 全球规模USD:QYResearch | 国内规模:Reportify | 出货量:华经+群智咨询 | 国内出货:推算估算",
     applicationDistribution: [
       {name:"XR领域(AR+VR)",share:50.39},
       {name:"电子取景器",share:18.52},
@@ -862,53 +901,76 @@ const CHART_DEFAULTS = {
 function renderKPI() {
   const d = DATA.market;
   const kpis = [
-    {label:"2024全球市场规模",value:"12.7亿元",sub:"同比+27%"},
-    {label:"2025E全球市场规模",value:"17.5亿元",sub:"预测值，CAGR 30.94%",changeUp:true},
-    {label:"2024全球出货量",value:"636.5万块",sub:"同比+32.6%"},
+    {label:"2024全球市场规模",value:"12.7亿元 / 11.5亿美元",sub:"华经(RMB) / QYResearch(USD)"},
+    {label:"2025E全球市场规模",value:"17.5亿元 / 14.0亿美元",sub:"预测值，CAGR 30.9% / ~20.3%",changeUp:true},
+    {label:"2024中国国内市场规模",value:"23.8亿元",sub:"同比+67.4%，CAGR 53.4%",changeUp:true},
+    {label:"2024全球出货量",value:"636.5万块",sub:"同比+32.6%",changeUp:true},
+    {label:"2024中国国内出货量",value:"~265万块",sub:"估算，占全球~41.6%",changeUp:true},
     {label:"2025E出货量",value:"1031.3万块",sub:"预测值，CAGR 38.97%",changeUp:true},
     {label:"XR领域市场占比",value:"50.39%",sub:"2024年，第一大下游"},
-    {label:"AR显示份额",value:"79.22%",sub:"硅基OLED在AR产业占比"},
-    {label:"全球VR出货预测(2030)",value:"2.96亿片",sub:"VR CAGR 133.2%",changeUp:true},
     {label:"国内市场投资(2025起)",value:">125亿元",sub:"多家企业集中扩产",changeUp:true}
   ];
   document.getElementById('kpiGrid').innerHTML = kpis.map(k => `
     <div class="kpi-card">
       <div class="label">${k.label}</div>
-      <div class="value">${k.value}</div>
+      <div class="value" style="font-size:${k.value.length>16?'15px':'20px'}">${k.value}</div>
       <div class="sub">${k.sub}</div>
     </div>`).join('');
 }
 
 function renderMarketCharts() {
-  const mSize = DATA.market.globalMarketSize;
-  const labels = Object.keys(mSize);
-  const values = Object.values(mSize);
-  
-  new Chart(document.getElementById('marketChart'), {
+  const d = DATA.market;
+
+  // --- 1. 全球市场规模（双口径） ---
+  const gCNY = d.globalMarketSizeCNY;
+  const gUSD = d.globalMarketSizeUSD;
+  const gLabels = Object.keys(gCNY);
+  new Chart(document.getElementById('marketChartGlobal'), {
     type: 'bar',
     data: {
-      labels, datasets: [{
-        label: '市场规模（亿元）',
-        data: values,
-        backgroundColor: labels.map(l => l.includes('E') ? 'rgba(124,58,237,0.6)' : 'rgba(0,212,255,0.6)'),
-        borderColor: labels.map(l => l.includes('E') ? '#7c3aed' : '#00d4ff'),
-        borderWidth: 1, borderRadius: 4
+      labels: gLabels,
+      datasets: [
+        { label: '市场规模（人民币/亿元）', data: Object.values(gCNY),
+          backgroundColor: gLabels.map(l => l.includes('E') ? 'rgba(0,212,255,0.4)' : 'rgba(0,212,255,0.7)'),
+          borderColor: '#00d4ff', borderWidth: 1, borderRadius: 4, yAxisID: 'yCNY' },
+        { label: '市场规模（美元/亿美元）', data: Object.values(gUSD),
+          backgroundColor: gLabels.map(l => l.includes('E') ? 'rgba(249,115,22,0.4)' : 'rgba(249,115,22,0.7)'),
+          borderColor: '#f97316', borderWidth: 1, borderRadius: 4, yAxisID: 'yUSD' }
+      ]
+    },
+    options: { ...CHART_DEFAULTS, scales: {
+      x: { ticks: { color: '#64748b', font: { size: 10 } }, grid: { color: 'rgba(30,58,95,0.5)' } },
+      yCNY: { type: 'linear', position: 'left', ticks: { color: '#00d4ff', font: { size: 10 } }, grid: { color: 'rgba(30,58,95,0.3)' }, title: { display: true, text: '亿元(RMB)', color: '#00d4ff', font: { size: 10 } } },
+      yUSD: { type: 'linear', position: 'right', ticks: { color: '#f97316', font: { size: 10 } }, grid: { drawOnChartArea: false }, title: { display: true, text: '亿美元(USD)', color: '#f97316', font: { size: 10 } } }
+    }}
+  });
+
+  // --- 2. 中国国内市场规模 ---
+  const cSize = d.chinaMarketSizeCNY;
+  const cLabels = Object.keys(cSize);
+  new Chart(document.getElementById('marketChartChina'), {
+    type: 'bar',
+    data: {
+      labels: cLabels, datasets: [{
+        label: '国内市场规模（亿元）', data: Object.values(cSize),
+        backgroundColor: cLabels.map(l => l.includes('E') ? 'rgba(239,68,68,0.4)' : 'rgba(239,68,68,0.7)'),
+        borderColor: '#ef4444', borderWidth: 1, borderRadius: 4
       }]
     },
     options: { ...CHART_DEFAULTS, scales: {
       x: { ticks: { color: '#64748b', font: { size: 10 } }, grid: { color: 'rgba(30,58,95,0.5)' } },
-      y: { ticks: { color: '#64748b', font: { size: 10 } }, grid: { color: 'rgba(30,58,95,0.5)' } }
+      y: { ticks: { color: '#ef4444', font: { size: 10 } }, grid: { color: 'rgba(30,58,95,0.3)' } }
     }}
   });
 
-  const sData = DATA.market.globalShipment;
+  // --- 3. 全球出货量趋势 ---
+  const sData = d.globalShipment;
   const sLabels = Object.keys(sData), sValues = Object.values(sData);
-  new Chart(document.getElementById('shipmentChart'), {
+  new Chart(document.getElementById('shipmentChartGlobal'), {
     type: 'line',
     data: {
       labels: sLabels, datasets: [{
-        label: '出货量（万块）',
-        data: sValues,
+        label: '全球出货量（万块）', data: sValues,
         borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,0.1)',
         fill: true, tension: 0.4, pointBackgroundColor: '#10b981', pointRadius: 4
       }]
@@ -919,18 +981,25 @@ function renderMarketCharts() {
     }}
   });
 
-  const app = DATA.market.applicationDistribution;
-  new Chart(document.getElementById('appChart'), {
-    type: 'doughnut',
+  // --- 4. 中国国内出货量趋势 ---
+  const csData = d.chinaShipment;
+  const csLabels = Object.keys(csData), csValues = Object.values(csData);
+  new Chart(document.getElementById('shipmentChartChina'), {
+    type: 'line',
     data: {
-      labels: app.map(a=>a.name),
-      datasets: [{ data: app.map(a=>a.share),
-        backgroundColor: ['#ef4444','#3b82f6','#10b981','#f59e0b','#8b5cf6'],
-        borderColor: '#0a0e1a', borderWidth: 2 }]
+      labels: csLabels, datasets: [{
+        label: '国内出货量（万块）', data: csValues,
+        borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,0.1)',
+        fill: true, tension: 0.4, pointBackgroundColor: '#ef4444', pointRadius: 4
+      }]
     },
-    options: { ...CHART_DEFAULTS }
+    options: { ...CHART_DEFAULTS, scales: {
+      x: { ticks: { color: '#64748b', font: { size: 10 } }, grid: { color: 'rgba(30,58,95,0.5)' } },
+      y: { ticks: { color: '#64748b', font: { size: 10 } }, grid: { color: 'rgba(30,58,95,0.5)' } }
+    }}
   });
 
+  // --- 5. 全球市场份额饼图（保持原有） ---
   const share = DATA.competition.globalShare2024;
   new Chart(document.getElementById('shareChart'), {
     type: 'pie',
@@ -938,6 +1007,38 @@ function renderMarketCharts() {
       labels: share.map(s=>s.name),
       datasets: [{ data: share.map(s=>s.share),
         backgroundColor: share.map(s=>s.color),
+        borderColor: '#0a0e1a', borderWidth: 2 }]
+    },
+    options: { ...CHART_DEFAULTS }
+  });
+
+  // --- 6. 国内vs全球占比（2024年规模和出货量双维度） ---
+  new Chart(document.getElementById('chinaGlobalRatioChart'), {
+    type: 'doughnut',
+    data: {
+      labels: ['中国国内出货占比', '海外出货占比'],
+      datasets: [{ data: [265, 636.5-265],
+        backgroundColor: ['#ef4444','rgba(100,116,139,0.4)'],
+        borderColor: '#0a0e1a', borderWidth: 2 }]
+    },
+    options: {
+      ...CHART_DEFAULTS,
+      plugins: {
+        ...CHART_DEFAULTS.plugins,
+        title: { display: true, text: '出货量: 中国 265万片(41.6%) vs 海外 371.5万片(58.4%)', color: '#94a3b8', font: { size: 11 }, padding: { bottom: 8 } },
+        subtitle: { display: true, text: '规模: 中国 23.8亿元(RMB) ≈ 全球11.5亿美元(USD)的~29%', color: '#64748b', font: { size: 10 }, padding: { bottom: 4 } }
+      }
+    }
+  });
+
+  // --- 7. 下游应用分布（保持原有） ---
+  const app = d.applicationDistribution;
+  new Chart(document.getElementById('appChart'), {
+    type: 'doughnut',
+    data: {
+      labels: app.map(a=>a.name),
+      datasets: [{ data: app.map(a=>a.share),
+        backgroundColor: ['#ef4444','#3b82f6','#10b981','#f59e0b','#8b5cf6'],
         borderColor: '#0a0e1a', borderWidth: 2 }]
     },
     options: { ...CHART_DEFAULTS }
