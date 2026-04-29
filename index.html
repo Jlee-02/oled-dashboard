@@ -265,6 +265,33 @@
   .product-table .screen-info strong { color: var(--accent); }
   .product-table .sales-num { color: var(--yellow); font-weight: 700; font-size: 13px; white-space: nowrap; }
   .product-table .tag-sm { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 3px; margin: 1px 2px; }
+
+  /* 产品统计面板 */
+  .product-stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .product-stats-card {
+    background: var(--card2); border: 1px solid var(--border); border-radius: 10px;
+    padding: 16px; transition: border-color 0.2s;
+  }
+  .product-stats-card:hover { border-color: var(--accent); }
+  .ps-title { font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+  .ps-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+  .ps-table th { text-align: left; padding: 5px 8px; color: var(--text3); font-weight: 600; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  .ps-table td { padding: 5px 8px; border-bottom: 1px solid rgba(30,58,95,0.4); color: var(--text); }
+  .ps-table tr:last-child td { border-bottom: none; }
+  .ps-table .num { text-align: center; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .ps-table .highlight { color: var(--accent); }
+  .ps-table .domestic { color: #f87171; font-weight: 600; }
+  .ps-table .foreign { color: #60a5fa; font-weight: 600; }
+  .ps-table .total-row { background: rgba(0,212,255,0.06); }
+  .ps-table .total-row td { font-weight: 700; color: var(--accent); }
+  .year-bar-wrap { display: flex; align-items: center; gap: 8px; }
+  .year-bar-label { width: 50px; text-align: right; color: var(--text2); font-size: 11px; white-space: nowrap; }
+  .year-bar-track { flex: 1; height: 20px; background: rgba(30,58,95,0.4); border-radius: 4px; overflow: hidden; position: relative; }
+  .year-bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease; display: flex; align-items: center; justify-content: flex-end; padding-right: 6px; font-size: 10px; font-weight: 700; color: #fff; min-width: 20px; }
+  .year-bar-count { font-size: 11px; color: var(--text); font-weight: 700; min-width: 24px; text-align: right; }
+  @media (max-width: 900px) {
+    .product-stats-grid { grid-template-columns: 1fr; }
+  }
   .tag-vr { background: rgba(0,212,255,0.12); color: var(--accent); }
   .tag-ar { background: rgba(16,185,129,0.12); color: var(--green); }
   .tag-evf { background: rgba(245,158,11,0.12); color: var(--yellow); }
@@ -480,6 +507,7 @@
   <!-- 产品追踪 -->
   <div class="section" id="products">
     <div class="product-summary-grid" id="productSummary"></div>
+    <div class="product-stats-grid" id="productStats"></div>
     <div class="card">
       <div class="card-title">采用硅基OLED屏幕的终端产品一览 <span class="section-subtitle">（按产品类别分类，含详细参数与累计销量）</span></div>
       <div id="productCategoryContent"></div>
@@ -1793,6 +1821,118 @@ function renderProducts() {
       <div class="ps-label">${s.label}</div>
       <div class="ps-sub">${s.sub}</div>
     </div>`).join('');
+
+  // ========== 年份统计 + 国内外品牌统计 ==========
+  const domesticBrands = ['PICO','字节跳动','纳德光学','GOOVIS','大疆','DJI','雷鸟','RayNeo','TCL','XREAL','Nreal','Rokid','若琪','影目','INMO','arpara','小派科技','Skyzone'];
+  const isDomestic = (p) => domesticBrands.some(d => p.brand.includes(d));
+
+  // 按年份统计
+  const yearMap = {};
+  products.forEach(p => {
+    let year = '-';
+    if (p.released && p.released !== '-' && p.released !== '持续供货') {
+      const m = p.released.match(/^(20\d{2})/);
+      if (m) year = m[1];
+    }
+    if (!yearMap[year]) yearMap[year] = 0;
+    yearMap[year]++;
+  });
+  // 排序：数字年份降序，"-"放最后
+  const years = Object.keys(yearMap).sort((a, b) => {
+    if (a === '-') return 1;
+    if (b === '-') return -1;
+    return parseInt(b) - parseInt(a);
+  });
+  const maxYearCount = Math.max(...Object.values(yearMap));
+
+  const barColors = {
+    '2026': 'linear-gradient(90deg, #0ea5e9, #38bdf8)',
+    '2025': 'linear-gradient(90deg, #06b6d4, #22d3ee)',
+    '2024': 'linear-gradient(90deg, #10b981, #34d399)',
+    '2023': 'linear-gradient(90deg, #f59e0b, #fbbf24)',
+    '2022': 'linear-gradient(90deg, #f97316, #fb923c)',
+    '2021': 'linear-gradient(90deg, #ef4444, #f87171)',
+    '2020': 'linear-gradient(90deg, #ec4899, #f472b6)',
+    '2019': 'linear-gradient(90deg, #a855f7, #c084fc)',
+    '-': 'linear-gradient(90deg, #64748b, #94a3b8)'
+  };
+
+  const yearStatsHTML = `
+    <div class="ps-table">
+      <thead><tr><th>年份</th><th style="text-align:center">产品数量</th><th>分布</th></tr></thead>
+      <tbody>
+        ${years.map(y => `<tr>
+          <td style="font-weight:600">${y === '-' ? '未标注' : y}</td>
+          <td class="num">${yearMap[y]}</td>
+          <td>
+            <div class="year-bar-wrap">
+              <div class="year-bar-track">
+                <div class="year-bar-fill" style="width:${Math.max(yearMap[y]/maxYearCount*100,8)}%;background:${barColors[y]||barColors['-']}">${yearMap[y] >= 3 ? yearMap[y] : ''}</div>
+              </div>
+              <div class="year-bar-count">${yearMap[y]}</div>
+            </div>
+          </td>
+        </tr>`).join('')}
+      </tbody>
+    </div>`;
+
+  // 按品牌国内外统计
+  const domesticList = products.filter(p => isDomestic(p));
+  const foreignList = products.filter(p => !isDomestic(p));
+
+  // 国产品牌分组
+  const domesticBrandMap = {};
+  domesticList.forEach(p => {
+    const b = p.brand.split('（')[0].split('(')[0].trim();
+    if (!domesticBrandMap[b]) domesticBrandMap[b] = [];
+    domesticBrandMap[b].push(p);
+  });
+  const domesticBrandsSorted = Object.entries(domesticBrandMap).sort((a,b) => b[1].length - a[1].length);
+
+  // 国外品牌分组
+  const foreignBrandMap = {};
+  foreignList.forEach(p => {
+    const b = p.brand.split('（')[0].split('(')[0].trim();
+    if (!foreignBrandMap[b]) foreignBrandMap[b] = [];
+    foreignBrandMap[b].push(p);
+  });
+  const foreignBrandsSorted = Object.entries(foreignBrandMap).sort((a,b) => b[1].length - a[1].length);
+
+  const brandStatsHTML = `
+    <table class="ps-table">
+      <thead><tr><th>品牌</th><th style="text-align:center">产品数</th><th style="text-align:center">地区</th></tr></thead>
+      <tbody>
+        ${domesticBrandsSorted.map(([b, items]) => `<tr>
+          <td style="font-weight:600">${b}</td>
+          <td class="num">${items.length}</td>
+          <td style="text-align:center"><span class="domestic">🇨🇳 国内</span></td>
+        </tr>`).join('')}
+        ${foreignBrandsSorted.map(([b, items]) => `<tr>
+          <td style="font-weight:600">${b}</td>
+          <td class="num">${items.length}</td>
+          <td style="text-align:center"><span class="foreign">🌍 海外</span></td>
+        </tr>`).join('')}
+        <tr class="total-row">
+          <td>合计</td>
+          <td class="num">${products.length}</td>
+          <td style="text-align:center">
+            <span class="domestic">🇨🇳 ${domesticList.length}</span>
+            <span style="margin:0 4px;color:var(--text3)">/</span>
+            <span class="foreign">🌍 ${foreignList.length}</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>`;
+
+  document.getElementById('productStats').innerHTML = `
+    <div class="product-stats-card">
+      <div class="ps-title">📅 产品发布年份分布</div>
+      ${yearStatsHTML}
+    </div>
+    <div class="product-stats-card">
+      <div class="ps-title">🌐 品牌国内外分布</div>
+      ${brandStatsHTML}
+    </div>`;
 
   // 按类别分组渲染表格
   const catNames = {
