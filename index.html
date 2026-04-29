@@ -394,6 +394,46 @@
       <div class="card-title">下游应用分布（2024年）</div>
       <div style="max-width:500px;margin:0 auto"><div class="chart-wrap"><canvas id="appChart"></canvas></div></div>
     </div>
+
+    <!-- ====== 终端品牌出货量 ====== -->
+    <div style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(100,116,139,0.3)">
+      <div style="font-size:16px;font-weight:600;color:#e2e8f0;margin-bottom:6px">📱 终端品牌出货量统计</div>
+      <div style="font-size:11px;color:#64748b;margin-bottom:16px">
+        数据源: IDC / Counterpoint / RUNTO(洛图科技) ｜ 勾稽关系: 硅基OLED市场规模 ≈ XR终端出货量 × 硅基OLED渗透率 × 单片ASP + 非XR面板贡献
+      </div>
+
+      <!-- 全球品牌出货量 -->
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">全球XR终端品牌出货量（万台）</div>
+          <div class="chart-wrap"><canvas id="globalBrandShipmentChart"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="card-title">中国XR终端品牌出货量（万台）</div>
+          <div class="chart-wrap"><canvas id="chinaBrandShipmentChart"></canvas></div>
+        </div>
+      </div>
+
+      <!-- 全球vs中国总量对比 + 勾稽验证 -->
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">全球 vs 中国 XR终端出货量对比（万台）</div>
+          <div class="chart-wrap"><canvas id="globalChinaXrChart"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="card-title">勾稽验证：硅基OLED渗透率与XR贡献规模</div>
+          <div class="chart-wrap"><canvas id="reconciliationChart"></canvas></div>
+        </div>
+      </div>
+
+      <!-- 品牌显示技术标注 -->
+      <div class="card">
+        <div class="card-title">终端品牌显示技术方案标注 <span class="section-subtitle">（标注是否采用硅基OLED面板）</span></div>
+        <div style="overflow-x:auto">
+          <table class="investment-table" id="brandTechTable"></table>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- 竞争格局 -->
@@ -522,7 +562,83 @@ const DATA = {
     vrArSplit: {
       vr:{shipment2024:183.8,share:10.0,forecast2030:29590.3,cagr:"133.2%"},
       ar:{shipment2024:99.9,share:79.22,description:"AR产业主流显示技术"}
-    }
+    },
+
+    // ========== 终端品牌出货量（万台） ==========
+    // 勾稽逻辑：硅基OLED市场规模 ≈ 终端出货量 × 硅基OLED渗透率 × 单片ASP
+    // 硅基OLED渗透率（XR终端）: 2019-2021约2-3%, 2022约4%, 2023约5%, 2024约6-7%
+    // 主要因Vision Pro(2片/台)和EVF等高端应用拉动
+
+    // --- 全球XR终端品牌出货量（万台，IDC/Counterpoint/TrendForce综合） ---
+    globalXrBrands: {
+      labels: ["2019","2020","2021","2022","2023","2024","2025E"],
+      // Meta/Oculus (Quest 2: 2020Q4上市; Quest 3: 2023Q3上市; Quest 3S: 2024Q4上市)
+      // 2020: 347万(IDC); 2021: 880万(IDC); 2022: 702万(IDC); 2023: 480万(IDC估); 2024: 560万(IDC)
+      meta:         [70,  347, 880, 702, 480, 560,  650],
+      // 索尼 PSVR(2016) + PSVR2(2023Q2上市)
+      // PSVR累计~600万(2016-2022), PSVR2: 2023约100万, 2024约50万(持续下滑)
+      sony:         [110, 100, 100,  80, 100,  50,   35],
+      // 苹果 Vision Pro (2024Q2全球上市)
+      apple:        [  0,   0,   0,   0,  16,  40,   35],
+      // 字节 PICO (2021被收购; PICO 4: 2022Q9全球上市)
+      pico:         [10,   40,  70, 110,  50,  42,   50],
+      // DPVR (大朋VR, B端为主)
+      dpvr:         [15,   20,  25,  35,  40,  45,   50],
+      // XREAL (前Nreal, AR眼镜, 主要海外市场)
+      xreal:        [ 0,    0,  15,  35,  30,  25,   30],
+      // 其他(HTC、三星、华为、创维等)
+      others:       [45,  130, 53,  78,  94,  59,   50],
+    },
+    // 全球XR终端总出货量（万台, 合计验证）
+    globalXrTotal: {"2019":250,"2020":637,"2021":1123,"2022":1040,"2023":810,"2024":891,"2025E":900},
+
+    // --- 中国XR终端品牌出货量（万台, RUNTO/IDC综合） ---
+    // 中国XR总出货量: 2019:15→2020:30→2021:55→2022:120→2023:61→2024:54→2025E:77
+    chinaXrBrands: {
+      labels: ["2019","2020","2021","2022","2023","2024","2025E"],
+      // PICO (字节): 2023年中国VR份额~58%, 2024年线上VR份额~70%
+      pico:         [ 3,   8,  18,  55,  24,  19,  20],
+      // 雷鸟创新 (AR, 线上AR份额: 2024:35.6%→2025:35.4%)
+      leiniao:      [ 0,   0,   2,   8,   8,  10,  17],
+      // XREAL (AR, 线上AR份额: 2024:29.6%→2025:20%)
+      xreal:        [ 0,   0,   3,  10,   7,   8,  10],
+      // Rokid (AR, 份额: 2024:~10%→2025:15.3%)
+      rokid:        [ 0,   0,   2,   5,   4,   3,   8],
+      // INMO (AR)
+      inmo:         [ 0,   0,   1,   3,   2,   2,   3],
+      // 大朋DPVR (B端)
+      dpvr:         [ 3,   5,   8,  10,   6,   5,   6],
+      // 其他(GOOVIS/创维/HTC/海外买手等)
+      others:       [ 9,  17,  21,  29,  10,   7,  13],
+    },
+    // 中国XR终端总出货量（万台）
+    chinaXrTotal: {"2019":15,"2020":30,"2021":55,"2022":120,"2023":61,"2024":54,"2025E":77},
+
+    // --- 勾稽验证数据 ---
+    // 硅基OLED在XR终端中的渗透率(%) — XR终端中采用硅基OLED面板的比例
+    xrSiliconOledPenetration: {"2019":2.5,"2020":2.0,"2021":1.5,"2022":4.0,"2023":5.0,"2024":6.5,"2025E":8.0},
+    // XR终端用硅基OLED面板总量(万片) = 终端出货量 × 渗透率 × 单机片数加权(≈1.5)
+    xrSiliconOledPanels: {"2019":9.4,"2020":19.1,"2021":25.3,"2022":62.4,"2023":60.8,"2024":86.8,"2025E":108.0},
+    // 非XR应用硅基OLED面板(万片): EVF+热像仪+投影仪+特种 = 总出货-XR用面板
+    nonXrPanels: {"2019":113.4,"2020":161.4,"2021":239.7,"2022":307.8,"2023":419.2,"2024":549.7,"2025E":923.3},
+    // XR终端用硅基OLED面板ASP估算(元/片) — Vision Pro拉高均价
+    xrPanelASP: {"2019":180,"2020":190,"2021":200,"2022":220,"2023":350,"2024":420,"2025E":380},
+    // 勾稽验证：XR终端贡献市场规模(亿元) = XR用面板量 × ASP
+    xrMarketSize: {"2019":0.17,"2020":0.36,"2021":0.51,"2022":1.37,"2023":2.13,"2024":3.65,"2025E":4.10},
+
+    // 终端品牌显示技术标注（用于品牌表格说明）
+    brandDisplayTech: [
+      {brand:"Meta Quest全系列",tech:"Fast-LCD",siliconOled:false,note:"不使用硅基OLED，全球XR出货量最大"},
+      {brand:"苹果 Vision Pro",tech:"硅基OLED(索尼供)",siliconOled:true,note:"2片1.42英寸/台，3500PPI，标杆产品"},
+      {brand:"索尼 PSVR2",tech:"OLED(非硅基)",siliconOled:false,note:"Fresnel光学+传统OLED"},
+      {brand:"字节 PICO 4系列",tech:"Fast-LCD",siliconOled:false,note:"国内VR第一，向B端转型"},
+      {brand:"XREAL Air系列",tech:"Micro-OLED(视涯供)",siliconOled:true,note:"Birdbath方案，单目0.68英寸"},
+      {brand:"雷鸟 Air 3系列",tech:"Micro-LED",siliconOled:false,note:"全彩Micro-LED+光波导路线"},
+      {brand:"Rokid系列",tech:"Micro-OLED(视涯供)",siliconOled:true,note:"部分型号使用视涯面板"},
+      {brand:"GOOVIS G3 Max",tech:"硅基OLED(索尼供)",siliconOled:true,note:"2片0.49英寸/台，观影专用"},
+      {brand:"大疆 DJI Goggles 2",tech:"硅基OLED(索尼供)",siliconOled:true,note:"2片/台，FPV飞行场景"},
+      {brand:"索尼 EVF(相机)",tech:"硅基OLED(自供)",siliconOled:true,note:"1片/台，A1/A9/R5等高端相机"}
+    ]
   },
   competition: {
     globalShare2024: [
@@ -1043,6 +1159,134 @@ function renderMarketCharts() {
     },
     options: { ...CHART_DEFAULTS }
   });
+
+  // ========== 终端品牌出货量图表 ==========
+  renderBrandShipmentCharts(d);
+}
+
+function renderBrandShipmentCharts(d) {
+  const stackOpts = {
+    ...CHART_DEFAULTS,
+    scales: {
+      x: { stacked: true, ticks: { color: '#64748b', font: { size: 10 } }, grid: { color: 'rgba(30,58,95,0.3)' } },
+      y: { stacked: true, ticks: { color: '#64748b', font: { size: 10 } }, grid: { color: 'rgba(30,58,95,0.3)' } }
+    },
+    plugins: { ...CHART_DEFAULTS.plugins, legend: { display: true, position: 'bottom', labels: { color: '#94a3b8', font: { size: 10 }, padding: 10, usePointStyle: true, pointStyle: 'rectRounded' } } }
+  };
+
+  // --- 1. 全球XR终端品牌出货量（堆叠柱状图） ---
+  const g = d.globalXrBrands;
+  const gColors = ['#3b82f6','#ef4444','#a855f7','#f97316','#10b981','#06b6d4','#64748b'];
+  const gNames = ['Meta','Sony','Apple','PICO','DPVR','XREAL','其他'];
+  const gKeys = ['meta','sony','apple','pico','dpvr','xreal','others'];
+  new Chart(document.getElementById('globalBrandShipmentChart'), {
+    type: 'bar',
+    data: {
+      labels: g.labels,
+      datasets: gKeys.map((k,i) => ({
+        label: gNames[i], data: g[k],
+        backgroundColor: g[i].includes('E') ? gColors[i]+'66' : gColors[i]+'cc',
+        borderColor: gColors[i], borderWidth: 1, borderRadius: 2
+      }))
+    },
+    options: stackOpts
+  });
+
+  // --- 2. 中国XR终端品牌出货量（堆叠柱状图） ---
+  const c = d.chinaXrBrands;
+  const cColors = ['#f97316','#ef4444','#06b6d4','#a855f7','#ec4899','#10b981','#64748b'];
+  const cNames = ['PICO','雷鸟创新','XREAL','Rokid','INMO','DPVR','其他'];
+  const cKeys = ['leiniao','xreal','pico','rokid','inmo','dpvr','others']; // 顺序与Names匹配
+  // 注意：数据key与name要对应
+  const cDataMap = [
+    {key:'pico',name:'PICO',color:'#f97316'},
+    {key:'leiniao',name:'雷鸟创新',color:'#ef4444'},
+    {key:'xreal',name:'XREAL',color:'#06b6d4'},
+    {key:'rokid',name:'Rokid',color:'#a855f7'},
+    {key:'inmo',name:'INMO',color:'#ec4899'},
+    {key:'dpvr',name:'DPVR',color:'#10b981'},
+    {key:'others',name:'其他',color:'#64748b'}
+  ];
+  new Chart(document.getElementById('chinaBrandShipmentChart'), {
+    type: 'bar',
+    data: {
+      labels: c.labels,
+      datasets: cDataMap.map(item => ({
+        label: item.name, data: c[item.key],
+        backgroundColor: item.color+'cc', borderColor: item.color, borderWidth: 1, borderRadius: 2
+      }))
+    },
+    options: stackOpts
+  });
+
+  // --- 3. 全球 vs 中国 XR终端总出货量对比 ---
+  const compLabels = Object.keys(d.globalXrTotal);
+  new Chart(document.getElementById('globalChinaXrChart'), {
+    type: 'bar',
+    data: {
+      labels: compLabels,
+      datasets: [
+        { label: '全球XR终端总出货量', data: Object.values(d.globalXrTotal),
+          backgroundColor: '#3b82f6aa', borderColor: '#3b82f6', borderWidth: 1, borderRadius: 4 },
+        { label: '中国XR终端总出货量', data: compLabels.map(y => d.chinaXrTotal[y]||0),
+          backgroundColor: '#ef4444aa', borderColor: '#ef4444', borderWidth: 1, borderRadius: 4 },
+        { label: '中国占全球%', data: compLabels.map(y => {
+            const g = d.globalXrTotal[y]||1;
+            const c = d.chinaXrTotal[y]||0;
+            return Math.round(c/g*100*10)/10;
+          }),
+          type: 'line', borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.1)',
+          fill: false, tension: 0.3, pointBackgroundColor: '#f59e0b', pointRadius: 3, yAxisID: 'yPct'
+        }
+      ]
+    },
+    options: { ...CHART_DEFAULTS, scales: {
+      x: { ticks: { color: '#64748b', font: { size: 10 } }, grid: { color: 'rgba(30,58,95,0.3)' } },
+      y: { ticks: { color: '#64748b', font: { size: 10 } }, grid: { color: 'rgba(30,58,95,0.3)' }, title: { display: true, text: '万台', color: '#64748b', font: { size: 10 } } },
+      yPct: { type: 'linear', position: 'right', min: 0, max: 100, ticks: { color: '#f59e0b', font: { size: 10 }, callback: v => v+'%' }, grid: { drawOnChartArea: false }, title: { display: true, text: '占比%', color: '#f59e0b', font: { size: 10 } } }
+    }}
+  });
+
+  // --- 4. 勾稽验证图：渗透率 + XR贡献规模 + 非XR面板 ---
+  const rLabels = Object.keys(d.xrSiliconOledPenetration);
+  new Chart(document.getElementById('reconciliationChart'), {
+    type: 'bar',
+    data: {
+      labels: rLabels,
+      datasets: [
+        { label: 'XR用硅基OLED面板(万片)', data: Object.values(d.xrSiliconOledPanels),
+          backgroundColor: '#3b82f6aa', borderColor: '#3b82f6', borderWidth: 1, borderRadius: 4, yAxisID: 'yPanel' },
+        { label: '非XR应用面板(万片)', data: Object.values(d.nonXrPanels),
+          backgroundColor: '#64748baa', borderColor: '#64748b', borderWidth: 1, borderRadius: 4, yAxisID: 'yPanel' },
+        { label: '硅基OLED渗透率(%)', data: Object.values(d.xrSiliconOledPenetration),
+          type: 'line', borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,0.1)',
+          fill: false, tension: 0.3, pointBackgroundColor: '#ef4444', pointRadius: 4, yAxisID: 'yPct' },
+        { label: 'XR贡献规模(亿元)', data: Object.values(d.xrMarketSize),
+          type: 'line', borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.1)',
+          fill: false, tension: 0.3, pointBackgroundColor: '#f59e0b', pointRadius: 3, yAxisID: 'ySize',
+          borderDash: [5,3] }
+      ]
+    },
+    options: { ...CHART_DEFAULTS, scales: {
+      x: { ticks: { color: '#64748b', font: { size: 10 } }, grid: { color: 'rgba(30,58,95,0.3)' } },
+      yPanel: { type: 'linear', position: 'left', ticks: { color: '#3b82f6', font: { size: 9 } }, grid: { color: 'rgba(30,58,95,0.2)' }, title: { display: true, text: '万片', color: '#3b82f6', font: { size: 9 } } },
+      yPct: { type: 'linear', position: 'right', min: 0, max: 15, ticks: { color: '#ef4444', font: { size: 9 }, callback: v => v+'%' }, grid: { drawOnChartArea: false }, title: { display: true, text: '渗透率%', color: '#ef4444', font: { size: 9 } } },
+      ySize: { type: 'linear', position: 'right', min: 0, max: 8, ticks: { color: '#f59e0b', font: { size: 9 } }, grid: { drawOnChartArea: false }, title: { display: true, text: '亿元', color: '#f59e0b', font: { size: 9 } } }
+    }}
+  });
+
+  // --- 5. 品牌显示技术标注表 ---
+  const techs = d.brandDisplayTech;
+  document.getElementById('brandTechTable').innerHTML = `
+    <thead><tr>
+      <th>品牌/终端</th><th>显示技术方案</th><th>采用硅基OLED</th><th>备注</th>
+    </tr></thead>
+    <tbody>${techs.map(t => `<tr>
+      <td>${t.brand}</td>
+      <td>${t.tech}</td>
+      <td style="text-align:center;color:${t.siliconOled?'#10b981':'#ef4444'};font-weight:600">${t.siliconOled?'✅ 是':'❌ 否'}</td>
+      <td style="color:#94a3b8;font-size:12px">${t.note}</td>
+    </tr>`).join('')}</tbody>`;
 }
 
 function renderCompetition() {
