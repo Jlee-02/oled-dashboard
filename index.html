@@ -108,6 +108,10 @@ body { background:var(--bg);color:var(--text);font-family:'PingFang SC','Microso
 .dis-list li { color:var(--red); }
 .dis-list li::marker { content:"✗ "; }
 
+/* Production Line Detail in comp-card */
+.pl-detail-row { display:flex;gap:10px;padding:8px 0;border-bottom:1px solid rgba(30,58,95,0.3); }
+.pl-detail-row:last-child { border-bottom:none; }
+
 /* Xinshijia */
 .xsj-header { background:linear-gradient(135deg,var(--card2),var(--card));border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:16px; }
 .xsj-title { font-size:18px;font-weight:700;color:var(--accent);margin-bottom:8px; }
@@ -191,7 +195,7 @@ body { background:var(--bg);color:var(--text);font-family:'PingFang SC','Microso
     <div class="logo">🔭 Micro OLED 行业监控面板<span>深圳市芯视佳半导体科技有限公司 专用</span></div>
   </div>
   <div style="display:flex;align-items:center;gap:16px">
-    <div class="update-time">数据更新：<strong>2026-04-30 13:36</strong></div>
+    <div class="update-time">数据更新：<strong>2026-04-30 14:00</strong></div>
   </div>
 </div>
 
@@ -474,6 +478,293 @@ body { background:var(--bg);color:var(--text);font-family:'PingFang SC','Microso
     <div class="tier-card tier-2"><div class="tier-title">第二梯队（国内领先厂商）</div><div class="tier-companies"><span class="tier-company">视涯科技</span><span class="tier-company">京东方</span><span class="tier-company">华星光电</span></div><div class="tier-desc">凭借本土化优势份额快速增长</div></div>
     <div class="tier-card tier-3"><div class="tier-title">第三梯队（利基玩家）</div><div class="tier-companies"><span class="tier-company">JDI</span><span class="tier-company">维信诺</span><span class="tier-company">清越科技</span><span class="tier-company">奥雷德</span></div><div class="tier-desc">专注特定应用场景，份额较小</div></div>
   </div>
+
+  <div class="card" style="border-left:3px solid var(--accent)">
+    <div class="card-title" style="font-size:16px">🏗️ 竞争对手产线建设进度总览</div>
+    <div style="display:flex;gap:16px;margin-bottom:14px;flex-wrap:wrap">
+      <div class="kpi-card" style="flex:1;min-width:120px"><div class="label">追踪产线总数</div><div class="value">18条</div></div>
+      <div class="kpi-card" style="flex:1;min-width:120px"><div class="label">已量产产线</div><div class="value" style="color:var(--green)">8条</div></div>
+      <div class="kpi-card" style="flex:1;min-width:120px"><div class="label">建设中产线</div><div class="value" style="color:var(--yellow)">10条</div></div>
+    </div>
+    <div style="overflow-x:auto">
+      <table class="data-table" style="font-size:11px">
+        <thead><tr><th>厂商</th><th>产线名称</th><th>地点</th><th>晶圆</th><th>投资额</th><th>月产能</th><th>年产能</th><th>量产时间</th><th>进度</th></tr></thead>
+        <tbody><tr>
+                <td style="font-weight:600;color:var(--text);white-space:nowrap">索尼</td>
+                <td style="white-space:nowrap">熊本12英寸主产线</td>
+                <td>日本熊本</td>
+                <td>12英寸</td>
+                <td style="white-space:nowrap">未公开</td>
+                <td style="white-space:nowrap">10K片/月</td>
+                <td style="white-space:nowrap">~120万片/年(12英寸等效)</td>
+                <td>已量产(2019年)</td>
+                <td style="text-align:center">
+                    <div style="display:flex;align-items:center;gap:6px;justify-content:center">
+                        <div style="width:50px;height:6px;background:rgba(30,58,95,0.5);border-radius:3px;overflow:hidden"><div style="height:100%;width:100%;background:#10b981;border-radius:3px"></div></div>
+                        <span style="font-size:11px;font-weight:700;color:#10b981">100%</span>
+                    </div>
+                </td>
+            </tr><tr>
+                <td style="font-weight:600;color:var(--text);white-space:nowrap">索尼</td>
+                <td style="white-space:nowrap">产线扩产升级</td>
+                <td>日本熊本</td>
+                <td>12英寸</td>
+                <td style="white-space:nowrap">未公开</td>
+                <td style="white-space:nowrap">提升至15K片/月</td>
+                <td style="white-space:nowrap">~180万片/年(扩产后)</td>
+                <td>2024Q2完成升级</td>
+                <td style="text-align:center">
+                    <div style="display:flex;align-items:center;gap:6px;justify-content:center">
+                        <div style="width:50px;height:6px;background:rgba(30,58,95,0.5);border-radius:3px;overflow:hidden"><div style="height:100%;width:100%;background:#10b981;border-radius:3px"></div></div>
+                        <span style="font-size:11px;font-weight:700;color:#10b981">100%</span>
+                    </div>
+                </td>
+            </tr><tr>
+                <td style="font-weight:600;color:var(--text);white-space:nowrap">视涯科技</td>
+                <td style="white-space:nowrap">合肥一期8英寸产线</td>
+                <td>安徽合肥</td>
+                <td>8英寸</td>
+                <td style="white-space:nowrap">~5亿元</td>
+                <td style="white-space:nowrap">15K片/月</td>
+                <td style="white-space:nowrap">~180万片/年</td>
+                <td>2020年量产</td>
+                <td style="text-align:center">
+                    <div style="display:flex;align-items:center;gap:6px;justify-content:center">
+                        <div style="width:50px;height:6px;background:rgba(30,58,95,0.5);border-radius:3px;overflow:hidden"><div style="height:100%;width:100%;background:#10b981;border-radius:3px"></div></div>
+                        <span style="font-size:11px;font-weight:700;color:#10b981">100%</span>
+                    </div>
+                </td>
+            </tr><tr>
+                <td style="font-weight:600;color:var(--text);white-space:nowrap">视涯科技</td>
+                <td style="white-space:nowrap">合肥二期12英寸产线</td>
+                <td>安徽合肥</td>
+                <td>12英寸</td>
+                <td style="white-space:nowrap">~5亿元</td>
+                <td style="white-space:nowrap">10K片/月</td>
+                <td style="white-space:nowrap">~120万片/年</td>
+                <td>2023年量产</td>
+                <td style="text-align:center">
+                    <div style="display:flex;align-items:center;gap:6px;justify-content:center">
+                        <div style="width:50px;height:6px;background:rgba(30,58,95,0.5);border-radius:3px;overflow:hidden"><div style="height:100%;width:100%;background:#10b981;border-radius:3px"></div></div>
+                        <span style="font-size:11px;font-weight:700;color:#10b981">100%</span>
+                    </div>
+                </td>
+            </tr><tr>
+                <td style="font-weight:600;color:var(--text);white-space:nowrap">视涯科技</td>
+                <td style="white-space:nowrap">IPO扩产项目</td>
+                <td>安徽合肥</td>
+                <td>12英寸</td>
+                <td style="white-space:nowrap">16.09亿元(IPO募资)</td>
+                <td style="white-space:nowrap">15K片/月(目标)</td>
+                <td style="white-space:nowrap">~180万片/年(目标)</td>
+                <td>预计2027年</td>
+                <td style="text-align:center">
+                    <div style="display:flex;align-items:center;gap:6px;justify-content:center">
+                        <div style="width:50px;height:6px;background:rgba(30,58,95,0.5);border-radius:3px;overflow:hidden"><div style="height:100%;width:30%;background:#64748b;border-radius:3px"></div></div>
+                        <span style="font-size:11px;font-weight:700;color:#64748b">30%</span>
+                    </div>
+                </td>
+            </tr><tr>
+                <td style="font-weight:600;color:var(--text);white-space:nowrap">京东方A</td>
+                <td style="white-space:nowrap">昆明8英寸产线</td>
+                <td>云南昆明</td>
+                <td>8英寸</td>
+                <td style="white-space:nowrap">11.5亿元</td>
+                <td style="white-space:nowrap">6K片/月</td>
+                <td style="white-space:nowrap">~72万片/年</td>
+                <td>2019年量产</td>
+                <td style="text-align:center">
+                    <div style="display:flex;align-items:center;gap:6px;justify-content:center">
+                        <div style="width:50px;height:6px;background:rgba(30,58,95,0.5);border-radius:3px;overflow:hidden"><div style="height:100%;width:100%;background:#10b981;border-radius:3px"></div></div>
+                        <span style="font-size:11px;font-weight:700;color:#10b981">100%</span>
+                    </div>
+                </td>
+            </tr><tr>
+                <td style="font-weight:600;color:var(--text);white-space:nowrap">京东方A</td>
+                <td style="white-space:nowrap">12英寸硅基OLED项目(已终止)</td>
+                <td>云南昆明</td>
+                <td>12英寸</td>
+                <td style="white-space:nowrap">34亿元(总投,终止10亿)</td>
+                <td style="white-space:nowrap">-</td>
+                <td style="white-space:nowrap">-</td>
+                <td>2023年10月终止投入</td>
+                <td style="text-align:center">
+                    <div style="display:flex;align-items:center;gap:6px;justify-content:center">
+                        <div style="width:50px;height:6px;background:rgba(30,58,95,0.5);border-radius:3px;overflow:hidden"><div style="height:100%;width:0%;background:#64748b;border-radius:3px"></div></div>
+                        <span style="font-size:11px;font-weight:700;color:#64748b">0%</span>
+                    </div>
+                </td>
+            </tr><tr>
+                <td style="font-weight:600;color:var(--text);white-space:nowrap">京东方A</td>
+                <td style="white-space:nowrap">成都B16 第8.6代AMOLED</td>
+                <td>四川成都</td>
+                <td>8.6代(2290×2620mm)</td>
+                <td style="white-space:nowrap">630亿元</td>
+                <td style="white-space:nowrap">3.2万片玻璃基板/月</td>
+                <td style="white-space:nowrap">-</td>
+                <td>2026年量产</td>
+                <td style="text-align:center">
+                    <div style="display:flex;align-items:center;gap:6px;justify-content:center">
+                        <div style="width:50px;height:6px;background:rgba(30,58,95,0.5);border-radius:3px;overflow:hidden"><div style="height:100%;width:90%;background:#10b981;border-radius:3px"></div></div>
+                        <span style="font-size:11px;font-weight:700;color:#10b981">90%</span>
+                    </div>
+                </td>
+            </tr><tr>
+                <td style="font-weight:600;color:var(--text);white-space:nowrap">三星</td>
+                <td style="white-space:nowrap">Micro OLED研发线</td>
+                <td>韩国蔚山</td>
+                <td>未公开</td>
+                <td style="white-space:nowrap">未公开</td>
+                <td style="white-space:nowrap">-</td>
+                <td style="white-space:nowrap">-</td>
+                <td>未定</td>
+                <td style="text-align:center">
+                    <div style="display:flex;align-items:center;gap:6px;justify-content:center">
+                        <div style="width:50px;height:6px;background:rgba(30,58,95,0.5);border-radius:3px;overflow:hidden"><div style="height:100%;width:15%;background:#64748b;border-radius:3px"></div></div>
+                        <span style="font-size:11px;font-weight:700;color:#64748b">15%</span>
+                    </div>
+                </td>
+            </tr><tr>
+                <td style="font-weight:600;color:var(--text);white-space:nowrap">三星</td>
+                <td style="white-space:nowrap">8.6代QD-OLED扩产线</td>
+                <td>韩国忠清南道</td>
+                <td>8.6代</td>
+                <td style="white-space:nowrap">4.1万亿韩元(~217亿CNY)</td>
+                <td style="white-space:nowrap">-</td>
+                <td style="white-space:nowrap">-</td>
+                <td>2027年</td>
+                <td style="text-align:center">
+                    <div style="display:flex;align-items:center;gap:6px;justify-content:center">
+                        <div style="width:50px;height:6px;background:rgba(30,58,95,0.5);border-radius:3px;overflow:hidden"><div style="height:100%;width:40%;background:#f59e0b;border-radius:3px"></div></div>
+                        <span style="font-size:11px;font-weight:700;color:#f59e0b">40%</span>
+                    </div>
+                </td>
+            </tr><tr>
+                <td style="font-weight:600;color:var(--text);white-space:nowrap">华星光电</td>
+                <td style="white-space:nowrap">硅基OLED研发线</td>
+                <td>湖北武汉</td>
+                <td>未公开</td>
+                <td style="white-space:nowrap">未公开</td>
+                <td style="white-space:nowrap">-</td>
+                <td style="white-space:nowrap">-</td>
+                <td>未明确</td>
+                <td style="text-align:center">
+                    <div style="display:flex;align-items:center;gap:6px;justify-content:center">
+                        <div style="width:50px;height:6px;background:rgba(30,58,95,0.5);border-radius:3px;overflow:hidden"><div style="height:100%;width:20%;background:#64748b;border-radius:3px"></div></div>
+                        <span style="font-size:11px;font-weight:700;color:#64748b">20%</span>
+                    </div>
+                </td>
+            </tr><tr>
+                <td style="font-weight:600;color:var(--text);white-space:nowrap">华星光电</td>
+                <td style="white-space:nowrap">Micro OLED蒸镀线(规划中)</td>
+                <td>湖北武汉</td>
+                <td>未公开</td>
+                <td style="white-space:nowrap">未公开</td>
+                <td style="white-space:nowrap">-</td>
+                <td style="white-space:nowrap">-</td>
+                <td>未明确</td>
+                <td style="text-align:center">
+                    <div style="display:flex;align-items:center;gap:6px;justify-content:center">
+                        <div style="width:50px;height:6px;background:rgba(30,58,95,0.5);border-radius:3px;overflow:hidden"><div style="height:100%;width:5%;background:#64748b;border-radius:3px"></div></div>
+                        <span style="font-size:11px;font-weight:700;color:#64748b">5%</span>
+                    </div>
+                </td>
+            </tr><tr>
+                <td style="font-weight:600;color:var(--text);white-space:nowrap">清越科技（ST）</td>
+                <td style="white-space:nowrap">8英寸硅基OLED产线</td>
+                <td>浙江义乌</td>
+                <td>8英寸</td>
+                <td style="white-space:nowrap">IPO募投(金额未公开)</td>
+                <td style="white-space:nowrap"><1K片/月</td>
+                <td style="white-space:nowrap"><12万片/年</td>
+                <td>2021年点亮,良率爬坡中</td>
+                <td style="text-align:center">
+                    <div style="display:flex;align-items:center;gap:6px;justify-content:center">
+                        <div style="width:50px;height:6px;background:rgba(30,58,95,0.5);border-radius:3px;overflow:hidden"><div style="height:100%;width:35%;background:#64748b;border-radius:3px"></div></div>
+                        <span style="font-size:11px;font-weight:700;color:#64748b">35%</span>
+                    </div>
+                </td>
+            </tr><tr>
+                <td style="font-weight:600;color:var(--text);white-space:nowrap">宏禧科技</td>
+                <td style="white-space:nowrap">义乌12英寸量产线</td>
+                <td>浙江义乌</td>
+                <td>12英寸</td>
+                <td style="white-space:nowrap">未公开</td>
+                <td style="white-space:nowrap">未公开</td>
+                <td style="white-space:nowrap">已商业化量产</td>
+                <td>已量产</td>
+                <td style="text-align:center">
+                    <div style="display:flex;align-items:center;gap:6px;justify-content:center">
+                        <div style="width:50px;height:6px;background:rgba(30,58,95,0.5);border-radius:3px;overflow:hidden"><div style="height:100%;width:100%;background:#10b981;border-radius:3px"></div></div>
+                        <span style="font-size:11px;font-weight:700;color:#10b981">100%</span>
+                    </div>
+                </td>
+            </tr><tr>
+                <td style="font-weight:600;color:var(--text);white-space:nowrap">宏禧科技</td>
+                <td style="white-space:nowrap">滁州12英寸模组项目(一期)</td>
+                <td>安徽滁州</td>
+                <td>12英寸</td>
+                <td style="white-space:nowrap">20亿元</td>
+                <td style="white-space:nowrap">6K片/月(目标)</td>
+                <td style="white-space:nowrap">年产7.2万片晶圆</td>
+                <td>预计2027年</td>
+                <td style="text-align:center">
+                    <div style="display:flex;align-items:center;gap:6px;justify-content:center">
+                        <div style="width:50px;height:6px;background:rgba(30,58,95,0.5);border-radius:3px;overflow:hidden"><div style="height:100%;width:50%;background:#f59e0b;border-radius:3px"></div></div>
+                        <span style="font-size:11px;font-weight:700;color:#f59e0b">50%</span>
+                    </div>
+                </td>
+            </tr><tr>
+                <td style="font-weight:600;color:var(--text);white-space:nowrap">熙泰科技</td>
+                <td style="white-space:nowrap">芜湖8英寸产线</td>
+                <td>安徽芜湖</td>
+                <td>8英寸</td>
+                <td style="white-space:nowrap">未公开</td>
+                <td style="white-space:nowrap">未公开</td>
+                <td style="white-space:nowrap">已量产</td>
+                <td>已量产</td>
+                <td style="text-align:center">
+                    <div style="display:flex;align-items:center;gap:6px;justify-content:center">
+                        <div style="width:50px;height:6px;background:rgba(30,58,95,0.5);border-radius:3px;overflow:hidden"><div style="height:100%;width:100%;background:#10b981;border-radius:3px"></div></div>
+                        <span style="font-size:11px;font-weight:700;color:#10b981">100%</span>
+                    </div>
+                </td>
+            </tr><tr>
+                <td style="font-weight:600;color:var(--text);white-space:nowrap">熙泰科技</td>
+                <td style="white-space:nowrap">南充12英寸微显示产业园</td>
+                <td>四川南充</td>
+                <td>12英寸</td>
+                <td style="white-space:nowrap">16亿元</td>
+                <td style="white-space:nowrap">6K片/月(目标)</td>
+                <td style="white-space:nowrap">年产值14.5亿元(目标)</td>
+                <td>2026年8月设备搬入,2027Q2量产</td>
+                <td style="text-align:center">
+                    <div style="display:flex;align-items:center;gap:6px;justify-content:center">
+                        <div style="width:50px;height:6px;background:rgba(30,58,95,0.5);border-radius:3px;overflow:hidden"><div style="height:100%;width:40%;background:#f59e0b;border-radius:3px"></div></div>
+                        <span style="font-size:11px;font-weight:700;color:#f59e0b">40%</span>
+                    </div>
+                </td>
+            </tr><tr>
+                <td style="font-weight:600;color:var(--text);white-space:nowrap">熙泰科技</td>
+                <td style="white-space:nowrap">眉山IC研发中心+模组项目</td>
+                <td>四川眉山</td>
+                <td>-</td>
+                <td style="white-space:nowrap">16.13亿元</td>
+                <td style="white-space:nowrap">-</td>
+                <td style="white-space:nowrap">-</td>
+                <td>建设中</td>
+                <td style="text-align:center">
+                    <div style="display:flex;align-items:center;gap:6px;justify-content:center">
+                        <div style="width:50px;height:6px;background:rgba(30,58,95,0.5);border-radius:3px;overflow:hidden"><div style="height:100%;width:10%;background:#64748b;border-radius:3px"></div></div>
+                        <span style="font-size:11px;font-weight:700;color:#64748b">10%</span>
+                    </div>
+                </td>
+            </tr></tbody>
+      </table>
+    </div>
+    <div style="font-size:10px;color:var(--text3);margin-top:10px">数据源：各公司公告、行业研报、LEDinside、群智咨询等 | 绿色≥80%，黄色≥40%，灰色&lt;40%</div>
+  </div>
+
   <div class="comp-grid"><div class="comp-card">
         <div class="comp-header"><div>
             <div class="comp-name">索尼 (Sony)</div>
@@ -486,6 +777,33 @@ body { background:var(--bg);color:var(--text);font-family:'PingFang SC','Microso
             <div class="metric"><div class="m-label">VR份额</div><div class="m-value">55%</div></div>
         </div>
         <div class="tag-list" style="margin-bottom:8px"><span class="tag">Meta</span><span class="tag">Microsoft</span></div>
+        <div style="margin-top:10px"><div style="font-size:11px;color:var(--accent);font-weight:600;margin-bottom:6px">🏗️ 产线建设进度</div><div class="pl-detail-row">
+                <div style="flex:1;min-width:0">
+                    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+                        <span style="font-size:12px;font-weight:600;color:var(--text)">熊本12英寸主产线</span>
+                        <span style="padding:1px 6px;border-radius:3px;font-size:9px;font-weight:600;background:rgba(16,185,129,0.12);color:var(--green)">量产中</span>
+                    </div>
+                    <div style="font-size:10px;color:var(--text3);margin-top:3px">📍 日本熊本 | 12英寸 | 投资未公开</div>
+                    <div style="font-size:10px;color:var(--text2);margin-top:2px">月产10K片/月 | 年产~120万片/年(12英寸等效) | 🎯 已量产(2019年)</div>
+                </div>
+                <div style="width:80px;flex-shrink:0;text-align:right">
+                    <div style="font-size:12px;font-weight:700;color:var(--green)">100%</div>
+                    <div style="margin-top:3px;height:4px;background:rgba(30,58,95,0.5);border-radius:2px;overflow:hidden"><div style="height:100%;width:100%;background:var(--green);border-radius:2px"></div></div>
+                </div>
+            </div><div class="pl-detail-row">
+                <div style="flex:1;min-width:0">
+                    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+                        <span style="font-size:12px;font-weight:600;color:var(--text)">产线扩产升级</span>
+                        <span style="padding:1px 6px;border-radius:3px;font-size:9px;font-weight:600;background:rgba(100,116,139,0.12);color:var(--text3)">已完成升级</span>
+                    </div>
+                    <div style="font-size:10px;color:var(--text3);margin-top:3px">📍 日本熊本 | 12英寸 | 投资未公开</div>
+                    <div style="font-size:10px;color:var(--text2);margin-top:2px">月产提升至15K片/月 | 年产~180万片/年(扩产后) | 🎯 2024Q2完成升级</div>
+                </div>
+                <div style="width:80px;flex-shrink:0;text-align:right">
+                    <div style="font-size:12px;font-weight:700;color:var(--green)">100%</div>
+                    <div style="margin-top:3px;height:4px;background:rgba(30,58,95,0.5);border-radius:2px;overflow:hidden"><div style="height:100%;width:100%;background:var(--green);border-radius:2px"></div></div>
+                </div>
+            </div></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
             <div><div style="font-size:11px;color:var(--green);margin-bottom:4px;font-weight:600">优势</div>
                 <ul class="adv-list"><li>核心专利超2000件</li><li>Meta 5年长期协议</li><li>产能全球第一</li><li>刷新率120Hz全球领先</li></ul></div>
@@ -504,6 +822,46 @@ body { background:var(--bg);color:var(--text);font-family:'PingFang SC','Microso
             <div class="metric"><div class="m-label">VR份额</div><div class="m-value">35%国内/15%全球</div></div>
         </div>
         <div class="tag-list" style="margin-bottom:8px"><span class="tag">Pico</span><span class="tag">字节跳动</span><span class="tag">华为</span><span class="tag">（送样）Apple</span></div>
+        <div style="margin-top:10px"><div style="font-size:11px;color:var(--accent);font-weight:600;margin-bottom:6px">🏗️ 产线建设进度</div><div class="pl-detail-row">
+                <div style="flex:1;min-width:0">
+                    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+                        <span style="font-size:12px;font-weight:600;color:var(--text)">合肥一期8英寸产线</span>
+                        <span style="padding:1px 6px;border-radius:3px;font-size:9px;font-weight:600;background:rgba(16,185,129,0.12);color:var(--green)">量产中</span>
+                    </div>
+                    <div style="font-size:10px;color:var(--text3);margin-top:3px">📍 安徽合肥 | 8英寸 | 投资~5亿元</div>
+                    <div style="font-size:10px;color:var(--text2);margin-top:2px">月产15K片/月 | 年产~180万片/年 | 🎯 2020年量产</div>
+                </div>
+                <div style="width:80px;flex-shrink:0;text-align:right">
+                    <div style="font-size:12px;font-weight:700;color:var(--green)">100%</div>
+                    <div style="margin-top:3px;height:4px;background:rgba(30,58,95,0.5);border-radius:2px;overflow:hidden"><div style="height:100%;width:100%;background:var(--green);border-radius:2px"></div></div>
+                </div>
+            </div><div class="pl-detail-row">
+                <div style="flex:1;min-width:0">
+                    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+                        <span style="font-size:12px;font-weight:600;color:var(--text)">合肥二期12英寸产线</span>
+                        <span style="padding:1px 6px;border-radius:3px;font-size:9px;font-weight:600;background:rgba(16,185,129,0.12);color:var(--green)">量产中</span>
+                    </div>
+                    <div style="font-size:10px;color:var(--text3);margin-top:3px">📍 安徽合肥 | 12英寸 | 投资~5亿元</div>
+                    <div style="font-size:10px;color:var(--text2);margin-top:2px">月产10K片/月 | 年产~120万片/年 | 🎯 2023年量产</div>
+                </div>
+                <div style="width:80px;flex-shrink:0;text-align:right">
+                    <div style="font-size:12px;font-weight:700;color:var(--green)">100%</div>
+                    <div style="margin-top:3px;height:4px;background:rgba(30,58,95,0.5);border-radius:2px;overflow:hidden"><div style="height:100%;width:100%;background:var(--green);border-radius:2px"></div></div>
+                </div>
+            </div><div class="pl-detail-row">
+                <div style="flex:1;min-width:0">
+                    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+                        <span style="font-size:12px;font-weight:600;color:var(--text)">IPO扩产项目</span>
+                        <span style="padding:1px 6px;border-radius:3px;font-size:9px;font-weight:600;background:rgba(245,158,11,0.12);color:var(--yellow)">建设中</span>
+                    </div>
+                    <div style="font-size:10px;color:var(--text3);margin-top:3px">📍 安徽合肥 | 12英寸 | 投资16.09亿元(IPO募资)</div>
+                    <div style="font-size:10px;color:var(--text2);margin-top:2px">月产15K片/月(目标) | 年产~180万片/年(目标) | 🎯 预计2027年</div>
+                </div>
+                <div style="width:80px;flex-shrink:0;text-align:right">
+                    <div style="font-size:12px;font-weight:700;color:var(--text3)">30%</div>
+                    <div style="margin-top:3px;height:4px;background:rgba(30,58,95,0.5);border-radius:2px;overflow:hidden"><div style="height:100%;width:30%;background:var(--text3);border-radius:2px"></div></div>
+                </div>
+            </div></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
             <div><div style="font-size:11px;color:var(--green);margin-bottom:4px;font-weight:600">优势</div>
                 <ul class="adv-list"><li>国内市占率第一</li><li>已多次送样苹果</li><li>本土化响应快</li><li>价格比索尼低15%-20%</li></ul></div>
@@ -515,31 +873,98 @@ body { background:var(--bg);color:var(--text);font-family:'PingFang SC','Microso
             <div class="comp-name">京东方A (BOE)</div>
             <div style="color:var(--text2);font-size:11px;margin-top:3px">行业巨头</div>
         </div><div class="comp-label label-indirect">间接竞争</div></div>
-        <div class="comp-desc">全球最大OLED面板厂商，成都基地试量产中；Q1净利17.07亿元同比+5.78%</div>
+        <div class="comp-desc">全球最大OLED面板厂商，昆明8英寸产线已量产，12英寸项目终止后转向6代OLED；Q1净利17.07亿元同比+5.78%</div>
         <div class="comp-metrics">
             <div class="metric"><div class="m-label">产品</div><div class="m-value" style="font-size:11px">1.5英寸4K Micro OLED</div></div>
             <div class="metric"><div class="m-label">产能</div><div class="m-value" style="font-size:10px">80万片/年</div></div>
             <div class="metric"><div class="m-label">VR份额</div><div class="m-value">10%</div></div>
         </div>
         <div class="tag-list" style="margin-bottom:8px"><span class="tag">华为</span><span class="tag">Pico</span><span class="tag">TCL</span></div>
+        <div style="margin-top:10px"><div style="font-size:11px;color:var(--accent);font-weight:600;margin-bottom:6px">🏗️ 产线建设进度</div><div class="pl-detail-row">
+                <div style="flex:1;min-width:0">
+                    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+                        <span style="font-size:12px;font-weight:600;color:var(--text)">昆明8英寸产线</span>
+                        <span style="padding:1px 6px;border-radius:3px;font-size:9px;font-weight:600;background:rgba(16,185,129,0.12);color:var(--green)">量产中</span>
+                    </div>
+                    <div style="font-size:10px;color:var(--text3);margin-top:3px">📍 云南昆明 | 8英寸 | 投资11.5亿元</div>
+                    <div style="font-size:10px;color:var(--text2);margin-top:2px">月产6K片/月 | 年产~72万片/年 | 🎯 2019年量产</div>
+                </div>
+                <div style="width:80px;flex-shrink:0;text-align:right">
+                    <div style="font-size:12px;font-weight:700;color:var(--green)">100%</div>
+                    <div style="margin-top:3px;height:4px;background:rgba(30,58,95,0.5);border-radius:2px;overflow:hidden"><div style="height:100%;width:100%;background:var(--green);border-radius:2px"></div></div>
+                </div>
+            </div><div class="pl-detail-row">
+                <div style="flex:1;min-width:0">
+                    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+                        <span style="font-size:12px;font-weight:600;color:var(--text)">12英寸硅基OLED项目(已终止)</span>
+                        <span style="padding:1px 6px;border-radius:3px;font-size:9px;font-weight:600;background:rgba(100,116,139,0.12);color:var(--text3)">已终止</span>
+                    </div>
+                    <div style="font-size:10px;color:var(--text3);margin-top:3px">📍 云南昆明 | 12英寸 | 投资34亿元(总投,终止10亿)</div>
+                    <div style="font-size:10px;color:var(--text2);margin-top:2px">月产- | 年产- | 🎯 2023年10月终止投入</div>
+                </div>
+                <div style="width:80px;flex-shrink:0;text-align:right">
+                    <div style="font-size:12px;font-weight:700;color:var(--text3)">0%</div>
+                    <div style="margin-top:3px;height:4px;background:rgba(30,58,95,0.5);border-radius:2px;overflow:hidden"><div style="height:100%;width:0%;background:var(--text3);border-radius:2px"></div></div>
+                </div>
+            </div><div class="pl-detail-row">
+                <div style="flex:1;min-width:0">
+                    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+                        <span style="font-size:12px;font-weight:600;color:var(--text)">成都B16 第8.6代AMOLED</span>
+                        <span style="padding:1px 6px;border-radius:3px;font-size:9px;font-weight:600;background:rgba(16,185,129,0.12);color:var(--green)">已点亮,量产冲刺</span>
+                    </div>
+                    <div style="font-size:10px;color:var(--text3);margin-top:3px">📍 四川成都 | 8.6代(2290×2620mm) | 投资630亿元</div>
+                    <div style="font-size:10px;color:var(--text2);margin-top:2px">月产3.2万片玻璃基板/月 | 年产- | 🎯 2026年量产</div>
+                </div>
+                <div style="width:80px;flex-shrink:0;text-align:right">
+                    <div style="font-size:12px;font-weight:700;color:var(--green)">90%</div>
+                    <div style="margin-top:3px;height:4px;background:rgba(30,58,95,0.5);border-radius:2px;overflow:hidden"><div style="height:100%;width:90%;background:var(--green);border-radius:2px"></div></div>
+                </div>
+            </div></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
             <div><div style="font-size:11px;color:var(--green);margin-bottom:4px;font-weight:600">优势</div>
                 <ul class="adv-list"><li>全球最大OLED面板厂商背景</li><li>研发投入超100亿/年</li><li>报价低约10%</li></ul></div>
             <div><div style="font-size:11px;color:var(--red);margin-bottom:4px;font-weight:600">劣势</div>
-                <ul class="dis-list"><li>Micro OLED仍处试量产阶段</li><li>技术成熟度待验证</li></ul></div>
+                <ul class="dis-list"><li>12英寸硅基OLED项目已终止</li><li>Micro OLED战略收缩</li></ul></div>
         </div>
     </div><div class="comp-card">
         <div class="comp-header"><div>
             <div class="comp-name">三星 (Samsung Display)</div>
             <div style="color:var(--text2);font-size:11px;margin-top:3px">国际巨头</div>
         </div><div class="comp-label label-indirect">间接竞争</div></div>
-        <div class="comp-desc">覆盖OLED材料到面板制造全产业链，2025年推出折叠式Micro OLED</div>
+        <div class="comp-desc">覆盖OLED材料到面板制造全产业链，Micro OLED仍处研发阶段，2025年推出折叠式Micro OLED原型</div>
         <div class="comp-metrics">
-            <div class="metric"><div class="m-label">产品</div><div class="m-value" style="font-size:11px">折叠式Micro OLED</div></div>
-            <div class="metric"><div class="m-label">产能</div><div class="m-value" style="font-size:10px">未明确</div></div>
+            <div class="metric"><div class="m-label">产品</div><div class="m-value" style="font-size:11px">折叠式Micro OLED(原型)</div></div>
+            <div class="metric"><div class="m-label">产能</div><div class="m-value" style="font-size:10px">未量产</div></div>
             <div class="metric"><div class="m-label">VR份额</div><div class="m-value">-</div></div>
         </div>
         <div class="tag-list" style="margin-bottom:8px"><span class="tag">谷歌</span><span class="tag">微软</span></div>
+        <div style="margin-top:10px"><div style="font-size:11px;color:var(--accent);font-weight:600;margin-bottom:6px">🏗️ 产线建设进度</div><div class="pl-detail-row">
+                <div style="flex:1;min-width:0">
+                    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+                        <span style="font-size:12px;font-weight:600;color:var(--text)">Micro OLED研发线</span>
+                        <span style="padding:1px 6px;border-radius:3px;font-size:9px;font-weight:600;background:rgba(100,116,139,0.12);color:var(--text3)">研发/试产</span>
+                    </div>
+                    <div style="font-size:10px;color:var(--text3);margin-top:3px">📍 韩国蔚山 | 未公开 | 投资未公开</div>
+                    <div style="font-size:10px;color:var(--text2);margin-top:2px">月产- | 年产- | 🎯 未定</div>
+                </div>
+                <div style="width:80px;flex-shrink:0;text-align:right">
+                    <div style="font-size:12px;font-weight:700;color:var(--text3)">15%</div>
+                    <div style="margin-top:3px;height:4px;background:rgba(30,58,95,0.5);border-radius:2px;overflow:hidden"><div style="height:100%;width:15%;background:var(--text3);border-radius:2px"></div></div>
+                </div>
+            </div><div class="pl-detail-row">
+                <div style="flex:1;min-width:0">
+                    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+                        <span style="font-size:12px;font-weight:600;color:var(--text)">8.6代QD-OLED扩产线</span>
+                        <span style="padding:1px 6px;border-radius:3px;font-size:9px;font-weight:600;background:rgba(245,158,11,0.12);color:var(--yellow)">建设中</span>
+                    </div>
+                    <div style="font-size:10px;color:var(--text3);margin-top:3px">📍 韩国忠清南道 | 8.6代 | 投资4.1万亿韩元(~217亿CNY)</div>
+                    <div style="font-size:10px;color:var(--text2);margin-top:2px">月产- | 年产- | 🎯 2027年</div>
+                </div>
+                <div style="width:80px;flex-shrink:0;text-align:right">
+                    <div style="font-size:12px;font-weight:700;color:var(--yellow)">40%</div>
+                    <div style="margin-top:3px;height:4px;background:rgba(30,58,95,0.5);border-radius:2px;overflow:hidden"><div style="height:100%;width:40%;background:var(--yellow);border-radius:2px"></div></div>
+                </div>
+            </div></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
             <div><div style="font-size:11px;color:var(--green);margin-bottom:4px;font-weight:600">优势</div>
                 <ul class="adv-list"><li>全产业链覆盖</li><li>折叠式柔性显示差异化</li></ul></div>
@@ -551,13 +976,40 @@ body { background:var(--bg);color:var(--text);font-family:'PingFang SC','Microso
             <div class="comp-name">华星光电 (CSOT)</div>
             <div style="color:var(--text2);font-size:11px;margin-top:3px">国内厂商</div>
         </div><div class="comp-label label-indirect">间接竞争</div></div>
-        <div class="comp-desc">依托TCL集团，低功耗表现行业领先（<50mW）；Q1净利15.56亿元同比+53.71%</div>
+        <div class="comp-desc">依托TCL集团，低功耗表现行业领先（<50mW）；硅基OLED技术布局完成，产能建设刚起步；Q1净利15.56亿元同比+53.71%</div>
         <div class="comp-metrics">
             <div class="metric"><div class="m-label">产品</div><div class="m-value" style="font-size:11px">1.0英寸3K Micro OLED</div></div>
-            <div class="metric"><div class="m-label">产能</div><div class="m-value" style="font-size:10px">未明确</div></div>
+            <div class="metric"><div class="m-label">产能</div><div class="m-value" style="font-size:10px">研发/小规模</div></div>
             <div class="metric"><div class="m-label">VR份额</div><div class="m-value">-</div></div>
         </div>
         <div class="tag-list" style="margin-bottom:8px"><span class="tag">TCL集团内部</span></div>
+        <div style="margin-top:10px"><div style="font-size:11px;color:var(--accent);font-weight:600;margin-bottom:6px">🏗️ 产线建设进度</div><div class="pl-detail-row">
+                <div style="flex:1;min-width:0">
+                    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+                        <span style="font-size:12px;font-weight:600;color:var(--text)">硅基OLED研发线</span>
+                        <span style="padding:1px 6px;border-radius:3px;font-size:9px;font-weight:600;background:rgba(100,116,139,0.12);color:var(--text3)">研发/技术验证</span>
+                    </div>
+                    <div style="font-size:10px;color:var(--text3);margin-top:3px">📍 湖北武汉 | 未公开 | 投资未公开</div>
+                    <div style="font-size:10px;color:var(--text2);margin-top:2px">月产- | 年产- | 🎯 未明确</div>
+                </div>
+                <div style="width:80px;flex-shrink:0;text-align:right">
+                    <div style="font-size:12px;font-weight:700;color:var(--text3)">20%</div>
+                    <div style="margin-top:3px;height:4px;background:rgba(30,58,95,0.5);border-radius:2px;overflow:hidden"><div style="height:100%;width:20%;background:var(--text3);border-radius:2px"></div></div>
+                </div>
+            </div><div class="pl-detail-row">
+                <div style="flex:1;min-width:0">
+                    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+                        <span style="font-size:12px;font-weight:600;color:var(--text)">Micro OLED蒸镀线(规划中)</span>
+                        <span style="padding:1px 6px;border-radius:3px;font-size:9px;font-weight:600;background:rgba(100,116,139,0.12);color:var(--text3)">规划中</span>
+                    </div>
+                    <div style="font-size:10px;color:var(--text3);margin-top:3px">📍 湖北武汉 | 未公开 | 投资未公开</div>
+                    <div style="font-size:10px;color:var(--text2);margin-top:2px">月产- | 年产- | 🎯 未明确</div>
+                </div>
+                <div style="width:80px;flex-shrink:0;text-align:right">
+                    <div style="font-size:12px;font-weight:700;color:var(--text3)">5%</div>
+                    <div style="margin-top:3px;height:4px;background:rgba(30,58,95,0.5);border-radius:2px;overflow:hidden"><div style="height:100%;width:5%;background:var(--text3);border-radius:2px"></div></div>
+                </div>
+            </div></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
             <div><div style="font-size:11px;color:var(--green);margin-bottom:4px;font-weight:600">优势</div>
                 <ul class="adv-list"><li><50mW功耗行业最低</li><li>TCL协同优势</li></ul></div>
@@ -569,13 +1021,27 @@ body { background:var(--bg);color:var(--text);font-family:'PingFang SC','Microso
             <div class="comp-name">清越科技（ST）</div>
             <div style="color:var(--text2);font-size:11px;margin-top:3px">国内厂商</div>
         </div><div class="comp-label label-potential">已被ST</div></div>
-        <div class="comp-desc">2025年涉嫌财务数据虚假记载被证监会立案；内控审计否定意见，4月30日起被ST；经营风险极高</div>
+        <div class="comp-desc">2025年涉嫌财务数据虚假记载被证监会立案；内控审计否定意见，4月30日起被ST；经营风险极高；8英寸产线良率爬坡中</div>
         <div class="comp-metrics">
             <div class="metric"><div class="m-label">产品</div><div class="m-value" style="font-size:11px">0.23英寸硅基OLED</div></div>
             <div class="metric"><div class="m-label">产能</div><div class="m-value" style="font-size:10px">研发/小规模试产</div></div>
             <div class="metric"><div class="m-label">VR份额</div><div class="m-value">-</div></div>
         </div>
         <div class="tag-list" style="margin-bottom:8px"><span class="tag">-</span></div>
+        <div style="margin-top:10px"><div style="font-size:11px;color:var(--accent);font-weight:600;margin-bottom:6px">🏗️ 产线建设进度</div><div class="pl-detail-row">
+                <div style="flex:1;min-width:0">
+                    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+                        <span style="font-size:12px;font-weight:600;color:var(--text)">8英寸硅基OLED产线</span>
+                        <span style="padding:1px 6px;border-radius:3px;font-size:9px;font-weight:600;background:rgba(16,185,129,0.12);color:var(--green)">量产初期(良率爬坡)</span>
+                    </div>
+                    <div style="font-size:10px;color:var(--text3);margin-top:3px">📍 浙江义乌 | 8英寸 | 投资IPO募投(金额未公开)</div>
+                    <div style="font-size:10px;color:var(--text2);margin-top:2px">月产<1K片/月 | 年产<12万片/年 | 🎯 2021年点亮,良率爬坡中</div>
+                </div>
+                <div style="width:80px;flex-shrink:0;text-align:right">
+                    <div style="font-size:12px;font-weight:700;color:var(--text3)">35%</div>
+                    <div style="margin-top:3px;height:4px;background:rgba(30,58,95,0.5);border-radius:2px;overflow:hidden"><div style="height:100%;width:35%;background:var(--text3);border-radius:2px"></div></div>
+                </div>
+            </div></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
             <div><div style="font-size:11px;color:var(--green);margin-bottom:4px;font-weight:600">优势</div>
                 <ul class="adv-list"><li>已有硅基OLED研发基础</li></ul></div>
@@ -587,31 +1053,98 @@ body { background:var(--bg);color:var(--text);font-family:'PingFang SC','Microso
             <div class="comp-name">宏禧科技</div>
             <div style="color:var(--text2);font-size:11px;margin-top:3px">新进入者</div>
         </div><div class="comp-label label-potential">潜在竞争</div></div>
-        <div class="comp-desc">2025年A轮近5亿元融资；安徽滁州12英寸硅基OLED项目2025年12月已封顶</div>
+        <div class="comp-desc">2025年A轮近5亿元融资；义乌12英寸已量产，滁州12英寸项目2025年12月封顶；已推出0.6/0.7/1.33英寸产品</div>
         <div class="comp-metrics">
             <div class="metric"><div class="m-label">产品</div><div class="m-value" style="font-size:11px">12英寸硅基OLED模组</div></div>
-            <div class="metric"><div class="m-label">产能</div><div class="m-value" style="font-size:10px">建设中</div></div>
+            <div class="metric"><div class="m-label">产能</div><div class="m-value" style="font-size:10px">量产中(义乌线)</div></div>
             <div class="metric"><div class="m-label">VR份额</div><div class="m-value">-</div></div>
         </div>
         <div class="tag-list" style="margin-bottom:8px"><span class="tag">-</span></div>
+        <div style="margin-top:10px"><div style="font-size:11px;color:var(--accent);font-weight:600;margin-bottom:6px">🏗️ 产线建设进度</div><div class="pl-detail-row">
+                <div style="flex:1;min-width:0">
+                    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+                        <span style="font-size:12px;font-weight:600;color:var(--text)">义乌12英寸量产线</span>
+                        <span style="padding:1px 6px;border-radius:3px;font-size:9px;font-weight:600;background:rgba(16,185,129,0.12);color:var(--green)">量产中</span>
+                    </div>
+                    <div style="font-size:10px;color:var(--text3);margin-top:3px">📍 浙江义乌 | 12英寸 | 投资未公开</div>
+                    <div style="font-size:10px;color:var(--text2);margin-top:2px">月产未公开 | 年产已商业化量产 | 🎯 已量产</div>
+                </div>
+                <div style="width:80px;flex-shrink:0;text-align:right">
+                    <div style="font-size:12px;font-weight:700;color:var(--green)">100%</div>
+                    <div style="margin-top:3px;height:4px;background:rgba(30,58,95,0.5);border-radius:2px;overflow:hidden"><div style="height:100%;width:100%;background:var(--green);border-radius:2px"></div></div>
+                </div>
+            </div><div class="pl-detail-row">
+                <div style="flex:1;min-width:0">
+                    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+                        <span style="font-size:12px;font-weight:600;color:var(--text)">滁州12英寸模组项目(一期)</span>
+                        <span style="padding:1px 6px;border-radius:3px;font-size:9px;font-weight:600;background:rgba(245,158,11,0.12);color:var(--yellow)">已封顶(2025.12)</span>
+                    </div>
+                    <div style="font-size:10px;color:var(--text3);margin-top:3px">📍 安徽滁州 | 12英寸 | 投资20亿元</div>
+                    <div style="font-size:10px;color:var(--text2);margin-top:2px">月产6K片/月(目标) | 年产年产7.2万片晶圆 | 🎯 预计2027年</div>
+                </div>
+                <div style="width:80px;flex-shrink:0;text-align:right">
+                    <div style="font-size:12px;font-weight:700;color:var(--yellow)">50%</div>
+                    <div style="margin-top:3px;height:4px;background:rgba(30,58,95,0.5);border-radius:2px;overflow:hidden"><div style="height:100%;width:50%;background:var(--yellow);border-radius:2px"></div></div>
+                </div>
+            </div></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
             <div><div style="font-size:11px;color:var(--green);margin-bottom:4px;font-weight:600">优势</div>
-                <ul class="adv-list"><li>A轮近5亿融资</li><li>12英寸产线已封顶</li></ul></div>
+                <ul class="adv-list"><li>A轮近5亿融资</li><li>义乌12英寸已量产</li><li>滁州已封顶</li></ul></div>
             <div><div style="font-size:11px;color:var(--red);margin-bottom:4px;font-weight:600">劣势</div>
-                <ul class="dis-list"><li>量产能力尚未验证</li></ul></div>
+                <ul class="dis-list"><li>滁州量产能力尚未验证</li></ul></div>
         </div>
     </div><div class="comp-card">
         <div class="comp-header"><div>
             <div class="comp-name">熙泰科技</div>
             <div style="color:var(--text2);font-size:11px;margin-top:3px">新进入者</div>
         </div><div class="comp-label label-potential">潜在竞争</div></div>
-        <div class="comp-desc">南充12英寸产业园已封顶，眉山16亿项目8月底设备搬入，2027年Q2量产</div>
+        <div class="comp-desc">南充12英寸产业园已封顶(2025.12)，眉山16亿项目已开工(2026.03)，南充产线2026年8月设备搬入，2027年Q2量产</div>
         <div class="comp-metrics">
             <div class="metric"><div class="m-label">产品</div><div class="m-value" style="font-size:11px">12英寸Micro OLED</div></div>
             <div class="metric"><div class="m-label">产能</div><div class="m-value" style="font-size:10px">8+12英寸双线</div></div>
             <div class="metric"><div class="m-label">VR份额</div><div class="m-value">-</div></div>
         </div>
         <div class="tag-list" style="margin-bottom:8px"><span class="tag">-</span></div>
+        <div style="margin-top:10px"><div style="font-size:11px;color:var(--accent);font-weight:600;margin-bottom:6px">🏗️ 产线建设进度</div><div class="pl-detail-row">
+                <div style="flex:1;min-width:0">
+                    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+                        <span style="font-size:12px;font-weight:600;color:var(--text)">芜湖8英寸产线</span>
+                        <span style="padding:1px 6px;border-radius:3px;font-size:9px;font-weight:600;background:rgba(16,185,129,0.12);color:var(--green)">量产中</span>
+                    </div>
+                    <div style="font-size:10px;color:var(--text3);margin-top:3px">📍 安徽芜湖 | 8英寸 | 投资未公开</div>
+                    <div style="font-size:10px;color:var(--text2);margin-top:2px">月产未公开 | 年产已量产 | 🎯 已量产</div>
+                </div>
+                <div style="width:80px;flex-shrink:0;text-align:right">
+                    <div style="font-size:12px;font-weight:700;color:var(--green)">100%</div>
+                    <div style="margin-top:3px;height:4px;background:rgba(30,58,95,0.5);border-radius:2px;overflow:hidden"><div style="height:100%;width:100%;background:var(--green);border-radius:2px"></div></div>
+                </div>
+            </div><div class="pl-detail-row">
+                <div style="flex:1;min-width:0">
+                    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+                        <span style="font-size:12px;font-weight:600;color:var(--text)">南充12英寸微显示产业园</span>
+                        <span style="padding:1px 6px;border-radius:3px;font-size:9px;font-weight:600;background:rgba(245,158,11,0.12);color:var(--yellow)">已封顶(2025.12)</span>
+                    </div>
+                    <div style="font-size:10px;color:var(--text3);margin-top:3px">📍 四川南充 | 12英寸 | 投资16亿元</div>
+                    <div style="font-size:10px;color:var(--text2);margin-top:2px">月产6K片/月(目标) | 年产年产值14.5亿元(目标) | 🎯 2026年8月设备搬入,2027Q2量产</div>
+                </div>
+                <div style="width:80px;flex-shrink:0;text-align:right">
+                    <div style="font-size:12px;font-weight:700;color:var(--yellow)">40%</div>
+                    <div style="margin-top:3px;height:4px;background:rgba(30,58,95,0.5);border-radius:2px;overflow:hidden"><div style="height:100%;width:40%;background:var(--yellow);border-radius:2px"></div></div>
+                </div>
+            </div><div class="pl-detail-row">
+                <div style="flex:1;min-width:0">
+                    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+                        <span style="font-size:12px;font-weight:600;color:var(--text)">眉山IC研发中心+模组项目</span>
+                        <span style="padding:1px 6px;border-radius:3px;font-size:9px;font-weight:600;background:rgba(245,158,11,0.12);color:var(--yellow)">已开工(2026.03)</span>
+                    </div>
+                    <div style="font-size:10px;color:var(--text3);margin-top:3px">📍 四川眉山 | - | 投资16.13亿元</div>
+                    <div style="font-size:10px;color:var(--text2);margin-top:2px">月产- | 年产- | 🎯 建设中</div>
+                </div>
+                <div style="width:80px;flex-shrink:0;text-align:right">
+                    <div style="font-size:12px;font-weight:700;color:var(--text3)">10%</div>
+                    <div style="margin-top:3px;height:4px;background:rgba(30,58,95,0.5);border-radius:2px;overflow:hidden"><div style="height:100%;width:10%;background:var(--text3);border-radius:2px"></div></div>
+                </div>
+            </div></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
             <div><div style="font-size:11px;color:var(--green);margin-bottom:4px;font-weight:600">优势</div>
                 <ul class="adv-list"><li>超4000PPI</li><li>10000nit超高亮度</li><li>多基地布局</li></ul></div>
