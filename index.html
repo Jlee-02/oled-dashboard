@@ -570,10 +570,10 @@
 <script>
 // ============================================================
 // 内嵌数据 - 深圳市芯视佳半导体科技有限公司 专用
-// 最后更新：2026-05-05 09:00
-// 注：A股5月1日-5月4日五一假期休市，数据沿用2026-04-30收盘价
+// 最后更新：2026-05-05 18:00
+// 注：A股5月1日-5月4日五一假期休市，5月5日为首个交易日，市场数据暂未同步（rc:102），沿用2026-04-30收盘价
 const DATA = {
-  lastUpdate: "2026-05-05 09:00",
+  lastUpdate: "2026-05-05 18:00",
   market: {
     // 全球市场规模（人民币口径，华经产业研究院）
     globalMarketSizeCNY: {"2019":3.3,"2020":4.5,"2021":6.2,"2022":8.1,"2023":10.0,"2024":12.7,"2025E":17.5,"2026E":25.0,"2027E":35.0,"2028E":50.0},
@@ -707,7 +707,7 @@ const DATA = {
      advantages:["核心专利超2000件，技术绝对垄断","Meta 5年长期协议，客户粘性极强","产能全球第一","刷新率120Hz、响应时间<1ms全球领先"],
      disadvantages:["制造成本高","非中国本土，本土化响应慢"]},
     {id:"seeya",name:"视涯科技",typeLabel:"🇨🇳 直接竞品",status:"direct_competitor",statusLabel:"核心竞争对手",
-     description:"科创板已上市（2026-03-25），IPO募资20.15亿元；2026Q1营收1.76亿元同比大增247%，亏损从7409万收窄至4552万；上市首季营收同比+247%领跑硅基OLED赛道；已多次送样苹果；16.09亿元启动产线扩建，产能将翻倍至30k片/月",
+     description:"科创板已上市（2026-03-25），IPO募资20.15亿元（净额21.15亿元）；2026Q1营收1.76亿元同比大增247%，亏损从7409万收窄至4552万；4月28日披露募资运用方案：拟投16.09亿元扩建MicroOLED产线，产能目标翻倍至30k片/月；已多次送样苹果；当前产能约15k片/月",
      stock:{code:"688781.SH",price:"40.45",change:"+0.37%",marketCap:"约404.5亿元",pe:"-220.13（亏损）",priceDate:"2026-04-30"},
      business:{product:"1.3英寸4K Micro OLED",resolution:"4K PPI=3000",power:"60mW",yieldRate:"约75%",lifetime:"约40000小时"},
      capacity:{current:"180万片/年（15k片/月）",plan:"360万片/年（30k片/月，扩建中）"},
@@ -715,7 +715,7 @@ const DATA = {
      advantages:["国内市占率第一","已多次送样苹果","本土化响应快，定制周期比索尼短2-3周","同分辨率产品价格比索尼低15%-20%"],
      disadvantages:["技术成熟度落后于索尼","缺乏上游OLED材料自主产能"]},
     {id:"boe",name:"京东方A (BOE)",typeLabel:"🇨🇳 行业巨头",status:"indirect_competitor",statusLabel:"间接竞争",
-     description:"全球最大OLED面板厂商；Q1净利17.07亿元同比+5.78%；8.6代AMOLED线提前5个月点亮；启动81.77亿元回购计划；已具备高分辨率Micro OLED规模化生产能力",
+     description:"全球最大OLED面板厂商；Q1净利17.07亿元同比+5.78%（"守稳"）；8.6代AMOLED线提前5个月点亮，有望2026年5月率先实现量产；启动81.77亿元回购计划；已具备高分辨率Micro OLED规模化生产能力；2026Q1面板双雄中规模领先",
      stock:{code:"000725.SZ",price:"4.08",change:"-2.16%",marketCap:"约1511亿元",pe:"25.40倍",priceDate:"2026-04-30"},
      business:{product:"1.5英寸4K Micro OLED",resolution:"4K PPI=2800",power:"65mW",yieldRate:"未公开",lifetime:"-"},
      capacity:{current:"80万片/年（成都试量产）",plan:"150万片/年（2026）"},
@@ -731,7 +731,7 @@ const DATA = {
      advantages:["全产业链覆盖，成本控制能力强","折叠式柔性显示差异化优势"],
      disadvantages:["Micro OLED产能未明确","XR市场投入相对保守"]},
     {id:"csot",name:"华星光电 (CSOT)",typeLabel:"🇨🇳 国内厂商",status:"indirect_competitor",statusLabel:"间接竞争",
-     description:"依托TCL集团显示+终端一体化模式，低功耗表现行业领先（<50mW）；Q1净利15.56亿元同比+53.71%；近300亿布局8.6代OLED产线",
+     description:"依托TCL集团显示+终端一体化模式，低功耗表现行业领先（<50mW）；Q1净利15.56亿元同比大增53.71%（"求快"增速亮眼）；近300亿布局8.6代OLED产线；2026Q1面板双雄中利润增速更快但规模较小",
      stock:{code:"TCL科技000100.SZ",price:"4.27",change:"-1.16%",marketCap:"约888亿元",pe:"17.55倍",priceDate:"2026-04-30"},
      business:{product:"1.0英寸3K Micro OLED",resolution:"3K",power:"<50mW（行业领先）",yieldRate:"-",lifetime:"-"},
      capacity:{current:"未明确",plan:"120万片/年（深圳基地）"},
@@ -1237,7 +1237,8 @@ const DATA = {
     {date:"2026-05-03",title:"光谷芯材发布8英寸MicroLED外延片：成本较传统产品降低75%，可应用于AR/VR、超高清显示等领域",source:"93913/VRAR",importance:"medium"},
     {date:"2026-05-03",title:"2025年全球XR出货608万台同比下滑16.8%，VR/MR跌23.1%至502万台，但AR眼镜逆势增35.9%至106万台，AI智能眼镜暴涨156%至681万台",source:"TrendForce/中国经营报",importance:"high"},
     {date:"2026-05-03",title:"Micro LED光通信CPO方案：能耗仅铜缆5%，传输密度达20Tbps/mm²，预计2-3年内大规模商用，华灿/三安/兆驰/利亚德/乾照纷纷布局",source:"中国经营报",importance:"medium"},
-    {date:"2026-05-02",title:"AR眼镜带火Micro LED：国内厂商清一色选择Micro LED技术路线，2030年出货量有望突破千万台",source:"新浪财经/中国经营报",importance:"high"},
+    {date:"2026-05-05",title:"面板双雄Q1业绩深度解读：京东方守"稳"TCL求"快"，OLED双寡头格局分化",source:"夸克显示/东方财富",importance:"high"},
+    {date:"2026-05-02",title:"AR眼镜带火Micro LED：国内厂商清一色选择硅基Micro LED技术路线，2030年有望拿下近七成市场",source:"新浪财经/中国经营报",importance:"high"},
     {date:"2026-05-02",title:"华灿光电/三安光电/兆驰股份/利亚德/乾照光电纷纷布局Micro LED产业链，A股跨界卡位",source:"新浪财经",importance:"high"},
     {date:"2026-05-02",title:"AI+AR铁三角：大模型×AR眼镜×AI功能相互促进，提示类AR眼镜被认为最具爆发力",source:"集邦咨询/TrendForce",importance:"medium"},
     {date:"2026-04-30",title:"芯视半导体完成1.5亿元级B+轮融资，蓄力领跑硅基微显示赛道",source:"新浪财经",importance:"medium"},
