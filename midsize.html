@@ -34,6 +34,7 @@
         .status-done { background: #4dff88; }
         .status-progress { background: #ffaa4d; }
         .status-plan { background: #4da6ff; }
+        .status-near { background: #ff4d4d; }
         .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; }
         .kpi-card { background: linear-gradient(145deg, #151a50, #0d1030); border: 1px solid #2a3a6e; border-radius: 10px; padding: 20px; text-align: center; }
         .kpi-value { font-size: 32px; font-weight: 700; color: #00d4ff; }
@@ -54,6 +55,8 @@
         .customer-table td { padding: 6px 10px; }
         .highlight { color: #00d4ff; font-weight: 600; }
         .section-divider { border-top: 1px solid #2a3a6e; margin-top: 16px; padding-top: 16px; }
+        .breaking-news { background: linear-gradient(90deg, #ff4d4d, #ff664d); color: white; padding: 10px 20px; border-radius: 8px; margin-bottom: 16px; font-size: 14px; font-weight: 600; }
+        .breaking-news::before { content: "🔥 "; }
     </style>
 </head>
 <body>
@@ -83,7 +86,7 @@
             <div class="kpi-card">
                 <div class="kpi-value">3%~4%</div>
                 <div class="kpi-label">当前中大尺寸OLED渗透率</div>
-                <div class="kpi-change down">上升空间大</div>
+                <div class="kpi-change down">2028年望达9-14%</div>
             </div>
         </div>
     </div>
@@ -130,10 +133,10 @@
                                 <td>苹果OLED iPad Pro发布</td>
                             </tr>
                             <tr>
-                                <td>2025E</td>
-                                <td>增速放缓</td>
-                                <td>持续增长</td>
-                                <td><span style="color:#ff4d4d;font-size:12px">↑32.7%</span></td>
+                                <td>2025</td>
+                                <td>1,090万片（↓3.5%）</td>
+                                <td>~1,000万台</td>
+                                <td><span style="color:#4dff88;font-size:12px">↑32.7%</span></td>
                                 <td>AI笔记本、电竞需求驱动</td>
                             </tr>
                             <tr>
@@ -146,14 +149,14 @@
                             </tr>
                         </tbody>
                     </table>
-                    <div class="note">数据来源：Omdia、TrendForce、公开财报 ｜ 更新于2026-05-14</div>
+                    <div class="note">数据来源：Omdia、TrendForce、UBI Research、公开财报 ｜ 更新于2026-05-15</div>
                 </div>
             </div>
         </div>
 
         <!-- 板块2：各家OLED中尺寸面板出货量 -->
         <div class="card">
-            <h2><span class="icon">🏭</span> 各厂商OLED面板出货量份额</h2>
+            <h2><span class="icon">🏭</span> 各厂商OLED面板出货量份额（2025年）</h2>
             <div id="chartShipment" class="chart-box"></div>
         </div>
 
@@ -165,6 +168,7 @@
 
         <!-- 板块4：产线建设进度详细表格 -->
         <div class="card full-width">
+            <div class="breaking-news">🚀 京东方B16工厂将于2026年5月底提前量产！首批客户：华硕、宏碁</div>
             <h2><span class="icon">🏗️</span> 各面板厂8.6代OLED产线建设进度</h2>
             <table>
                 <thead>
@@ -181,12 +185,25 @@
                 </thead>
                 <tbody>
                     <tr>
+                        <td><span class="tag tag-boe">京东方BOE</span></td>
+                        <td>四川成都B16工厂</td>
+                        <td>FMM蒸镀（LTPO技术）</td>
+                        <td>630亿元</td>
+                        <td>3.2万片/月</td>
+                        <td>2026年5月底 <span style="color:#ff4d4d;font-size:11px;">🔥提前</span></td>
+                        <td>
+                            <span class="status-dot status-near"></span>即将量产
+                            <div class="progress-bar"><div class="progress-fill" style="width:98%;background:linear-gradient(90deg,#4dff88,#00d4ff);"></div></div>
+                        </td>
+                        <td>华硕、宏碁（14英寸面板）</td>
+                    </tr>
+                    <tr>
                         <td><span class="tag tag-sam">三星显示</span></td>
                         <td>韩国牙山A6工厂</td>
                         <td>FMM蒸镀 + Tandem OLED</td>
                         <td>~224亿元<br/>(4.1万亿韩元)</td>
-                        <td>未披露</td>
-                        <td>2026年Q2</td>
+                        <td>1.5万片/月</td>
+                        <td>2026年Q3</td>
                         <td>
                             <span class="status-dot status-progress"></span>试运行阶段
                             <div class="progress-bar"><div class="progress-fill" style="width:85%;background:linear-gradient(90deg,#4da6ff,#7b68ee);"></div></div>
@@ -194,28 +211,15 @@
                         <td>苹果（MacBook Pro/iPad）</td>
                     </tr>
                     <tr>
-                        <td><span class="tag tag-boe">京东方BOE</span></td>
-                        <td>四川成都B16工厂</td>
-                        <td>FMM蒸镀（LTPO适配）</td>
-                        <td>630亿元</td>
-                        <td>3.2万片/月</td>
-                        <td>2026年5月</td>
-                        <td>
-                            <span class="status-dot status-progress"></span>设备搬入完成
-                            <div class="progress-bar"><div class="progress-fill" style="width:80%;background:linear-gradient(90deg,#4dff88,#00d4ff);"></div></div>
-                        </td>
-                        <td>华硕、宏碁、苹果（潜在）</td>
-                    </tr>
-                    <tr>
-                        <td><span class="tag tag-vision">维信诺</span></td>
+                        <td><span class="tag tag-vision">维信诺/合肥国显</span></td>
                         <td>安徽合肥</td>
                         <td>ViP无FMM光刻技术</td>
                         <td>550亿元</td>
                         <td>3.2万片/月</td>
                         <td>2027年</td>
                         <td>
-                            <span class="status-dot status-progress"></span>主厂房封顶
-                            <div class="progress-bar"><div class="progress-fill" style="width:55%;background:linear-gradient(90deg,#bb66ff,#7b68ee);"></div></div>
+                            <span class="status-dot status-progress"></span>设备搬入完成
+                            <div class="progress-bar"><div class="progress-fill" style="width:75%;background:linear-gradient(90deg,#bb66ff,#7b68ee);"></div></div>
                         </td>
                         <td>车载IT客户（拓展中）</td>
                     </tr>
@@ -228,7 +232,7 @@
                         <td>2027年</td>
                         <td>
                             <span class="status-dot status-plan"></span>规划建设阶段
-                            <div class="progress-bar"><div class="progress-fill" style="width:30%;background:linear-gradient(90deg,#ffaa4d,#ff664d);"></div></div>
+                            <div class="progress-bar"><div class="progress-fill" style="width:35%;background:linear-gradient(90deg,#ffaa4d,#ff664d);"></div></div>
                         </td>
                         <td>未披露</td>
                     </tr>
@@ -267,7 +271,7 @@
                     </div>
                     <div class="opportunity-card">
                         <h4>📌 机会五：AI PC OLED模组需求</h4>
-                        <p>AI笔记本电脑驱动高端显示需求，OLED在对比度、响应速度、功耗上优势明显。2025年起AI PC渗透率快速提升，中尺寸OLED模组代工市场同步扩容。</p>
+                        <p>AI笔记本电脑驱动高端显示需求，OLED在对比度、响应速度、功耗上优势明显。2025年起AI PC渗透率快速提升（2025年AI PC销量7780万台，占31%），中尺寸OLED模组代工市场同步扩容。</p>
                     </div>
                     <div class="opportunity-card">
                         <h4>⚠️ 风险提示</h4>
@@ -301,7 +305,7 @@
                     </p>
                 </div>
             </div>
-            <div class="note">分析基于Omdia/TrendForce/各公司公告 + 2026年车载显示市场规划PDF交叉验证 ｜ 数据更新于2026-05-14</div>
+            <div class="note">分析基于Omdia/TrendForce/UBI Research/各公司公告 + 2026年车载显示市场规划PDF交叉验证 ｜ 数据更新于2026-05-15</div>
         </div>
     </div>
 
@@ -315,14 +319,14 @@
             tooltip: { trigger: 'axis', backgroundColor: '#1a1a5e', borderColor: '#2a3a6e', textStyle: {color:'#e0e0e0'} },
             legend: { data: ['平板OLED出货（万片）', '笔记本OLED出货（万片）', '9英寸+OLED出货增速（%）'], top: 10, textStyle: {color:'#a0a0c0', fontSize:12} },
             grid: { left: 60, right: 60, bottom: 40, top: 60 },
-            xAxis: { type: 'category', data: ['2022','2023','2024E','2025E','2026E','2030E'], axisLine: {lineStyle:{color:'#2a3a6e'}}, axisLabel: {color:'#7b8bb5'} },
+            xAxis: { type: 'category', data: ['2022','2023','2024E','2025','2026E','2030E'], axisLine: {lineStyle:{color:'#2a3a6e'}}, axisLabel: {color:'#7b8bb5'} },
             yAxis: [
                 { type: 'value', name: '出货（万片）', axisLine: {lineStyle:{color:'#2a3a6e'}}, axisLabel: {color:'#7b8bb5'}, splitLine: {lineStyle:{color:'#1a1a4e'}} },
                 { type: 'value', name: '增速（%）', axisLine: {lineStyle:{color:'#2a3a6e'}}, axisLabel: {color:'#7b8bb5'}, splitLine: {show:false} }
             ],
             series: [
-                { name: '平板OLED出货（万片）', type: 'bar', data: [41, 360, 1420, 2200, 3800, 8420], itemStyle:{color: new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:'#4dffff'},{offset:1,color:'#7b68ee'}])}, yAxisIndex: 0 },
-                { name: '笔记本OLED出货（万片）', type: 'bar', data: [56, 40, 180, 350, 680, 2000], itemStyle:{color: new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:'#ffaa4d'},{offset:1,color:'#ff664d'}])}, yAxisIndex: 0 },
+                { name: '平板OLED出货（万片）', type: 'bar', data: [41, 360, 1420, 1090, 1800, 8420], itemStyle:{color: new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:'#4dffff'},{offset:1,color:'#7b68ee'}])}, yAxisIndex: 0 },
+                { name: '笔记本OLED出货（万片）', type: 'bar', data: [56, 40, 180, 1000, 1500, 2000], itemStyle:{color: new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:'#ffaa4d'},{offset:1,color:'#ff664d'}])}, yAxisIndex: 0 },
                 { name: '9英寸+OLED出货增速（%）', type: 'line', yAxisIndex: 1, data: [null, -25.7, 116.5, 32.7, 45, 26.5], lineStyle: {color:'#4dff88', width:2}, symbol: 'circle', symbolSize: 8, itemStyle: {color:'#4dff88'} }
             ]
         });
@@ -340,14 +344,15 @@
                 itemStyle: { borderColor: '#0a0e27', borderWidth: 3 },
                 label: { show: true, color: '#e0e0e0', formatter: '{b}\n{d}%' },
                 data: [
-                    { value: 36, name: '三星显示', itemStyle: {color: '#4da6ff'} },
-                    { value: 15, name: '京东方BOE', itemStyle: {color: '#4dff88'} },
+                    { value: 38, name: '三星显示', itemStyle: {color: '#4da6ff'} },
+                    { value: 14, name: '京东方BOE', itemStyle: {color: '#4dff88'} },
                     { value: 14, name: '维信诺', itemStyle: {color: '#bb66ff'} },
                     { value: 9,  name: 'LG Display', itemStyle: {color: '#aaaaaa'} },
-                    { value: 26, name: '其他', itemStyle: {color: '#3a3a5e'} }
+                    { value: 9,  name: '华星光电', itemStyle: {color: '#ffaa4d'} },
+                    { value: 16, name: '其他', itemStyle: {color: '#3a3a5e'} }
                 ]
             }],
-            title: { text: '2025年Q2全球OLED市场格局（%）', left: '35%', top: 10, textStyle: {color:'#7b8bb5', fontSize:13} }
+            title: { text: '2025年全球OLED面板出货量格局（%）', left: '35%', top: 10, textStyle: {color:'#7b8bb5', fontSize:13} }
         });
 
         // 图表3：各面板厂中尺寸产能对比
@@ -356,14 +361,14 @@
             tooltip: { trigger: 'axis', backgroundColor: '#1a1a5e', borderColor: '#2a3a6e', textStyle: {color:'#e0e0e0'} },
             legend: { data: ['设计产能（万片/月）', '投资金额（亿元）'], top: 10, textStyle: {color:'#a0a0c0', fontSize:12} },
             grid: { left: 80, right: 40, bottom: 40, top: 60 },
-            xAxis: { type: 'category', data: ['三星显示', '京东方BOE', '维信诺', 'TCL华星'], axisLine: {lineStyle:{color:'#2a3a6e'}}, axisLabel: {color:'#7b8bb5'} },
+            xAxis: { type: 'category', data: ['京东方BOE', '三星显示', '维信诺', 'TCL华星'], axisLine: {lineStyle:{color:'#2a3a6e'}}, axisLabel: {color:'#7b8bb5'} },
             yAxis: [
                 { type: 'value', name: '产能（万片/月）', axisLine: {lineStyle:{color:'#2a3a6e'}}, axisLabel: {color:'#7b8bb5'}, splitLine: {lineStyle:{color:'#1a1a4e'}} },
                 { type: 'value', name: '投资（亿元）', axisLine: {lineStyle:{color:'#2a3a6e'}}, axisLabel: {color:'#7b8bb5'}, splitLine: {show:false} }
             ],
             series: [
-                { name: '设计产能（万片/月）', type: 'bar', data: [3.5, 3.2, 3.2, 2.25], itemStyle: {color: new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:'#00d4ff'},{offset:1,color:'#7b68ee'}])}, yAxisIndex: 0 },
-                { name: '投资金额（亿元）', type: 'line', yAxisIndex: 1, data: [224, 630, 550, 295], lineStyle: {color:'#ffaa4d', width:2}, symbol: 'diamond', symbolSize: 10, itemStyle: {color:'#ffaa4d'} }
+                { name: '设计产能（万片/月）', type: 'bar', data: [3.2, 1.5, 3.2, 2.25], itemStyle: {color: new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:'#00d4ff'},{offset:1,color:'#7b68ee'}])}, yAxisIndex: 0 },
+                { name: '投资金额（亿元）', type: 'line', yAxisIndex: 1, data: [630, 224, 550, 295], lineStyle: {color:'#ffaa4d', width:2}, symbol: 'diamond', symbolSize: 10, itemStyle: {color:'#ffaa4d'} }
             ]
         });
 
