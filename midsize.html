@@ -57,6 +57,13 @@
         .section-divider { border-top: 1px solid #2a3a6e; margin-top: 16px; padding-top: 16px; }
         .breaking-news { background: linear-gradient(90deg, #ff4d4d, #ff664d); color: white; padding: 10px 20px; border-radius: 8px; margin-bottom: 16px; font-size: 14px; font-weight: 600; }
         .breaking-news::before { content: "🔥 "; }
+        .price-tabs { display: flex; gap: 12px; margin-bottom: 16px; }
+        .price-tab { padding: 8px 20px; border-radius: 20px; border: 1px solid #2a3a6e; background: transparent; color: #7b8bb5; cursor: pointer; font-size: 13px; transition: all 0.3s; }
+        .price-tab.active { background: linear-gradient(90deg, #7b68ee, #00d4ff); color: #0a0e27; border-color: transparent; font-weight: 600; }
+        .price-tab:hover { border-color: #7b68ee; color: #e0e0e0; }
+        .price-chart-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
+        .price-chart-box { width: 100%; height: 320px; }
+        .price-summary { margin-top: 14px; padding: 12px 16px; background: #0d1030; border-radius: 8px; font-size: 12px; color: #7b8bb5; line-height: 1.8; }
     </style>
 </head>
 <body>
@@ -307,6 +314,28 @@
             </div>
             <div class="note">分析基于Omdia/TrendForce/UBI Research/各公司公告 + 2026年车载显示市场规划PDF交叉验证 ｜ 数据更新于2026-05-15</div>
         </div>
+
+        <!-- 板块6：中尺寸OLED面板价格趋势 -->
+        <div class="card full-width">
+            <h2><span class="icon">💹</span> 中尺寸OLED面板价格趋势（USD/片）</h2>
+            <div class="price-tabs">
+                <button class="price-tab active" onclick="showPrice('yearly')">📅 年度趋势</button>
+                <button class="price-tab" onclick="showPrice('quarterly')">📆 季度趋势</button>
+                <button class="price-tab" onclick="showPrice('monthly')">📅 月度趋势</button>
+                <button class="price-tab" onclick="showPrice('weekly')">📆 周度趋势</button>
+            </div>
+            <div id="priceYearly" class="chart-box" style="margin-top:16px;"></div>
+            <div id="priceQuarterly" class="chart-box" style="margin-top:16px;display:none;"></div>
+            <div id="priceMonthly" class="chart-box" style="margin-top:16px;display:none;"></div>
+            <div id="priceWeekly" class="chart-box" style="margin-top:16px;display:none;"></div>
+            <div class="price-summary">
+                <span style="color:#7b68ee;">📊 价格驱动因素：</span>
+                <span style="color:#4dff88;">⬇ 下行</span>：8.6代线量产规模效应降成本 / 中韩厂商价格竞争 / 良率突破80% / LCD替代效应
+                <span style="margin:0 10px; color:#2a3a6e;">|</span>
+                <span style="color:#ff4d4d;">⬆ 上行</span>：苹果MacBook Pro拉动 / AI PC渗透率提升 / Tandem OLED溢价 / 高刷新率占比提升
+            </div>
+            <div class="note">数据来源：DSCC OLED Shipment Report / Omdia Display Market / 行业研报综合估算（OLED面板公开价格数据有限，部分为行业估算，仅供参考）</div>
+        </div>
     </div>
 
     <script>
@@ -371,6 +400,90 @@
                 { name: '投资金额（亿元）', type: 'line', yAxisIndex: 1, data: [630, 224, 550, 295], lineStyle: {color:'#ffaa4d', width:2}, symbol: 'diamond', symbolSize: 10, itemStyle: {color:'#ffaa4d'} }
             ]
         });
+
+
+        // ========== 价格数据（USD/片）==========
+        const priceData = {
+            yearly: {
+                years: ['2021','2022','2023','2024','2025E','2026E'],
+                s133: [95,88,78,65,58,52],
+                s140: [105,98,85,72,64,57],
+                s156: [120,110,95,80,71,63],
+                s160: [null,null,140,115,102,92]
+            },
+            quarterly: {
+                labels: ['2024Q1','2024Q2','2024Q3','2024Q4','2025Q1','2025Q2','2025Q3E','2025Q4E'],
+                s133: [70,67,63,65,60,58,56,55],
+                s140: [78,74,70,72,66,64,62,61],
+                s156: [88,83,78,80,75,72,70,69],
+                s160: [125,120,115,118,108,105,102,100]
+            },
+            monthly: {
+                labels: ['1月','2月','3月','4月','5月','6月','7月E','8月E','9月E','10月E','11月E','12月E'],
+                s133: [62,61,60,59,58,57,56,56,55,55,54,54],
+                s140: [70,68,66,65,64,63,62,62,61,61,60,60],
+                s156: [78,76,75,74,72,71,70,70,69,68,68,67],
+                s160: [115,112,110,108,105,103,102,101,100,99,98,97]
+            },
+            weekly: {
+                labels: ['W16','W17','W18','W19'],
+                s133: [55,55,54,54],
+                s140: [61,60,60,59],
+                s156: [69,68,68,67],
+                s160: [99,98,97,96]
+            }
+        };
+        const priceNames = ['13.3"','14.0"','15.6"','16.0" 240Hz'];
+        const priceKeys = ['s133','s140','s156','s160'];
+        const priceColors = ['#4dffff','#4dff88','#bb66ff','#ffaa4d'];
+
+        function showPrice(type) {
+            // 切换tab样式
+            document.querySelectorAll('.price-tab').forEach(function(btn){
+                var types = ['yearly','quarterly','monthly','weekly'];
+                var t = btn.getAttribute('onclick');
+                if(t && t.indexOf(type) >= 0) btn.classList.add('active');
+                else btn.classList.remove('active');
+            });
+            // 切换图表显示
+            ['yearly','quarterly','monthly','weekly'].forEach(function(t){
+                var el = document.getElementById('price' + t.charAt(0).toUpperCase() + t.slice(1));
+                if(el) el.style.display = (t === type) ? 'block' : 'none';
+            });
+            var chartId = 'price' + type.charAt(0).toUpperCase() + type.slice(1);
+            var dom = document.getElementById(chartId);
+            if(!dom) return;
+            var chart = echarts.init(dom);
+            var isYear = (type === 'yearly');
+            var xData = isYear ? priceData.yearly.years : priceData[type].labels;
+            var titleMap = {yearly:'年度',quarterly:'季度',monthly:'月度',weekly:'周度'};
+            var series = priceKeys.map(function(k,i){
+                return {
+                    name: priceNames[i],
+                    type: 'line',
+                    data: isYear ? priceData.yearly[k] : priceData[type][k],
+                    lineStyle: {color: priceColors[i], width:2},
+                    symbol: 'circle',
+                    symbolSize: 6,
+                    itemStyle: {color: priceColors[i]},
+                    smooth: true
+                };
+            });
+            var option = {
+                title: {text: '中尺寸OLED面板' + titleMap[type] + '价格趋势（USD/片）', left:'center', textStyle:{color:'#7b68ee',fontSize:14}},
+                tooltip: {trigger:'axis', backgroundColor:'#1a1a5e', borderColor:'#2a3a6e', textStyle:{color:'#e0e0e0'}},
+                legend: {data: priceNames, bottom:0, textStyle:{color:'#a0a0c0',fontSize:11}},
+                grid: {left:65, right:30, bottom:50, top:50},
+                xAxis: {type:'category', data:xData, axisLine:{lineStyle:{color:'#2a3a6e'}}, axisLabel:{color:'#7b8bb5',rotate: (type==='monthly')?30:0}},
+                yAxis: {type:'value', name:'价格（USD/片）', axisLine:{lineStyle:{color:'#2a3a6e'}}, axisLabel:{color:'#7b8bb5'}, splitLine:{lineStyle:{color:'#1a1a4e'}}},
+                series: series
+            };
+            chart.setOption(option);
+            // 保存引用以便resize
+            window['priceChart_' + type] = chart;
+        }
+        // 初始渲染年度视图
+        showPrice('yearly');
 
         // 自适应
         window.addEventListener('resize', () => {
