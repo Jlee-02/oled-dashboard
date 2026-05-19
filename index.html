@@ -137,6 +137,13 @@ body { background:var(--bg);color:var(--text);font-family:'PingFang SC','Microso
 .pl-status { display:inline-block;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:600;background:rgba(16,185,129,0.15);color:var(--green);margin-bottom:8px; }
 .pl-info { font-size:11px;color:var(--text2);line-height:1.8; }
 
+/* Price Trend */
+.price-btn-group { display:flex;gap:6px;margin-bottom:12px; }
+.price-btn { padding:6px 14px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;background:var(--card2);color:var(--text2);border:1px solid var(--border);transition:all 0.2s; }
+.price-btn:hover { border-color:var(--accent);color:var(--accent); }
+.price-btn.active { background:var(--accent);color:#0a0e1a;border-color:var(--accent); }
+.price-chart { margin-top:8px; }
+
 /* News */
 .news-item { display:flex;gap:12px;padding:12px 0;border-bottom:1px solid rgba(30,58,95,0.4); }
 .news-item:last-child { border-bottom:none; }
@@ -195,7 +202,7 @@ body { background:var(--bg);color:var(--text);font-family:'PingFang SC','Microso
     <div class="logo">🔭 Micro OLED 行业监控面板<span>深圳市芯视佳半导体科技有限公司 专用</span></div>
   </div>
   <div style="display:flex;align-items:center;gap:16px">
-    <div class="update-time">数据更新：<strong>2026-05-15 09:07</strong></div>
+    <div class="update-time">数据更新：<strong>2026-05-19 11:33</strong></div>
   </div>
 </div>
 
@@ -451,6 +458,22 @@ body { background:var(--bg);color:var(--text);font-family:'PingFang SC','Microso
       <div class="cg-card"><div class="cg-value">265万片</div><div class="cg-label">中国出货量（占全球41.6%）</div></div>
       <div class="cg-card"><div class="cg-value">371.5万片</div><div class="cg-label">海外出货量（占全球58.4%）</div></div>
     </div>
+  </div>
+
+  <!-- 价格趋势 -->
+  <div class="card">
+    <div class="card-title">📈 Micro OLED面板价格趋势（USD/片）</div>
+    <div style="font-size:10px;color:var(--text3);margin-bottom:10px">⚠️ 示例数据，仅供参考。真实数据请购买CINNO/Omdia专业报告。规格：0.7英寸 HD硅基OLED</div>
+    <div class="price-btn-group">
+      <button class="price-btn active" onclick="switchPriceGranularity('year')">年度</button>
+      <button class="price-btn" onclick="switchPriceGranularity('quarter')">季度</button>
+      <button class="price-btn" onclick="switchPriceGranularity('month')">月度</button>
+      <button class="price-btn" onclick="switchPriceGranularity('week')">周度</button>
+    </div>
+    <div id="price-chart-year" class="price-chart"><svg viewBox="0 0 680 250" style="width:100%;height:auto;background:#0f172a;border-radius:8px;"><line x1="50" y1="25.0" x2="660" y2="25.0" stroke="#1e293b" stroke-width="1"/><text x="42" y="29.0" fill="#64748b" font-size="10" text-anchor="end">131</text><line x1="50" y1="71.25" x2="660" y2="71.25" stroke="#1e293b" stroke-width="1"/><text x="42" y="75.25" fill="#64748b" font-size="10" text-anchor="end">117</text><line x1="50" y1="117.5" x2="660" y2="117.5" stroke="#1e293b" stroke-width="1"/><text x="42" y="121.5" fill="#64748b" font-size="10" text-anchor="end">103</text><line x1="50" y1="163.75" x2="660" y2="163.75" stroke="#1e293b" stroke-width="1"/><text x="42" y="167.75" fill="#64748b" font-size="10" text-anchor="end">88</text><line x1="50" y1="210.0" x2="660" y2="210.0" stroke="#1e293b" stroke-width="1"/><text x="42" y="214.0" fill="#64748b" font-size="10" text-anchor="end">74</text><path d="M 50.0,45.2318460192476 L 151.66666666666666,67.8915135608049 L 253.33333333333331,100.26246719160105 L 355.0,132.63342082239717 L 456.66666666666663,152.05599300087488 L 558.3333333333334,174.71566054243218 L 660.0,197.37532808398947" fill="none" stroke="rgb(0,212,255)" stroke-width="2.5" stroke-linecap="round"/><circle cx="50.0" cy="45.2318460192476" r="4" fill="rgb(0,212,255)" stroke="#0f172a" stroke-width="2"/><text x="50.0" y="33.2318460192476" fill="rgb(0,212,255)" font-size="11" text-anchor="middle" font-weight="bold">125</text><circle cx="151.66666666666666" cy="67.8915135608049" r="4" fill="rgb(0,212,255)" stroke="#0f172a" stroke-width="2"/><text x="151.66666666666666" y="55.891513560804896" fill="rgb(0,212,255)" font-size="11" text-anchor="middle" font-weight="bold">118</text><circle cx="253.33333333333331" cy="100.26246719160105" r="4" fill="rgb(0,212,255)" stroke="#0f172a" stroke-width="2"/><text x="253.33333333333331" y="88.26246719160105" fill="rgb(0,212,255)" font-size="11" text-anchor="middle" font-weight="bold">108</text><circle cx="355.0" cy="132.63342082239717" r="4" fill="rgb(0,212,255)" stroke="#0f172a" stroke-width="2"/><text x="355.0" y="120.63342082239717" fill="rgb(0,212,255)" font-size="11" text-anchor="middle" font-weight="bold">98</text><circle cx="456.66666666666663" cy="152.05599300087488" r="4" fill="rgb(0,212,255)" stroke="#0f172a" stroke-width="2"/><text x="456.66666666666663" y="140.05599300087488" fill="rgb(0,212,255)" font-size="11" text-anchor="middle" font-weight="bold">92</text><circle cx="558.3333333333334" cy="174.71566054243218" r="4" fill="rgb(0,212,255)" stroke="#0f172a" stroke-width="2"/><text x="558.3333333333334" y="162.71566054243218" fill="rgb(0,212,255)" font-size="11" text-anchor="middle" font-weight="bold">85</text><circle cx="660.0" cy="197.37532808398947" r="4" fill="rgb(0,212,255)" stroke="#0f172a" stroke-width="2"/><text x="660.0" y="185.37532808398947" fill="rgb(0,212,255)" font-size="11" text-anchor="middle" font-weight="bold">78</text><text x="50.0" y="230" fill="#64748b" font-size="10" text-anchor="middle">2019</text><text x="151.66666666666666" y="230" fill="#64748b" font-size="10" text-anchor="middle">2020</text><text x="253.33333333333331" y="230" fill="#64748b" font-size="10" text-anchor="middle">2021</text><text x="355.0" y="230" fill="#64748b" font-size="10" text-anchor="middle">2022</text><text x="456.66666666666663" y="230" fill="#64748b" font-size="10" text-anchor="middle">2023</text><text x="558.3333333333334" y="230" fill="#64748b" font-size="10" text-anchor="middle">2024</text><text x="660.0" y="230" fill="#64748b" font-size="10" text-anchor="middle">2025</text><rect x="50" y="25" width="610" height="185" fill="none" stroke="#334155" stroke-width="1"/></svg></div>
+    <div id="price-chart-quarter" class="price-chart" style="display:none"><svg viewBox="0 0 680 250" style="width:100%;height:auto;background:#0f172a;border-radius:8px;"><line x1="50" y1="25.0" x2="660" y2="25.0" stroke="#1e293b" stroke-width="1"/><text x="42" y="29.0" fill="#64748b" font-size="10" text-anchor="end">92</text><line x1="50" y1="71.25" x2="660" y2="71.25" stroke="#1e293b" stroke-width="1"/><text x="42" y="75.25" fill="#64748b" font-size="10" text-anchor="end">87</text><line x1="50" y1="117.5" x2="660" y2="117.5" stroke="#1e293b" stroke-width="1"/><text x="42" y="121.5" fill="#64748b" font-size="10" text-anchor="end">82</text><line x1="50" y1="163.75" x2="660" y2="163.75" stroke="#1e293b" stroke-width="1"/><text x="42" y="167.75" fill="#64748b" font-size="10" text-anchor="end">77</text><line x1="50" y1="210.0" x2="660" y2="210.0" stroke="#1e293b" stroke-width="1"/><text x="42" y="214.0" fill="#64748b" font-size="10" text-anchor="end">72</text><path d="M 50.0,65.29702970297035 L 137.14285714285714,83.61386138613867 L 224.28571428571428,92.77227722772281 L 311.4285714285714,111.08910891089113 L 398.57142857142856,138.56435643564362 L 485.7142857142857,156.8811881188119 L 572.8571428571428,166.03960396039608 L 660.0,175.19801980198022" fill="none" stroke="rgb(249,115,22)" stroke-width="2.5" stroke-linecap="round"/><circle cx="50.0" cy="65.29702970297035" r="4" fill="rgb(249,115,22)" stroke="#0f172a" stroke-width="2"/><text x="50.0" y="53.29702970297035" fill="rgb(249,115,22)" font-size="11" text-anchor="middle" font-weight="bold">88</text><circle cx="137.14285714285714" cy="83.61386138613867" r="4" fill="rgb(249,115,22)" stroke="#0f172a" stroke-width="2"/><text x="137.14285714285714" y="71.61386138613867" fill="rgb(249,115,22)" font-size="11" text-anchor="middle" font-weight="bold">86</text><circle cx="224.28571428571428" cy="92.77227722772281" r="4" fill="rgb(249,115,22)" stroke="#0f172a" stroke-width="2"/><text x="224.28571428571428" y="80.77227722772281" fill="rgb(249,115,22)" font-size="11" text-anchor="middle" font-weight="bold">85</text><circle cx="311.4285714285714" cy="111.08910891089113" r="4" fill="rgb(249,115,22)" stroke="#0f172a" stroke-width="2"/><text x="311.4285714285714" y="99.08910891089113" fill="rgb(249,115,22)" font-size="11" text-anchor="middle" font-weight="bold">83</text><circle cx="398.57142857142856" cy="138.56435643564362" r="4" fill="rgb(249,115,22)" stroke="#0f172a" stroke-width="2"/><text x="398.57142857142856" y="126.56435643564362" fill="rgb(249,115,22)" font-size="11" text-anchor="middle" font-weight="bold">80</text><circle cx="485.7142857142857" cy="156.8811881188119" r="4" fill="rgb(249,115,22)" stroke="#0f172a" stroke-width="2"/><text x="485.7142857142857" y="144.8811881188119" fill="rgb(249,115,22)" font-size="11" text-anchor="middle" font-weight="bold">78</text><circle cx="572.8571428571428" cy="166.03960396039608" r="4" fill="rgb(249,115,22)" stroke="#0f172a" stroke-width="2"/><text x="572.8571428571428" y="154.03960396039608" fill="rgb(249,115,22)" font-size="11" text-anchor="middle" font-weight="bold">77</text><circle cx="660.0" cy="175.19801980198022" r="4" fill="rgb(249,115,22)" stroke="#0f172a" stroke-width="2"/><text x="660.0" y="163.19801980198022" fill="rgb(249,115,22)" font-size="11" text-anchor="middle" font-weight="bold">76</text><text x="50.0" y="230" fill="#64748b" font-size="10" text-anchor="middle">2024Q1</text><text x="137.14285714285714" y="230" fill="#64748b" font-size="10" text-anchor="middle">2024Q2</text><text x="224.28571428571428" y="230" fill="#64748b" font-size="10" text-anchor="middle">2024Q3</text><text x="311.4285714285714" y="230" fill="#64748b" font-size="10" text-anchor="middle">2024Q4</text><text x="398.57142857142856" y="230" fill="#64748b" font-size="10" text-anchor="middle">2025Q1</text><text x="485.7142857142857" y="230" fill="#64748b" font-size="10" text-anchor="middle">2025Q2</text><text x="572.8571428571428" y="230" fill="#64748b" font-size="10" text-anchor="middle">2025Q3</text><text x="660.0" y="230" fill="#64748b" font-size="10" text-anchor="middle">2025Q4</text><rect x="50" y="25" width="610" height="185" fill="none" stroke="#334155" stroke-width="1"/></svg></div>
+    <div id="price-chart-month" class="price-chart" style="display:none"><svg viewBox="0 0 680 250" style="width:100%;height:auto;background:#0f172a;border-radius:8px;"><line x1="50" y1="25.0" x2="660" y2="25.0" stroke="#1e293b" stroke-width="1"/><text x="42" y="29.0" fill="#64748b" font-size="10" text-anchor="end">84</text><line x1="50" y1="71.25" x2="660" y2="71.25" stroke="#1e293b" stroke-width="1"/><text x="42" y="75.25" fill="#64748b" font-size="10" text-anchor="end">81</text><line x1="50" y1="117.5" x2="660" y2="117.5" stroke="#1e293b" stroke-width="1"/><text x="42" y="121.5" fill="#64748b" font-size="10" text-anchor="end">78</text><line x1="50" y1="163.75" x2="660" y2="163.75" stroke="#1e293b" stroke-width="1"/><text x="42" y="167.75" fill="#64748b" font-size="10" text-anchor="end">75</text><line x1="50" y1="210.0" x2="660" y2="210.0" stroke="#1e293b" stroke-width="1"/><text x="42" y="214.0" fill="#64748b" font-size="10" text-anchor="end">72</text><path d="M 50.0,87.71186440677968 L 126.25,103.38983050847459 L 202.5,103.38983050847459 L 278.75,119.06779661016952 L 355.0,119.06779661016952 L 431.25,134.74576271186444 L 507.5,134.74576271186444 L 583.75,150.42372881355936 L 660.0,150.42372881355936" fill="none" stroke="rgb(16,185,129)" stroke-width="2.5" stroke-linecap="round"/><circle cx="50.0" cy="87.71186440677968" r="4" fill="rgb(16,185,129)" stroke="#0f172a" stroke-width="2"/><text x="50.0" y="75.71186440677968" fill="rgb(16,185,129)" font-size="11" text-anchor="middle" font-weight="bold">80</text><circle cx="126.25" cy="103.38983050847459" r="4" fill="rgb(16,185,129)" stroke="#0f172a" stroke-width="2"/><text x="126.25" y="91.38983050847459" fill="rgb(16,185,129)" font-size="11" text-anchor="middle" font-weight="bold">79</text><circle cx="202.5" cy="103.38983050847459" r="4" fill="rgb(16,185,129)" stroke="#0f172a" stroke-width="2"/><text x="202.5" y="91.38983050847459" fill="rgb(16,185,129)" font-size="11" text-anchor="middle" font-weight="bold">79</text><circle cx="278.75" cy="119.06779661016952" r="4" fill="rgb(16,185,129)" stroke="#0f172a" stroke-width="2"/><text x="278.75" y="107.06779661016952" fill="rgb(16,185,129)" font-size="11" text-anchor="middle" font-weight="bold">78</text><circle cx="355.0" cy="119.06779661016952" r="4" fill="rgb(16,185,129)" stroke="#0f172a" stroke-width="2"/><text x="355.0" y="107.06779661016952" fill="rgb(16,185,129)" font-size="11" text-anchor="middle" font-weight="bold">78</text><circle cx="431.25" cy="134.74576271186444" r="4" fill="rgb(16,185,129)" stroke="#0f172a" stroke-width="2"/><text x="431.25" y="122.74576271186444" fill="rgb(16,185,129)" font-size="11" text-anchor="middle" font-weight="bold">77</text><circle cx="507.5" cy="134.74576271186444" r="4" fill="rgb(16,185,129)" stroke="#0f172a" stroke-width="2"/><text x="507.5" y="122.74576271186444" fill="rgb(16,185,129)" font-size="11" text-anchor="middle" font-weight="bold">77</text><circle cx="583.75" cy="150.42372881355936" r="4" fill="rgb(16,185,129)" stroke="#0f172a" stroke-width="2"/><text x="583.75" y="138.42372881355936" fill="rgb(16,185,129)" font-size="11" text-anchor="middle" font-weight="bold">76</text><circle cx="660.0" cy="150.42372881355936" r="4" fill="rgb(16,185,129)" stroke="#0f172a" stroke-width="2"/><text x="660.0" y="138.42372881355936" fill="rgb(16,185,129)" font-size="11" text-anchor="middle" font-weight="bold">76</text><text x="50.0" y="230" fill="#64748b" font-size="10" text-anchor="middle">2025-09</text><text x="202.5" y="230" fill="#64748b" font-size="10" text-anchor="middle">2025-11</text><text x="355.0" y="230" fill="#64748b" font-size="10" text-anchor="middle">2026-01</text><text x="507.5" y="230" fill="#64748b" font-size="10" text-anchor="middle">2026-03</text><text x="660.0" y="230" fill="#64748b" font-size="10" text-anchor="middle">2026-05</text><rect x="50" y="25" width="610" height="185" fill="none" stroke="#334155" stroke-width="1"/></svg></div>
+    <div id="price-chart-week" class="price-chart" style="display:none"><svg viewBox="0 0 680 250" style="width:100%;height:auto;background:#0f172a;border-radius:8px;"><line x1="50" y1="25.0" x2="660" y2="25.0" stroke="#1e293b" stroke-width="1"/><text x="42" y="29.0" fill="#64748b" font-size="10" text-anchor="end">82</text><line x1="50" y1="71.25" x2="660" y2="71.25" stroke="#1e293b" stroke-width="1"/><text x="42" y="75.25" fill="#64748b" font-size="10" text-anchor="end">79</text><line x1="50" y1="117.5" x2="660" y2="117.5" stroke="#1e293b" stroke-width="1"/><text x="42" y="121.5" fill="#64748b" font-size="10" text-anchor="end">77</text><line x1="50" y1="163.75" x2="660" y2="163.75" stroke="#1e293b" stroke-width="1"/><text x="42" y="167.75" fill="#64748b" font-size="10" text-anchor="end">74</text><line x1="50" y1="210.0" x2="660" y2="210.0" stroke="#1e293b" stroke-width="1"/><text x="42" y="214.0" fill="#64748b" font-size="10" text-anchor="end">71</text><path d="M 50.0,92.7464788732395 L 137.14285714285714,92.7464788732395 L 224.28571428571428,110.11737089201884 L 311.4285714285714,110.11737089201884 L 398.57142857142856,127.48826291079817 L 485.7142857142857,127.48826291079817 L 572.8571428571428,144.85915492957753 L 660.0,144.85915492957753" fill="none" stroke="rgb(168,85,247)" stroke-width="2.5" stroke-linecap="round"/><circle cx="50.0" cy="92.7464788732395" r="4" fill="rgb(168,85,247)" stroke="#0f172a" stroke-width="2"/><text x="50.0" y="80.7464788732395" fill="rgb(168,85,247)" font-size="11" text-anchor="middle" font-weight="bold">78</text><circle cx="137.14285714285714" cy="92.7464788732395" r="4" fill="rgb(168,85,247)" stroke="#0f172a" stroke-width="2"/><text x="137.14285714285714" y="80.7464788732395" fill="rgb(168,85,247)" font-size="11" text-anchor="middle" font-weight="bold">78</text><circle cx="224.28571428571428" cy="110.11737089201884" r="4" fill="rgb(168,85,247)" stroke="#0f172a" stroke-width="2"/><text x="224.28571428571428" y="98.11737089201884" fill="rgb(168,85,247)" font-size="11" text-anchor="middle" font-weight="bold">77</text><circle cx="311.4285714285714" cy="110.11737089201884" r="4" fill="rgb(168,85,247)" stroke="#0f172a" stroke-width="2"/><text x="311.4285714285714" y="98.11737089201884" fill="rgb(168,85,247)" font-size="11" text-anchor="middle" font-weight="bold">77</text><circle cx="398.57142857142856" cy="127.48826291079817" r="4" fill="rgb(168,85,247)" stroke="#0f172a" stroke-width="2"/><text x="398.57142857142856" y="115.48826291079817" fill="rgb(168,85,247)" font-size="11" text-anchor="middle" font-weight="bold">76</text><circle cx="485.7142857142857" cy="127.48826291079817" r="4" fill="rgb(168,85,247)" stroke="#0f172a" stroke-width="2"/><text x="485.7142857142857" y="115.48826291079817" fill="rgb(168,85,247)" font-size="11" text-anchor="middle" font-weight="bold">76</text><circle cx="572.8571428571428" cy="144.85915492957753" r="4" fill="rgb(168,85,247)" stroke="#0f172a" stroke-width="2"/><text x="572.8571428571428" y="132.85915492957753" fill="rgb(168,85,247)" font-size="11" text-anchor="middle" font-weight="bold">75</text><circle cx="660.0" cy="144.85915492957753" r="4" fill="rgb(168,85,247)" stroke="#0f172a" stroke-width="2"/><text x="660.0" y="132.85915492957753" fill="rgb(168,85,247)" font-size="11" text-anchor="middle" font-weight="bold">75</text><text x="50.0" y="230" fill="#64748b" font-size="10" text-anchor="middle">2026-W12</text><text x="224.28571428571428" y="230" fill="#64748b" font-size="10" text-anchor="middle">2026-W14</text><text x="398.57142857142856" y="230" fill="#64748b" font-size="10" text-anchor="middle">2026-W16</text><text x="572.8571428571428" y="230" fill="#64748b" font-size="10" text-anchor="middle">2026-W18</text><rect x="50" y="25" width="610" height="185" fill="none" stroke="#334155" stroke-width="1"/></svg></div>
   </div>
 
   <div style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(100,116,139,0.3)">
@@ -788,12 +811,12 @@ body { background:var(--bg);color:var(--text);font-family:'PingFang SC','Microso
         <div class="comp-header"><div>
             <div class="comp-name">视涯科技</div>
             <div style="display:flex;align-items:center;gap:8px;margin-top:2px">
-            <span style="font-size:14px;font-weight:700;color:var(--accent)">46.50</span>
-            <span style="font-size:11px;font-weight:600;color:var(--text2)">+0.00%</span>
+            <span style="font-size:14px;font-weight:700;color:var(--accent)">50.34</span>
+            <span style="font-size:11px;font-weight:600;color:var(--text2)">-2.99%</span>
         </div>
             <div style="color:var(--text2);font-size:11px;margin-top:3px">直接竞品</div>
         </div><div class="comp-label label-core">核心竞争对手</div></div>
-        <div class="comp-desc">出货量全球第二、境内第一，已多次送样苹果；科创板已上市（2026-03-25），IPO募资20.15亿元；2026Q1营收1.76亿元同比大增247%；5/14收盘46.50元(-2.80%)市值465亿，PE:-253；年内涨幅仍约105%</div>
+        <div class="comp-desc">出货量全球第二、境内第一，已多次送样苹果；科创板已上市（2026-03-25），IPO募资20.15亿元；2026Q1营收1.76亿元同比大增247%；5/18盘中47.73元(+3.07%)市值477亿，PE:-260；年内涨幅110%</div>
         <div class="comp-metrics">
             <div class="metric"><div class="m-label">产品</div><div class="m-value" style="font-size:11px">1.3英寸4K Micro OLED</div></div>
             <div class="metric"><div class="m-label">产能</div><div class="m-value" style="font-size:10px">18万片晶圆/年(8寸+12寸)</div></div>
@@ -851,11 +874,11 @@ body { background:var(--bg);color:var(--text);font-family:'PingFang SC','Microso
             <div class="comp-name">京东方A (BOE)</div>
             <div style="display:flex;align-items:center;gap:8px;margin-top:2px">
             <span style="font-size:14px;font-weight:700;color:var(--accent)">4.22</span>
-            <span style="font-size:11px;font-weight:600;color:var(--text2)">+0.00%</span>
+            <span style="font-size:11px;font-weight:600;color:var(--text2)">+0.24%</span>
         </div>
             <div style="color:var(--text2);font-size:11px;margin-top:3px">行业巨头</div>
         </div><div class="comp-label label-indirect">间接竞争</div></div>
-        <div class="comp-desc">全球最大OLED面板厂商，昆明8英寸硅基OLED已量产（月产6K），12英寸项目已终止，硅基OLED战略收缩；Q1净利17.07亿元同比+5.78%，Q1营收510亿元</div>
+        <div class="comp-desc">全球最大OLED面板厂商，昆明8英寸硅基OLED已量产（月产6K），12英寸项目已终止，硅基OLED战略收缩；5/18盘中4.20元(+1.45%)市值1556亿，PE:26.15</div>
         <div class="comp-metrics">
             <div class="metric"><div class="m-label">产品</div><div class="m-value" style="font-size:11px">1.5英寸4K Micro OLED</div></div>
             <div class="metric"><div class="m-label">产能</div><div class="m-value" style="font-size:10px">7.2万片/年(硅基OLED)</div></div>
@@ -932,12 +955,12 @@ body { background:var(--bg);color:var(--text);font-family:'PingFang SC','Microso
         <div class="comp-header"><div>
             <div class="comp-name">华星光电 (CSOT)</div>
             <div style="display:flex;align-items:center;gap:8px;margin-top:2px">
-            <span style="font-size:14px;font-weight:700;color:var(--accent)">4.28</span>
+            <span style="font-size:14px;font-weight:700;color:var(--accent)">4.22</span>
             <span style="font-size:11px;font-weight:600;color:var(--text2)">+0.00%</span>
         </div>
             <div style="color:var(--text2);font-size:11px;margin-top:3px">国内厂商</div>
         </div><div class="comp-label label-indirect">间接竞争</div></div>
-        <div class="comp-desc">依托TCL集团，低功耗表现行业领先（<50mW）；SID 2026展出1700PPI玻璃基OLED+5131PPI硅基Micro LED，印刷OLED年内进入中尺寸市场；收购广州华星45%股权获深交所受理；Q1净利15.56亿元同比+53.71%</div>
+        <div class="comp-desc">依托TCL集团，低功耗表现行业领先（<50mW）；SID 2026展出1700PPI玻璃基OLED+5131PPI硅基Micro LED，印刷OLED年内进入中尺寸市场；5/18盘中4.20元(+0.48%)市值874亿，PE:17.26</div>
         <div class="comp-metrics">
             <div class="metric"><div class="m-label">产品</div><div class="m-value" style="font-size:11px">1.0英寸3K Micro OLED / 2.24英寸1700PPI玻璃基OLED</div></div>
             <div class="metric"><div class="m-label">产能</div><div class="m-value" style="font-size:10px">研发/小规模</div></div>
@@ -981,12 +1004,12 @@ body { background:var(--bg);color:var(--text);font-family:'PingFang SC','Microso
         <div class="comp-header"><div>
             <div class="comp-name">清越科技（*ST）</div>
             <div style="display:flex;align-items:center;gap:8px;margin-top:2px">
-            <span style="font-size:14px;font-weight:700;color:var(--accent)">2.22</span>
-            <span style="font-size:11px;font-weight:600;color:var(--text2)">-20.14%</span>
+            <span style="font-size:14px;font-weight:700;color:var(--accent)">1.54</span>
+            <span style="font-size:11px;font-weight:600;color:var(--text2)">-13.48%</span>
         </div>
             <div style="color:var(--text2);font-size:11px;margin-top:3px">国内厂商</div>
         </div><div class="comp-label label-potential">退市风险警示</div></div>
-        <div class="comp-desc">2025年涉嫌财务数据虚假记载被证监会立案；5月12日起被实施退市风险警示(*ST)，连续跌停三日(5/12-5/14)至2.22元，市值跌破10亿元至约10亿元，流通市值仅5.28亿；退市风险极高；8英寸产线良率爬坡中</div>
+        <div class="comp-desc">证监会5/8下达行政处罚事先告知：涉嫌欺诈发行+连续三年财务造假，拟罚1.73亿元，4名高管合计罚3300万，触及重大违法强制退市；5/12起*ST后连续5日跌停至1.54元，市值仅6.93亿，流通市值3.66亿；退市几乎确定</div>
         <div class="comp-metrics">
             <div class="metric"><div class="m-label">产品</div><div class="m-value" style="font-size:11px">0.23英寸硅基OLED</div></div>
             <div class="metric"><div class="m-label">产能</div><div class="m-value" style="font-size:10px">研发/小规模试产</div></div>
@@ -1011,7 +1034,7 @@ body { background:var(--bg);color:var(--text);font-family:'PingFang SC','Microso
             <div><div style="font-size:11px;color:var(--green);margin-bottom:4px;font-weight:600">优势</div>
                 <ul class="adv-list"><li>已有硅基OLED研发基础</li></ul></div>
             <div><div style="font-size:11px;color:var(--red);margin-bottom:4px;font-weight:600">劣势</div>
-                <ul class="dis-list"><li>已被*ST（退市风险警示）</li><li>连续跌停中(5/12-14)</li><li>市值跌破10亿</li><li>证监会立案调查中</li><li>退市风险极高</li><li>亏损中</li></ul></div>
+                <ul class="dis-list"><li>已被*ST（退市风险警示）</li><li>连续5日跌停(5/12-18)</li><li>市值仅6.93亿</li><li>证监会拟罚1.73亿元</li><li>触及重大违法强制退市</li><li>退市几乎确定</li></ul></div>
         </div>
     </div><div class="comp-card">
         <div class="comp-header"><div>
@@ -1302,6 +1325,42 @@ body { background:var(--bg);color:var(--text);font-family:'PingFang SC','Microso
     <div class="news-item">
         <div class="news-dot high"></div>
         <div class="news-content">
+            <div class="news-title">A股5/18盘中：视涯科技47.73元(+3.07%)市值477亿(PE:-260)年内涨110%；京东方A 4.20元(+1.45%)市值1556亿；TCL科技4.20元(+0.48%)市值874亿；*ST清越1.54元(-13.48%)连续第5日跌停市值仅6.93亿</div>
+            <div class="news-meta"><span>2026-05-18</span><span>NeoData实时行情</span><span class="news-badge badge-high">重要</span></div>
+        </div>
+    </div><div class="news-item">
+        <div class="news-dot high"></div>
+        <div class="news-content">
+            <div class="news-title">*ST清越(688496)连续第5日跌停至1.54元，5日累计跌幅-64.6%；证监会拟罚1.73亿元认定欺诈发行+连续三年财务造假，触及重大违法强制退市，上交所将启动退市程序</div>
+            <div class="news-meta"><span>2026-05-18</span><span>证监会公告/新浪财经</span><span class="news-badge badge-high">重要</span></div>
+        </div>
+    </div><div class="news-item">
+        <div class="news-dot high"></div>
+        <div class="news-content">
+            <div class="news-title">2026 AI眼镜大战升级：苹果N50项目推进中(或2026年底发布)、三星Galaxy Glasses渲染图曝光、Meta Ray-Ban AI眼镜Q1销量爆发，谷歌携手Warby Parker/Gentle Monster打造消费级AI眼镜</div>
+            <div class="news-meta"><span>2026-05-18</span><span>智东西/IT之家</span><span class="news-badge badge-high">重要</span></div>
+        </div>
+    </div><div class="news-item">
+        <div class="news-dot high"></div>
+        <div class="news-content">
+            <div class="news-title">AR眼镜带火Micro LED：诺视科技发布全球最小量产硅基Micro LED M06(2.5μm/10000PPI)，赛富乐斯完成3亿元C轮融资，但Micro OLED仍稳坐轻沉浸观影类AR眼镜主流</div>
+            <div class="news-meta"><span>2026-05-18</span><span>新浪财经/OFweek</span><span class="news-badge badge-high">重要</span></div>
+        </div>
+    </div><div class="news-item">
+        <div class="news-dot high"></div>
+        <div class="news-content">
+            <div class="news-title">5月密集退市潮：8家A股公司将被强制退市，*ST清越因欺诈发行+财务造假被证监会拟罚1.73亿元，触及重大违法强制退市红线</div>
+            <div class="news-meta"><span>2026-05-15</span><span>新浪财经/同花顺</span><span class="news-badge badge-high">重要</span></div>
+        </div>
+    </div><div class="news-item">
+        <div class="news-dot high"></div>
+        <div class="news-content">
+            <div class="news-title">Meta Q1 2026财报：AI眼镜成绝对增长引擎，Ray-Ban Meta驱动Reality Labs业务转型；但Quest出货量同比下滑，VR内容领域淘汰赛加剧</div>
+            <div class="news-meta"><span>2026-05-15</span><span>Meta财报/搜狐</span><span class="news-badge badge-high">重要</span></div>
+        </div>
+    </div><div class="news-item">
+        <div class="news-dot high"></div>
+        <div class="news-content">
             <div class="news-title">2026上海VR/AR博览会（5/14-15，上海跨国采购会展中心）开幕，主题"AI+XR融合创新，共启产业新纪元"，汇聚120余家企业；AI眼镜赛道从百镜混战走向巨头主导：Meta/小米/华为/谷歌/阿里等科技巨头全面入局</div>
             <div class="news-meta"><span>2026-05-15</span><span>同花顺/新浪财经</span><span class="news-badge badge-high">重要</span></div>
         </div>
@@ -1316,12 +1375,6 @@ body { background:var(--bg);color:var(--text);font-family:'PingFang SC','Microso
         <div class="news-content">
             <div class="news-title">谷歌AI眼镜细节曝光：新款产品更侧重生产力功能（非社交）；阿里千问AI眼镜S1升级主动服务AI助理+系统级3D显示；Meta雷朋第三代AI眼镜全球销量破百万台</div>
             <div class="news-meta"><span>2026-05-15</span><span>新浪AR小时报</span><span class="news-badge badge-high">重要</span></div>
-        </div>
-    </div><div class="news-item">
-        <div class="news-dot high"></div>
-        <div class="news-content">
-            <div class="news-title">A股5/14收盘：视涯科技46.50元(-2.80%)市值465亿(PE:-253)；京东方A 4.22元(-0.24%)市值1563亿；TCL科技4.28元(-2.06%)市值890亿；*ST清越连续跌停第3日2.22元(-20.14%)市值跌破10亿</div>
-            <div class="news-meta"><span>2026-05-14</span><span>NeoData收盘行情</span><span class="news-badge badge-high">重要</span></div>
         </div>
     </div><div class="news-item">
         <div class="news-dot high"></div>
@@ -1795,6 +1848,19 @@ function showTab(id, el) {
   for (var i = 0; i < items.length; i++) items[i].classList.remove('active');
   document.getElementById('sec-' + id).classList.add('active');
   el.classList.add('active');
+}
+function switchPriceGranularity(type) {
+  // Hide all price charts
+  document.getElementById('price-chart-year').style.display = 'none';
+  document.getElementById('price-chart-quarter').style.display = 'none';
+  document.getElementById('price-chart-month').style.display = 'none';
+  document.getElementById('price-chart-week').style.display = 'none';
+  // Show selected chart
+  document.getElementById('price-chart-' + type).style.display = 'block';
+  // Update button states
+  var buttons = document.querySelectorAll('.price-btn');
+  for (var i = 0; i < buttons.length; i++) { buttons[i].classList.remove('active'); }
+  event.target.classList.add('active');
 }
 </script>
 </body>
