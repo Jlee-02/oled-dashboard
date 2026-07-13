@@ -35,11 +35,11 @@
         .status-progress { background: #ffaa4d; }
         .status-plan { background: #4da6ff; }
         .status-near { background: #ff4d4d; }
-        .kpi-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; margin-bottom: 20px; }
-        .kpi-card { background: linear-gradient(145deg, #151a50, #0d1030); border: 1px solid #2a3a6e; border-radius: 10px; padding: 20px; text-align: center; }
-        .kpi-value { font-size: 32px; font-weight: 700; color: #00d4ff; }
-        .kpi-label { font-size: 13px; color: #7b8bb5; margin-top: 6px; }
-        .kpi-change { font-size: 12px; margin-top: 4px; }
+        .kpi-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 14px; margin-bottom: 20px; }
+        .kpi-card { background: linear-gradient(145deg, #151a50, #0d1030); border: 1px solid #2a3a6e; border-radius: 10px; padding: 16px; text-align: center; }
+        .kpi-value { font-size: 28px; font-weight: 700; color: #00d4ff; }
+        .kpi-label { font-size: 12px; color: #7b8bb5; margin-top: 4px; }
+        .kpi-change { font-size: 11px; margin-top: 4px; }
         .kpi-change.up { color: #ff4d4d; }
         .kpi-change.down { color: #4dff88; }
         .note { font-size: 12px; color: #5a6a8a; margin-top: 12px; padding-top: 10px; border-top: 1px solid #1a1a4e; }
@@ -56,7 +56,7 @@
         .highlight { color: #00d4ff; font-weight: 600; }
         .section-divider { border-top: 1px solid #2a3a6e; margin-top: 16px; padding-top: 16px; }
         .breaking-news { background: linear-gradient(90deg, #ff4d4d, #ff664d); color: white; padding: 10px 20px; border-radius: 8px; margin-bottom: 16px; font-size: 14px; font-weight: 600; }
-        .breaking-news::before { content: "🔥 "; }
+        .breaking-news::before { content: "\ud83d\udd25 "; }
         .price-tabs { display: flex; gap: 12px; margin-bottom: 16px; }
         .price-tab { padding: 8px 20px; border-radius: 20px; border: 1px solid #2a3a6e; background: transparent; color: #7b8bb5; cursor: pointer; font-size: 13px; transition: all 0.3s; }
         .price-tab.active { background: linear-gradient(90deg, #7b68ee, #00d4ff); color: #0a0e27; border-color: transparent; font-weight: 600; }
@@ -68,8 +68,8 @@
 </head>
 <body>
         <div class="header">
-            <h1>📊 中尺寸OLED市场行业看板</h1>
-            <div class="update-time">数据更新时间：<span>2026-06-29</span></div>
+            <h1>\ud83d\udcca 中尺寸OLED市场行业看板</h1>
+            <div class="update-time">数据更新时间：<span>2026-07-13</span></div>
         </div>
 
     <!-- KPI 概览 -->
@@ -78,32 +78,37 @@
             <div class="kpi-card">
                 <div class="kpi-value">1,500</div>
                 <div class="kpi-label">2026年平板OLED预测出货（万片）</div>
-                <div class="kpi-change up">Omdia预测同比+39%</div>
+                <div class="kpi-change up">Omdia预测同比+39%；UBI预测B16年产1000万块</div>
             </div>
             <div class="kpi-card">
-                <div class="kpi-value">1,330</div>
-                <div class="kpi-label">2026年笔记本OLED预测出货（万片）</div>
-                <div class="kpi-change up">Counterpoint预测同比+33%</div>
+                <div class="kpi-value">360</div>
+                <div class="kpi-label">2026Q1笔记本OLED实际出货（万台）</div>
+                <div class="kpi-change up">Sigmaintell：同比大涨69%</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-value">420</div>
+                <div class="kpi-label">2026Q2笔记本OLED预期出货（万台）</div>
+                <div class="kpi-change up">Sigmaintell 7月5日预测；Omdia预测笔记本OLED市场40亿美元</div>
             </div>
             <div class="kpi-card">
                 <div class="kpi-value">+78%</div>
                 <div class="kpi-label">2026Q1 OLED显示器出货同比增速</div>
-                <div class="kpi-change up">2025全年270万台同比+92%；2026E全年+51%（集邦）</div>
+                <div class="kpi-change up">2025全年270万台同比+92%；iPad mini OLED 7月量产（年供300万片）</div>
             </div>
             <div class="kpi-card">
-                <div class="kpi-value">~6%</div>
-                <div class="kpi-label">2026H1全球OLED笔记本渗透率</div>
-                <div class="kpi-change up">洛图科技2026.6；中国线上市场约10%，全年有望突破15%；2027年全球超20%</div>
+                <div class="kpi-value">6%\u219219%</div>
+                <div class="kpi-label">笔记本OLED渗透率（2026\u21922030）</div>
+                <div class="kpi-change up">Sigmaintell 2026-07-05：a-Si LCD 75%\u219244%，氧化物LCD 13%\u219233%</div>
             </div>
             <div class="kpi-card">
                 <div class="kpi-value">+77%</div>
                 <div class="kpi-label">2026年全球OLED显示设备支出增速</div>
-                <div class="kpi-change up">Counterpoint预测；LCD+1%稀释后全显示+53%</div>
+                <div class="kpi-change up">Counterpoint预测；Omdia：混合OLED份额12.6%(2026)→89.5%(2033)</div>
             </div>
             <div class="kpi-card">
                 <div class="kpi-value">-30%+</div>
                 <div class="kpi-label">2027年底中尺寸OLED面板预计降幅</div>
-                <div class="kpi-change up">8.6代全球月产能破6万片驱动（洛图科技2026.6）</div>
+                <div class="kpi-change up">京东方H1 AMOLED出货超8000万片；8.6代月产能破6万片驱动</div>
             </div>
         </div>
     </div>
@@ -111,7 +116,7 @@
     <div class="dashboard">
         <!-- 板块1：历年中尺寸OLED市场数据 -->
         <div class="card full-width">
-            <h2><span class="icon">📈</span> 历年中尺寸OLED市场数据（平板 / 笔记本）</h2>
+            <h2><span class="icon">\ud83d\udcc8</span> 历年中尺寸OLED市场数据（平板 / 笔记本）</h2>
             <div class="two-col">
                 <div>
                     <div id="chartHistory" class="chart-box"></div>
@@ -132,78 +137,85 @@
                                 <td>2022</td>
                                 <td>41万片</td>
                                 <td>56万片</td>
-                                <td>—</td>
+                                <td>\u2014</td>
                                 <td>三星、联想高端机型</td>
                             </tr>
                             <tr>
                                 <td>2023</td>
-                                <td>360万台 <span style="color:#4dff88;font-size:12px">↓9%</span></td>
+                                <td>360万台 <span style="color:#4dff88;font-size:12px">\u21929%</span></td>
                                 <td>下滑</td>
-                                <td>整体 ↓25.7%</td>
+                                <td>整体 \u219225.7%</td>
                                 <td>全球PC需求疲软</td>
                             </tr>
                             <tr>
                                 <td>2024</td>
-                                <td><span style="color:#ff4d4d;font-size:12px">↑294%</span></td>
+                                <td><span style="color:#ff4d4d;font-size:12px">\u2191294%</span></td>
                                 <td>恢复增长</td>
-                                <td><span style="color:#ff4d4d;font-size:12px">↑116.5%</span></td>
+                                <td><span style="color:#ff4d4d;font-size:12px">\u2191116.5%</span></td>
                                 <td>苹果OLED iPad Pro发布</td>
                             </tr>
                             <tr>
                                 <td>2025</td>
-                                <td>1,090万片（↓3.5%）</td>
+                                <td>1,090万片（\u21923.5%）</td>
                                 <td>~1,000万台</td>
-                                <td><span style="color:#4dff88;font-size:12px">↑32.7%</span></td>
+                                <td><span style="color:#4dff88;font-size:12px">\u219132.7%</span></td>
                                 <td>AI笔记本、电竞需求驱动</td>
                             </tr>
                             <tr>
+                                <td>2026H1\u2714</td>
+                                <td>\u2014</td>
+                                <td>Q1:360万+Q2:420万=<span style="color:#00d4ff;font-weight:600">780万台</span></td>
+                                <td><span style="color:#ff4d4d;font-size:12px">Q1同比+69%</span></td>
+                                <td>Sigmaintell 7月5日实测；BOE B16 6.17量产+三星A6 7月量产双重驱动</td>
+                            </tr>
+                            <tr>
                                 <td>2026E</td>
-                                <td>1,500万片（Omdia预测↑39%）</td>
-                                <td>~1,330万台（Counterpoint↑33%）</td>
-                                <td><span style="color:#ff4d4d;font-size:12px">↑35-40%</span></td>
-                                <td>BOE B16 6.17量产（全球首发）、苹果MacBook Pro Q4发售、三星A6 7月量产；H1渗透率~6%（洛图）</td>
+                                <td>1,500万片（Omdia预测\u219139%）</td>
+                                <td>~1,330万台（Counterpoint\u219133%）</td>
+                                <td><span style="color:#ff4d4d;font-size:12px">\u219135-40%</span></td>
+                                <td>BOE B16量产（UBI预测年1000万块）、苹果MacBook Pro Q4发售+iPad mini OLED、三星A6 7月量产；渗透率6%；Omdia预测笔记本OLED市场40亿美元</td>
                             </tr>
                             <tr>
                                 <td>2027E</td>
-                                <td>2,100万片（↑40%）</td>
-                                <td>~1,800万台（↑35%）</td>
-                                <td><span style="color:#ff4d4d;font-size:12px">↑38%</span></td>
+                                <td>2,100万片（\u219140%）</td>
+                                <td>~1,800万台（\u219135%）</td>
+                                <td><span style="color:#ff4d4d;font-size:12px">\u219138%</span></td>
                                 <td>8.6代全球月产能破6万片，面板价格降30%+，渗透率加速；全球笔记本OLED渗透率超20%（洛图）</td>
                             </tr>
                             <tr>
                                 <td>2028E</td>
-                                <td>2,800万片（↑33%）</td>
-                                <td>~2,300万台（↑28%）</td>
-                                <td><span style="color:#ff4d4d;font-size:12px">↑30%</span></td>
+                                <td>2,800万片（\u219133%）</td>
+                                <td>~2,300万台（\u219128%）</td>
+                                <td><span style="color:#ff4d4d;font-size:12px">\u219130%</span></td>
                                 <td>维信诺V5/TCL华星t8全面量产，4条8.6代线全开，平板OLED渗透率9%（Omdia），笔记本OLED渗透率14%</td>
                             </tr>
                             <tr>
                                 <td>2030E</td>
-                                <td colspan="4" style="text-align:center;color:#00d4ff;">IT OLED 8,420万片 / 车载OLED 1,220万片（UBI Research）｜中国OLED产能最快2029年超韩国（Counterpoint）</td>
+                                <td colspan="4" style="text-align:center;color:#00d4ff;">IT OLED 8,420万片 / 车载OLED 1,220万片（UBI Research）｜笔记本OLED渗透率19%（Sigmaintell 2026-07-05）｜中国OLED产能最快2029年超韩国（Counterpoint）</td>
                             </tr>
                         </tbody>
                     </table>
-                    <div class="note">数据来源：Omdia、Counterpoint Research、TrendForce、UBI Research、公开财报 ｜ 更新于2026-06-29（Omdia 6月预测：2026年大面积OLED出货量+18.8%、面积+10.4%）</div>
+                    <div class="note">数据来源：Omdia、Counterpoint Research、Sigmaintell（西格玛国际 2026-07-05）、TrendForce、UBI Research、公开财报 ｜ 更新于2026-07-13（京东方7.10官宣B16量产，H1 AMOLED超8000万片；UBI预测B16年1000万块；Omdia预测笔记本OLED市场40亿美元）</div>
                 </div>
             </div>
         </div>
 
         <!-- 板块2：各家OLED中尺寸面板出货量 -->
         <div class="card">
-            <h2><span class="icon">🏭</span> 各厂商OLED面板出货量份额（2025年）</h2>
+            <h2><span class="icon">\ud83c\udfed</span> 各厂商OLED面板出货量份额（2025年）</h2>
             <div id="chartShipment" class="chart-box"></div>
         </div>
 
         <!-- 板块3：各家面板厂产能 -->
         <div class="card">
-            <h2><span class="icon">⚡</span> 各面板厂中尺寸产能及产线进度</h2>
+            <h2><span class="icon">\u26a1</span> 各面板厂中尺寸产能及产线进度</h2>
             <div id="chartCapacity" class="chart-box"></div>
         </div>
 
         <!-- 板块4：产线建设进度详细表格 -->
         <div class="card full-width">
-            <div class="breaking-news">🔥 2026年6月29日更新：TCL华星t8洁净工程合同正式签署3.59亿元（柏诚股份/中建三局 6.25），洁净工程全面进入实施阶段；维信诺6.25涨停（ViP技术获评"国际领先水平"，8.6代线设备搬入顺利推进，苹果折叠屏iPhone预期升温）；Omdia 6月预测：2026年大面积OLED出货量同比+18.8%、面积+10.4%；京东方B16 6.17正式量产，首批交付联想/华硕/宏碁，LTPO+Tandem技术，产能3.2万片/月（当前1.6万片）；三星A6 7月全面量产，良率>90%，专供苹果MacBook Pro；2026H1全球OLED笔记本渗透率~6%，中国线上~10%（洛图科技 6月）；2027年底全球8.6代OLED月产能破6万片，面板价格预计降30%+；中国OLED产能最快2029年超韩国（Counterpoint）</div>
-            <h2><span class="icon">🏗️</span> 各面板厂8.6代OLED产线建设进度</h2>
+            <div class="breaking-news">\ud83d\udd25 2026年7月6日更新：Sigmaintell 7月5日重磅\u2014\u2014\u20142026Q1笔记本OLED出货360万台（同比+69%），Q2预期420万台；渗透率6%\u21922030年19%；OLED游戏本5月同比+507%逆势增长；三星A6 7月全面量产确认，良率>90%；京东方7月3日IR\u2014\u2014B16量产带动中尺寸OLED加速渗透；TCL华星t8 DMS设备合同677亿韩元（2.97亿元）6.29签署，量产明确为2027Q4；维信诺ViP无FMM技术差异化优势获投资者认可</div>
+            <h2><span class="icon">\ud83c\udfd7\ufe0f</span> 各面板厂8.6代OLED产线建设进度</h2>
             <table>
                 <thead>
                     <tr>
@@ -224,9 +236,9 @@
                         <td>FMM蒸镀（LTPO技术）</td>
                         <td>630亿元</td>
                         <td>3.2万片/月</td>
-                        <td>2026年6月 <span style="color:#4dff88;font-size:11px;">🟢6.17已量产</span></td>
+                        <td>2026年6月 <span style="color:#4dff88;font-size:11px;">\ud83d\udfe16.17已量产</span></td>
                         <td>
-                            <span class="status-dot status-done"></span>6月17日正式量产！中国首条8.6代OLED产线全球首发，首批交付联想/华硕/宏碁14英寸笔记本面板，LTPO+Tandem技术，当前开动1.6万片/月（设计3.2万片/月），股价涨停
+                            <span class="status-dot status-done"></span>6月17日正式量产！7月3日IR确认\u2014\u2014B16量产带动OLED在中尺寸IT应用加速渗透；当前开动1.6万片/月（设计3.2万片/月），首批交付联想/华硕/宏碁14英寸面板，LTPO+Tandem技术
                             <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#4dff88,#00d4ff);"></div></div>
                         </td>
                         <td>华硕、宏碁、联想、戴尔等14家笔电品牌；笔电/平板/车载</td>
@@ -237,12 +249,12 @@
                         <td>FMM蒸镀 + Tandem OLED</td>
                         <td>~224亿元<br/>(4.1万亿韩元)</td>
                         <td>1.5万片/月<br/>（当前0.75万片）</td>
-                        <td>2026年7月 <span style="color:#ffaa4d;font-size:11px;">🟡7月全面量产</span></td>
+                        <td>2026年7月 <span style="color:#ffaa4d;font-size:11px;">\ud83d\udfe17月全面量产</span></td>
                         <td>
-                            <span class="status-dot status-progress"></span>6月已向苹果MacBook Pro小批供货，良率>90%（部分工艺达95%黄金良率），7月正式全面量产倒计时；设计月产能1.5万片，当前开动7500片/月，年供~200万片；苹果首款OLED MacBook Pro预计Q4发售
-                            <div class="progress-bar"><div class="progress-fill" style="width:99%;background:linear-gradient(90deg,#4da6ff,#7b68ee);"></div></div>
+                            <span class="status-dot status-done"></span>7月正式量产MacBook Pro OLED面板！良率>90%（核心工艺>95%黄釘良率），氧化物TFT+双堆叠Tandem技术；三星独家供应苹果OLED MacBook DDI+T-con芯片（7月7日确认）；iPad mini OLED 7月启动量产（A3工厂，年供300万片）；当前开动7,500片/月，年供MacBook Pro约200万片；苹果OLED MacBook 2026年出货预计200-300万台
+                            <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#4dff88,#00d4ff);"></div></div>
                         </td>
-                        <td>苹果（MacBook Pro 14"/16"）；2026年供应~200万片</td>
+                        <td>苹果（MacBook Pro 14"/16" + iPad mini 8.4"）；DDI+T-con芯片独家供应；2026年供应~200万片</td>
                     </tr>
                     <tr>
                         <td><span class="tag tag-vision">维信诺/合肥国显</span></td>
@@ -252,8 +264,8 @@
                         <td>3.2万片/月</td>
                         <td>2026年底-2027年初</td>
                         <td>
-                            <span class="status-dot status-progress"></span>洁净室完工，核心设备搬入顺利推进（2026.4.15首台曝光机入场，5.8工艺设备搬入仪式），设备联调阶段；ViP技术获行业协会鉴定"国际领先水平"（6.25），小米/荣耀等已量产出货；6.25涨停（+10.06%至8.97元），苹果折叠屏iPhone预期升温
-                            <div class="progress-bar"><div class="progress-fill" style="width:91%;background:linear-gradient(90deg,#bb66ff,#7b68ee);"></div></div>
+                            <span class="status-dot status-progress"></span>设备安装与工艺调试阶段；ViP累计出货突100万片（截至2026.5），全年目标300万片；8.6代线中尺寸产品已进入客户端验证阶段（平板/笔电）；ViP技术获行业协会鉴定"国际领先水平"；2027年Q1正式放量；开口率69%（原FMM 29%），寿命+6倍
+                            <div class="progress-bar"><div class="progress-fill" style="width:93%;background:linear-gradient(90deg,#bb66ff,#7b68ee);"></div></div>
                         </td>
                         <td>小米（手表/手机/3D眼镜）、荣耀（手表）、车载IT客户</td>
                     </tr>
@@ -263,10 +275,10 @@
                         <td>喷墨印刷OLED</td>
                         <td>295亿元</td>
                         <td>2.25万片/月</td>
-                        <td>2027年</td>
+                        <td>2027年Q4 <span style="color:#4da6ff;font-size:11px;">\ud83d\udfe7明确时间</span></td>
                         <td>
-                            <span class="status-dot status-progress"></span>主体封顶完成（2026.5.8，151天创纪录），洁净工程合同正式签署3.59亿元（柏诚股份/中建三局 6.25），洁净工程全面进入实施阶段，主设备陆续搬入，预计2026年底进入试产阶段
-                            <div class="progress-bar"><div class="progress-fill" style="width:76%;background:linear-gradient(90deg,#ffaa4d,#ff664d);"></div></div>
+                            <span class="status-dot status-progress"></span>主体封顶完成（2026.5.8，151天创纪录），洁净工程合同3.59亿元签署（柏诚股份/中建三局 6.25），DMS设备合同677亿韩元（2.97亿元）6.29签署（湿法工艺设备，交付截至2027.3.4）；量产时间明确为2027Q4；ICD/YAS已正式签约供货，DMS/AVACO基本锁定订单
+                            <div class="progress-bar"><div class="progress-fill" style="width:83%;background:linear-gradient(90deg,#ffaa4d,#ff664d);"></div></div>
                         </td>
                         <td>未披露（笔电/平板/车载方向）</td>
                     </tr>
@@ -282,49 +294,49 @@
 
         <!-- 板块5：中尺寸OLED模组代工机会 -->
         <div class="card full-width">
-            <h2><span class="icon">🏭</span> 中尺寸OLED模组代工机会分析</h2>
+            <h2><span class="icon">\ud83c\udfed</span> 中尺寸OLED模组代工机会分析</h2>
             <div class="two-col">
                 <div>
                     <div class="opportunity-card">
-                        <h4>📌 机会一：后段模组产能缺口</h4>
+                        <h4>\ud83d\udccc 机会一：后段模组产能缺口</h4>
                         <p>8.6代线集中2026-2027年量产，前段Array/Cell产能快速释放，后段模组（Module）产能存在代工缺口。中国大陆模组代工厂（如长信科技、同兴达、合力泰等）有望承接新增订单。</p>
                     </div>
                     <div class="opportunity-card">
-                        <h4>📌 机会二：车载OLED模组代工</h4>
+                        <h4>\ud83d\udccc 机会二：车载OLED模组代工</h4>
                         <p>车载OLED出货2030年预计达1,220万片（CAGR 30.6%），车规级模组要求较高，专业代工厂具备认证壁垒优势。维信诺合肥产线明确面向车载市场，配套模组代工需求明确。</p>
                     </div>
                     <div class="opportunity-card">
-                        <h4>📌 机会三：印刷OLED量产后的代工生态</h4>
+                        <h4>\ud83d\udccc 机会三：印刷OLED量产后的代工生态</h4>
                         <p>TCL华星印刷OLED技术若量产成熟，将大幅降低中尺寸OLED成本，激发中低端市场需求，带动模组代工订单爆发性增长。关注TCL华星产业链配套代工厂。</p>
                     </div>
                 </div>
                 <div>
                     <div class="opportunity-card">
-                        <h4>📌 机会四：苹果供应链模组代工</h4>
+                        <h4>\ud83d\udccc 机会四：苹果供应链模组代工</h4>
                         <p>三星显示、京东方均为苹果MacBook Pro/iPad Pro OLED面板供应商，苹果对模组品质要求极高，已切入苹果供应链的模组厂商（如LG Innotek、业成GIS等）将持续受益。</p>
                     </div>
                     <div class="opportunity-card">
-                        <h4>📌 机会五：AI PC OLED模组需求</h4>
-                        <p>AI笔记本电脑驱动高端显示需求，OLED在对比度、响应速度、功耗上优势明显。2025年起AI PC渗透率快速提升（2025年AI PC销量7780万台，占31%），中尺寸OLED模组代工市场同步扩容。</p>
+                        <h4>\ud83d\udccc 机会五：AI PC OLED模组需求</h4>
+                        <p>AI笔记本电脑驱动高端显示需求，OLED在对比度、响应速度、功耗上优势明显。OLED游戏本5月同比+507%逆势增长（Sigmaintell 7月5日），中尺寸OLED模组代工市场同步扩容。</p>
                     </div>
                     <div class="opportunity-card">
-                        <h4>⚠️ 风险提示</h4>
+                        <h4>\u26a0\ufe0f 风险提示</h4>
                         <p>1. 8.6代线量产进度不及预期；<br>2. 中尺寸OLED渗透率提升缓慢；<br>3. 模组代工行业竞争加剧，毛利率承压；<br>4. 技术路线分歧导致产能闲置风险。</p>
                     </div>
                 </div>
             </div>
             <!-- PDF交叉验证：目标客户群 -->
             <div class="section-divider">
-                <h4 style="color:#7b68ee; margin-bottom:10px;">📋 交叉验证：车载显示目标客户群（来源：2026年车载显示市场规划PDF）</h4>
+                <h4 style="color:#7b68ee; margin-bottom:10px;">\ud83d\udccb 交叉验证：车载显示目标客户群（来源：2026年车载显示市场规划PDF）</h4>
                 <div class="two-col" style="gap:12px;">
                     <div>
-                        <p style="color:#4dff88; font-size:13px; margin-bottom:6px;">🚗 整车厂（OEM）目标客户</p>
+                        <p style="color:#4dff88; font-size:13px; margin-bottom:6px;">\ud83d\ude97 整车厂（OEM）目标客户</p>
                         <p style="font-size:12px; color:#a0a0c0; line-height:1.8;">
                             <span class="highlight">比亚迪</span>、<span class="highlight">奇瑞汽车</span>、<span class="highlight">小鹏汽车</span>、理想、蔚来、江淮、赛力斯、东风乘用车、广汽集团、广汽埃安昊铂、红旗、长安深蓝、阿维塔、智己、飞凡、R汽车、东风岚图、北汽极狐、上汽通用、一汽大众、上汽大众、长安汽车、五菱、宝骏、荣威、名爵、林肯、北京奔驰、福建奔驰、东风商用、福田汽车、中国重汽、陕汽商用、特种车辆等
                         </p>
                     </div>
                     <div>
-                        <p style="color:#4da6ff; font-size:13px; margin-bottom:6px;">🔧 Tier1供应商目标客户</p>
+                        <p style="color:#4da6ff; font-size:13px; margin-bottom:6px;">\ud83d\udd27 Tier1供应商目标客户</p>
                         <p style="font-size:12px; color:#a0a0c0; line-height:1.8;">
                             弗迪精工、伟世通、德赛西威、延锋伟世通、马瑞利、海微、伯泰克、深圳创维、大陆电子、电装、博世、摩比斯、法雷奥、哈曼、华安鑫创、车联天下、博泰车联网、蓝鲸智联、北斗智联、远峰股份、路畅科技、铁将军股份、惠州龙旗、朗科智能、深圳三诺、华勤股份、瀚思通、锐明技术、聚泰科技、广汽集团等50+家
                         </p>
@@ -332,58 +344,55 @@
                 </div>
                 <div style="margin-top:10px;">
                     <p style="font-size:12px; color:#7b8bb5; line-height:1.8;">
-                        📊 市场容量验证：2023年1-4月汽车行业收入<span class="highlight">28,609亿元</span>（同比+12%），利润<span class="highlight">1,123亿元</span>（同比+3%），行业利润率3.9%。智能汽车电子增速超10倍，车载显示是核心受益赛道。
+                        \ud83d\udcca 市场容量验证：2023年1-4月汽车行业收入<span class="highlight">28,609亿元</span>（同比+12%），利润<span class="highlight">1,123亿元</span>（同比+3%），行业利润率3.9%。智能汽车电子增速超10倍，车载显示是核心受益赛道。
                     </p>
                     <p style="font-size:12px; color:#7b8bb5; margin-top:6px;">
-                        📅 战略窗口期：2026-2028年为培育期（目标10-20家Tier1），2029-2031年为成长期（目标50-80家Tier1），与8.6代线量产节奏高度吻合。
+                        \ud83d\udcc5 战略窗口期：2026-2028年为培育期（目标10-20家Tier1），2029-2031年为成长期（目标50-80家Tier1），与8.6代线量产节奏高度吻合。
                     </p>
                 </div>
             </div>
-            <div class="note">分析基于Omdia/Counterpoint Research/TrendForce/UBI Research/各公司公告 + 2026年车载显示市场规划PDF交叉验证 ｜ 数据更新于2026-06-29</div>
+            <div class="note">分析基于Omdia/Counterpoint Research/Sigmaintell/TrendForce/UBI Research/各公司公告 + 2026年车载显示市场规划PDF交叉验证 ｜ 数据更新于2026-07-13</div>
         </div>
 
         <!-- 板块6：中尺寸OLED面板价格趋势 -->
         <div class="card full-width">
-            <h2><span class="icon">💹</span> 中尺寸OLED面板价格趋势（USD/片）</h2>
+            <h2><span class="icon">\ud83d\udcb9</span> 中尺寸OLED面板价格趋势（USD/片）</h2>
             <div class="price-tabs">
-                <button class="price-tab active" onclick="showPrice('yearly')">📅 年度趋势</button>
-                <button class="price-tab" onclick="showPrice('quarterly')">📆 季度趋势</button>
-                <button class="price-tab" onclick="showPrice('monthly')">📅 月度趋势</button>
-                <button class="price-tab" onclick="showPrice('weekly')">📆 周度趋势</button>
+                <button class="price-tab active" onclick="showPrice('yearly')">\ud83d\udcc5 年度趋势</button>
+                <button class="price-tab" onclick="showPrice('quarterly')">\ud83d\udcc6 季度趋势</button>
+                <button class="price-tab" onclick="showPrice('monthly')">\ud83d\udcc5 月度趋势</button>
+                <button class="price-tab" onclick="showPrice('weekly')">\ud83d\udcc6 周度趋势</button>
             </div>
             <div id="priceYearly" class="chart-box" style="margin-top:16px;"></div>
             <div id="priceQuarterly" class="chart-box" style="margin-top:16px;display:none;"></div>
             <div id="priceMonthly" class="chart-box" style="margin-top:16px;display:none;"></div>
             <div id="priceWeekly" class="chart-box" style="margin-top:16px;display:none;"></div>
             <div class="price-summary">
-                <span style="color:#7b68ee;">📊 价格驱动因素（2026年6月29日更新）：</span>
-                <span style="color:#4dff88;">⬇ 下行</span>：BOE B16 6.17正式量产（8.6代线规模效应，首批交付联想/华硕/宏碁） / 三星A6 7月全面量产临近 / 2027年底中尺寸OLED价格预计降30%+ / 全球8.6代月产能2027年底破6万片 / TCL华星t8洁净工程加速（6.25合同签署3.59亿）
+                <span style="color:#7b68ee;">\ud83d\udcca 价格驱动因素（2026年7月6日更新）：</span>
+                <span style="color:#4dff88;">\u2b07 下行</span>：BOE B16 6.17正式量产（产能爬坡至1.6万片/月） / 三星A6 7月全面量产 / Q1笔记本OLED出货360万台（同比+69%）验证规模效应 / 2027年底中尺寸OLED价格预计降30%+ / 全球8.6代月产能2027年底破6万片 / TCL华星t8 DMS设备677亿韩元合同6.29签署 / Sigmaintell预测2030年渗透率19%加速价格下行
                 <span style="margin:0 10px; color:#2a3a6e;">|</span>
-                <span style="color:#ff4d4d;">⬆ 上行</span>：苹果MacBook Pro转OLED（三星供屏，Q4发售） / 苹果首款折叠屏iPhone秋季发布预期 / 维信诺ViP技术"国际领先"（6.25） / Tandem OLED溢价 / 高刷新率电竞显示器需求
+                <span style="color:#ff4d4d;">\u2b06 上行</span>：苹果MacBook Pro转OLED（三星供屏，Q4发售） / OLED游戏本5月同比+507%逆势热销 / 维信诺ViP技术"国际领先"差异化溢价 / Tandem OLED溢价 / 高刷新率电竞显示器需求
             </div>
-            <div class="note">数据来源：DSCC OLED Shipment Report / Omdia Display Market / 行业研报综合估算 ｜ 更新于2026-06-29（OLED面板公开价格数据有限，部分为行业估算，仅供参考）</div>
+            <div class="note">数据来源：DSCC OLED Shipment Report / Omdia Display Market / Sigmaintell / 行业研报综合估算 ｜ 更新于2026-07-13（OLED面板公开价格数据有限，部分为行业估算，仅供参考）</div>
         </div>
     </div>
 
     <script>
-        // 更新时间（固定为更新日期）
-        // 数据更新时间已在header中硬编码为2026-05-31
-
         // 图表1：历年中尺寸OLED出货趋势
         const chartHistory = echarts.init(document.getElementById('chartHistory'));
         chartHistory.setOption({
             tooltip: { trigger: 'axis', backgroundColor: '#1a1a5e', borderColor: '#2a3a6e', textStyle: {color:'#e0e0e0'} },
             legend: { data: ['平板OLED出货（万片）', '笔记本OLED出货（万片）', '9英寸+OLED出货增速（%）'], top: 10, textStyle: {color:'#a0a0c0', fontSize:12} },
             grid: { left: 60, right: 60, bottom: 40, top: 60 },
-            xAxis: { type: 'category', data: ['2022','2023','2024','2025','2026E','2027E','2028E','2030E'], axisLine: {lineStyle:{color:'#2a3a6e'}}, axisLabel: {color:'#7b8bb5'} },
+            xAxis: { type: 'category', data: ['2022','2023','2024','2025','2026H1','2026E','2027E','2028E','2030E'], axisLine: {lineStyle:{color:'#2a3a6e'}}, axisLabel: {color:'#7b8bb5'} },
             yAxis: [
                 { type: 'value', name: '出货（万片）', axisLine: {lineStyle:{color:'#2a3a6e'}}, axisLabel: {color:'#7b8bb5'}, splitLine: {lineStyle:{color:'#1a1a4e'}} },
                 { type: 'value', name: '增速（%）', axisLine: {lineStyle:{color:'#2a3a6e'}}, axisLabel: {color:'#7b8bb5'}, splitLine: {show:false} }
             ],
             series: [
-                { name: '平板OLED出货（万片）', type: 'bar', data: [41, 360, 1420, 1090, 1500, 2100, 2800, 8420], itemStyle:{color: new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:'#4dffff'},{offset:1,color:'#7b68ee'}])}, yAxisIndex: 0 },
-                { name: '笔记本OLED出货（万片）', type: 'bar', data: [56, 40, 180, 1000, 1330, 1800, 2300, 2000], itemStyle:{color: new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:'#ffaa4d'},{offset:1,color:'#ff664d'}])}, yAxisIndex: 0 },
-                { name: '9英寸+OLED出货增速（%）', type: 'line', yAxisIndex: 1, data: [null, -25.7, 116.5, 32.7, 35, 38, 30, 26.5], lineStyle: {color:'#4dff88', width:2}, symbol: 'circle', symbolSize: 8, itemStyle: {color:'#4dff88'} }
+                { name: '平板OLED出货（万片）', type: 'bar', data: [41, 360, 1420, 1090, null, 1500, 2100, 2800, 8420], itemStyle:{color: new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:'#4dffff'},{offset:1,color:'#7b68ee'}])}, yAxisIndex: 0 },
+                { name: '笔记本OLED出货（万片）', type: 'bar', data: [56, 40, 180, 1000, 780, 1330, 1800, 2300, 2000], itemStyle:{color: new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:'#ffaa4d'},{offset:1,color:'#ff664d'}])}, yAxisIndex: 0 },
+                { name: '9英寸+OLED出货增速（%）', type: 'line', yAxisIndex: 1, data: [null, -25.7, 116.5, 32.7, 69, 35, 38, 30, 26.5], lineStyle: {color:'#4dff88', width:2}, symbol: 'circle', symbolSize: 8, itemStyle: {color:'#4dff88'} }
             ]
         });
 
@@ -408,7 +417,7 @@
                     { value: 14, name: '其他', itemStyle: {color: '#3a3a5e'} }
                 ]
             }],
-            title: { text: '2025年全球OLED面板出货量格局（%）', left: '35%', top: 10, textStyle: {color:'#7b8bb5', fontSize:13} }
+            title: { text: '2025年全球OLED面板出货量格局（%）—Q1 2026手机面板BOE市占率26.6%稻首', left: '35%', top: 10, textStyle: {color:'#7b8bb5', fontSize:13} }
         });
 
         // 图表3：各面板厂中尺寸产能对比
@@ -439,25 +448,25 @@
                 s160: [null,null,140,115,102,90]
             },
             quarterly: {
-                labels: ['2024Q1','2024Q2','2024Q3','2024Q4','2025Q1','2025Q2','2025Q3E','2025Q4E','2026Q1E','2026Q2E'],
+                labels: ['2024Q1','2024Q2','2024Q3','2024Q4','2025Q1','2025Q2','2025Q3E','2025Q4E','2026Q1','2026Q2'],
                 s133: [70,67,63,65,60,58,56,55,53,50],
                 s140: [78,74,70,72,66,64,62,61,58,55],
                 s156: [88,83,78,80,75,72,70,69,65,62],
                 s160: [125,120,115,118,108,105,102,100,94,91]
             },
             monthly: {
-                labels: ['1月','2月','3月','4月','5月','6月E','7月E','8月E','9月E','10月E','11月E','12月E'],
+                labels: ['1\u6708','2\u6708','3\u6708','4\u6708','5\u6708','6\u6708E','7\u6708E','8\u6708E','9\u6708E','10\u6708E','11\u6708E','12\u6708E'],
                 s133: [62,61,60,59,57,55,54,53,52,51,50,49],
                 s140: [70,68,66,65,63,61,60,59,58,57,56,55],
                 s156: [78,76,75,74,71,69,68,67,66,65,64,63],
                 s160: [115,112,110,108,104,101,99,98,96,95,94,93]
             },
             weekly: {
-                labels: ['W19','W20','W21','W22','W23','W24'],
-                s133: [54,53,53,52,51,50],
-                s140: [59,59,58,57,56,55],
-                s156: [67,67,66,65,64,63],
-                s160: [96,95,94,93,92,91]
+                labels: ['W19','W20','W21','W22','W23','W24','W25','W26','W27','W28'],
+                s133: [54,53,53,52,51,50,49,49,48,47],
+                s140: [59,59,58,57,56,55,55,54,53,52],
+                s156: [67,67,66,65,64,63,62,62,61,60],
+                s160: [96,95,94,93,92,91,90,90,89,88]
             }
         };
         const priceNames = ['13.3"','14.0"','15.6"','16.0" 240Hz'];
